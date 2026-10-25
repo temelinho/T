@@ -118,6 +118,8 @@
       }
       return list;
     }
+
+    initDOM() {
       this.container.innerHTML = '';
       this.root = document.createElement('div');
       this.root.className = 'circular-carousel';

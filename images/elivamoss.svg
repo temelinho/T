@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 440" width="700" height="440">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a1f18" />
+      <stop offset="50%" stop-color="#14362b" />
+      <stop offset="100%" stop-color="#071712" />
+    </linearGradient>
+    <linearGradient id="leafGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4ade80" />
+      <stop offset="100%" stop-color="#15803d" />
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#e2d2a4" />
+      <stop offset="50%" stop-color="#fef08a" />
+      <stop offset="100%" stop-color="#d4af37" />
+    </linearGradient>
+    <pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse">
+      <path d="M 30 0 L 0 0 0 30" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <!-- Arka Plan -->
+  <rect width="100%" height="100%" fill="url(#bgGrad)" />
+  <rect width="100%" height="100%" fill="url(#grid)" />
+
+  <!-- Işık Vurgusu -->
+  <circle cx="580" cy="90" r="180" fill="#22c55e" opacity="0.12" filter="blur(40px)" />
+  <circle cx="120" cy="360" r="140" fill="#15803d" opacity="0.1" filter="blur(35px)" />
+
+  <!-- Web Sitesi Arayüzü İçerik Alanı -->
+  <!-- Header / Menü Simülasyonu -->
+  <g transform="translate(40, 35)">
+    <!-- Logo -->
+    <circle cx="16" cy="16" r="14" fill="url(#leafGrad)" />
+    <path d="M16 8 C20 12, 22 18, 16 23 C11 18, 12 12, 16 8 Z" fill="#ffffff" opacity="0.9" />
+    <text x="38" y="22" font-family="'Inter', sans-serif" font-size="17" font-weight="800" fill="#ffffff" letter-spacing="2">ELIVA MOSS</text>
+    
+    <!-- Menü linkleri -->
+    <text x="360" y="20" font-family="'Inter', sans-serif" font-size="11" font-weight="600" fill="rgba(255,255,255,0.7)">Koleksiyonlar</text>
+    <text x="445" y="20" font-family="'Inter', sans-serif" font-size="11" font-weight="600" fill="rgba(255,255,255,0.7)">Biyofilik Tasarım</text>
+    <text x="545" y="20" font-family="'Inter', sans-serif" font-size="11" font-weight="600" fill="rgba(255,255,255,0.7)">İletişim</text>
+  </g>
+
+  <!-- Hero Başlık ve Metin -->
+  <g transform="translate(40, 100)">
+    <rect x="0" y="0" width="165" height="24" rx="12" fill="rgba(74, 222, 128, 0.15)" stroke="rgba(74, 222, 128, 0.3)" />
+    <text x="12" y="16" font-family="'Inter', sans-serif" font-size="10" font-weight="700" fill="#4ade80" letter-spacing="0.5">DOĞAL YAŞAM ALANLARI</text>
+
+    <text x="0" y="62" font-family="'Inter', sans-serif" font-size="32" font-weight="900" fill="#ffffff" letter-spacing="-0.8">
+      Doğayı İç Mekanlara
+    </text>
+    <text x="0" y="100" font-family="'Inter', sans-serif" font-size="32" font-weight="900" fill="url(#goldGrad)" letter-spacing="-0.8">
+      Sanatla Taşıyoruz.
+    </text>
+
+    <text x="0" y="132" font-family="'Inter', sans-serif" font-size="12" fill="rgba(255,255,255,0.7)" line-height="1.5">
+      Bakım gerektirmeyen el yapımı stabilize yosun duvar panoları,
+    </text>
+    <text x="0" y="150" font-family="'Inter', sans-serif" font-size="12" fill="rgba(255,255,255,0.7)">
+      dikey bahçeler ve prestijli mimari botanik projeler.
+    </text>
+
+    <!-- Buton -->
+    <rect x="0" y="174" width="130" height="36" rx="8" fill="#22c55e" />
+    <text x="24" y="196" font-family="'Inter', sans-serif" font-size="12" font-weight="700" fill="#042113">Keşfet &amp; Sipariş</text>
+  </g>
+
+  <!-- Sağ Taraf: Kart Mockupları (Yosun Panelleri) -->
+  <g transform="translate(420, 95)">
+    <!-- Büyük Kart 1 -->
+    <rect x="0" y="0" width="240" height="150" rx="12" fill="#0c2a21" stroke="rgba(74, 222, 128, 0.25)" stroke-width="1.5" />
+    <!-- İç Görsel Simülasyonu (Doğal Yeşil Doku) -->
+    <rect x="8" y="8" width="224" height="100" rx="8" fill="#144335" />
+    <circle cx="60" cy="58" r="32" fill="#22c55e" opacity="0.3" />
+    <circle cx="110" cy="50" r="42" fill="#16a34a" opacity="0.4" />
+    <circle cx="170" cy="62" r="36" fill="#15803d" opacity="0.35" />
+    <path d="M30 90 Q 70 30, 120 75 T 210 50" fill="none" stroke="#4ade80" stroke-width="3" opacity="0.4" />
+    <text x="14" y="132" font-family="'Inter', sans-serif" font-size="12" font-weight="700" fill="#ffffff">Hexagon Yosun Duvar Paneli</text>
+    
+    <!-- Alt Kart 2 -->
+    <rect x="30" y="165" width="210" height="135" rx="12" fill="#0e3227" stroke="rgba(255, 255, 255, 0.15)" stroke-width="1" />
+    <rect x="38" y="173" width="194" height="88" rx="8" fill="#174e3e" />
+    <circle cx="130" cy="217" r="30" fill="#4ade80" opacity="0.25" />
+    <text x="44" y="284" font-family="'Inter', sans-serif" font-size="11" font-weight="700" fill="#ffffff">Özel Akustik Panel Serisi</text>
+  </g>
+</svg>
