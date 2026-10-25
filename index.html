@@ -21,6 +21,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="circular-carousel.css">
 <!-- Structured data -->
 <script type="application/ld+json">
 {
@@ -326,12 +327,61 @@
         <h2>Hayata geçirdiğimiz projeler</h2>
         <p>Farklı sektörlerden müşterilerimiz için geliştirdiğimiz çözümlerden bazıları.</p>
       </div>
-      <div class="filters">
-        <button class="active" data-f="all">Tümü</button>
-        <button data-f="web">Web Sitesi</button>
-        <button data-f="kurumsal">Kurumsal / Ajans</button>
+
+      <div class="portfolio-toolbar" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;margin-bottom:20px">
+        <div class="filters">
+          <button class="active" data-f="all">Tümü</button>
+          <button data-f="web">Web Sitesi</button>
+          <button data-f="kurumsal">Kurumsal / Ajans</button>
+        </div>
+        <div class="view-switch" style="display:flex;gap:6px;background:var(--soft);padding:4px;border-radius:10px;border:1px solid var(--line)">
+          <button id="view-carousel-btn" class="active-view-btn" title="3D Dönen Çember Görünümü" style="padding:6px 14px;border-radius:8px;border:none;background:#fff;font-weight:600;font-size:13px;color:var(--navy);cursor:pointer;display:inline-flex;align-items:center;gap:6px;box-shadow:0 2px 6px rgba(0,0,0,0.06);transition:.2s">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg> 3D Vitrin
+          </button>
+          <button id="view-grid-btn" title="Klasik Izgara Görünümü" style="padding:6px 14px;border-radius:8px;border:none;background:transparent;font-weight:600;font-size:13px;color:var(--muted);cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:.2s">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg> Izgara
+          </button>
+        </div>
       </div>
-      <div class="grid grid-3" id="portfolio">
+
+      <!-- 3D CIRCULAR CAROUSEL (REACT BITS STYLE) -->
+      <div id="carousel-view-container" class="circular-carousel-wrapper">
+        <div id="circular-carousel-mount"></div>
+
+        <div class="carousel-active-info">
+          <div class="carousel-info-card">
+            <span class="carousel-info-tag" id="active-cat">Web Sitesi</span>
+            <h3 class="carousel-info-title" id="active-title">Alanya Ev Temizlik</h3>
+            <p class="carousel-info-desc" id="active-desc">Ev ve ofis temizlik hizmetleri için SEO odaklı, mobil uyumlu tanıtım ve rezervasyon sitesi.</p>
+            <div class="carousel-info-actions">
+              <a id="active-link" class="carousel-visit-btn" href="https://alanyaevtemizlik.com.tr" target="_blank" rel="noopener">
+                Siteyi Ziyaret Et
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+              </a>
+            </div>
+          </div>
+
+          <div class="carousel-controls-bar">
+            <button class="carousel-arrow-btn" id="cc-prev" aria-label="Önceki Proje" title="Önceki Proje">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </button>
+            <div class="carousel-counter">
+              <b id="active-idx">01</b> <span style="opacity:0.5">/</span> <span id="total-count">06</span>
+            </div>
+            <button class="carousel-arrow-btn" id="cc-next" aria-label="Sonraki Proje" title="Sonraki Proje">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </button>
+          </div>
+
+          <div class="carousel-hint">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 9l-3 3 3 3M19 9l3 3-3 3M2 12h20"/></svg>
+            <span>Kartları mouse veya parmağınızla tutup sürükleyebilirsiniz</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- KLASİK IZGARA GÖRÜNÜMÜ (SEÇİLDİĞİNDE AÇILIR) -->
+      <div class="grid grid-3" id="portfolio" style="display:none">
         <article class="pcard" data-cat="web">
           <div class="thumb" style="background:linear-gradient(135deg,#123a5e,#1c507d)"><div class="pbar"><s></s><s></s><s></s><em>alanyaevtemizlik.com.tr</em></div><img loading="lazy" src="images/alanyaevtemizlik.webp" alt="Alanya Ev Temizlik web sitesi ekran görüntüsü"></div>
           <div class="body"><span class="cat">Web Sitesi</span><h3>Alanya Ev Temizlik</h3><p>Ev ve ofis temizlik hizmetleri için SEO odaklı, mobil uyumlu tanıtım ve rezervasyon sitesi.</p><a class="res" href="https://alanyaevtemizlik.com.tr" target="_blank" rel="noopener">Siteyi ziyaret et →</a></div>
@@ -450,34 +500,184 @@
   </div>
 </footer>
 
+<script src="circular-carousel.js"></script>
 <script>
-  // portfolio filter
+  // PORTFOLIO DATA
+  const PORTFOLIO_DATA = [
+    {
+      title: 'Alanya Ev Temizlik',
+      category: 'Web Sitesi',
+      catKey: 'web',
+      desc: 'Ev ve ofis temizlik hizmetleri için SEO odaklı, mobil uyumlu tanıtım ve rezervasyon sitesi.',
+      url: 'https://alanyaevtemizlik.com.tr',
+      image: 'images/alanyaevtemizlik.webp'
+    },
+    {
+      title: 'Alanya Çekici & Çilingir',
+      category: 'Web Sitesi',
+      catKey: 'web',
+      desc: '7/24 acil çekici ve çilingir hizmetleri için hızlı erişimli yerel hizmet sitesi.',
+      url: 'https://alanyacekicicilingir.com.tr',
+      image: 'images/alanyacekicicilingir.webp'
+    },
+    {
+      title: 'Manavgat Ev Temizlik',
+      category: 'Web Sitesi',
+      catKey: 'web',
+      desc: 'Yerel SEO ile bölgesel temizlik hizmetlerini öne çıkaran tanıtım sitesi.',
+      url: 'https://manavgatevtemizlik.com.tr',
+      image: 'images/manavgatevtemizlik.webp'
+    },
+    {
+      title: 'Kıbrıs Ev Temizlik',
+      category: 'Web Sitesi',
+      catKey: 'web',
+      desc: 'Kıbrıs bölgesi için hizmet tanıtımı ve iletişim odaklı kurumsal site.',
+      url: 'https://kıbrısevtemizlik.com.tr',
+      image: 'images/kibrisevtemizlik.webp'
+    },
+    {
+      title: 'Alanya Klima Temizliği',
+      category: 'Web Sitesi',
+      catKey: 'web',
+      desc: 'Klima bakım ve temizlik hizmetleri için dönüşüm odaklı yerel web sitesi.',
+      url: 'https://alanyaklimatemizligi.com',
+      image: 'images/alanyaklimatemizligi.webp'
+    },
+    {
+      title: 'Eliva Digital',
+      category: 'Kurumsal / Ajans',
+      catKey: 'kurumsal',
+      desc: 'Dijital ajans için kurumsal tanıtım sitesi ve hizmet vitrini.',
+      url: 'https://elivadigital.com.tr',
+      image: 'images/elivadigital.webp'
+    }
+  ];
+
+  // DOM REFERANSLARI
+  const activeCat = document.getElementById('active-cat');
+  const activeTitle = document.getElementById('active-title');
+  const activeDesc = document.getElementById('active-desc');
+  const activeLink = document.getElementById('active-link');
+  const activeIdx = document.getElementById('active-idx');
+  const totalCount = document.getElementById('total-count');
+
+  function updateActiveInfo(index, item) {
+    if (!item) return;
+    activeCat.textContent = item.category;
+    activeTitle.textContent = item.title;
+    activeDesc.textContent = item.desc;
+    activeLink.href = item.url;
+    const total = (carousel && carousel.originalCount) ? carousel.originalCount : PORTFOLIO_DATA.length;
+    const current = (index % total) + 1;
+    activeIdx.textContent = String(current).padStart(2, '0');
+    totalCount.textContent = String(total).padStart(2, '0');
+  }
+
+  // CIRCULAR CAROUSEL BAŞLAT
+  const carousel = new CircularCarousel('#circular-carousel-mount', {
+    items: PORTFOLIO_DATA,
+    cardWidth: 320,
+    aspectRatio: 1.35,
+    gap: 32,
+    tilt: -5,
+    perspective: 2500,
+    speed: 10,
+    direction: 'left',
+    draggable: true,
+    momentum: 0.65,
+    snap: true,
+    pauseOnHover: true,
+    focusOnClick: true,
+    parallax: 0.25,
+    depthFade: 0.55,
+    fadeColor: '#0b2239',
+    innerShade: 0.5,
+    cornerRadius: 14,
+    onChange: (index, item) => {
+      updateActiveInfo(index, item);
+    }
+  });
+
+  updateActiveInfo(0, PORTFOLIO_DATA[0]);
+
+  // OK BUTONLARI
+  document.getElementById('cc-prev').addEventListener('click', () => carousel.prev());
+  document.getElementById('cc-next').addEventListener('click', () => carousel.next());
+
+  // FİLTRELEME
   const fbtns = document.querySelectorAll('.filters button');
   const cards = document.querySelectorAll('#portfolio .pcard');
-  fbtns.forEach(b=>b.addEventListener('click',()=>{
-    fbtns.forEach(x=>x.classList.remove('active')); b.classList.add('active');
-    const f=b.dataset.f;
-    cards.forEach(c=>{ c.style.display = (f==='all'||c.dataset.cat===f)?'':'none'; });
-  }));
-  // tüm teklif/iletişim butonları her ortamda çalışsın (güvence)
-  document.querySelectorAll('a[href="teklif-formu.html"]').forEach(a=>{
-    a.style.cursor='pointer';
-    a.addEventListener('click',e=>{ e.preventDefault(); window.location.href='teklif-formu.html'; });
-  });
-  // iç bağlantılar (menü) yumuşak kaydırma güvencesi
-  document.querySelectorAll('a[href^="#"]').forEach(a=>{
-    a.addEventListener('click',e=>{
-      const id=a.getAttribute('href');
-      if(id.length>1){ const t=document.querySelector(id); if(t){ e.preventDefault(); t.scrollIntoView({behavior:'smooth'}); } }
+  fbtns.forEach(b => {
+    b.addEventListener('click', () => {
+      fbtns.forEach(x => x.classList.remove('active'));
+      b.classList.add('active');
+      const f = b.dataset.f;
+
+      const filtered = f === 'all'
+        ? PORTFOLIO_DATA
+        : PORTFOLIO_DATA.filter(item => item.catKey === f);
+
+      carousel.setItems(filtered);
+      updateActiveInfo(0, filtered[0]);
+
+      cards.forEach(c => {
+        c.style.display = (f === 'all' || c.dataset.cat === f) ? '' : 'none';
+      });
     });
   });
+
+  // GÖRÜNÜM GEÇİŞİ (3D Vitrin / Izgara)
+  const viewCarouselBtn = document.getElementById('view-carousel-btn');
+  const viewGridBtn = document.getElementById('view-grid-btn');
+  const carouselViewContainer = document.getElementById('carousel-view-container');
+  const portfolioGrid = document.getElementById('portfolio');
+
+  viewCarouselBtn.addEventListener('click', () => {
+    carouselViewContainer.style.display = '';
+    portfolioGrid.style.display = 'none';
+    viewCarouselBtn.style.background = '#fff';
+    viewCarouselBtn.style.color = 'var(--navy)';
+    viewCarouselBtn.style.boxShadow = '0 2px 6px rgba(0,0,0,0.06)';
+    viewGridBtn.style.background = 'transparent';
+    viewGridBtn.style.color = 'var(--muted)';
+    viewGridBtn.style.boxShadow = 'none';
+    carousel.measure();
+    carousel.wake();
+  });
+
+  viewGridBtn.addEventListener('click', () => {
+    carouselViewContainer.style.display = 'none';
+    portfolioGrid.style.display = 'grid';
+    viewGridBtn.style.background = '#fff';
+    viewGridBtn.style.color = 'var(--navy)';
+    viewGridBtn.style.boxShadow = '0 2px 6px rgba(0,0,0,0.06)';
+    viewCarouselBtn.style.background = 'transparent';
+    viewCarouselBtn.style.color = 'var(--muted)';
+    viewCarouselBtn.style.boxShadow = 'none';
+  });
+
+  // tüm teklif/iletişim butonları her ortamda çalışsın (güvence)
+  document.querySelectorAll('a[href="teklif-formu.html"]').forEach(a => {
+    a.style.cursor = 'pointer';
+    a.addEventListener('click', e => { e.preventDefault(); window.location.href = 'teklif-formu.html'; });
+  });
+
+  // iç bağlantılar (menü) yumuşak kaydırma güvencesi
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const id = a.getAttribute('href');
+      if (id.length > 1) { const t = document.querySelector(id); if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth' }); } }
+    });
+  });
+
   // mobile menu (basit)
-  document.querySelector('.burger').addEventListener('click',()=>{
-    const m=document.querySelector('.menu');
-    m.style.display = m.style.display==='flex'?'none':'flex';
-    m.style.position='absolute';m.style.flexDirection='column';m.style.background='#fff';
-    m.style.top='70px';m.style.left='0';m.style.right='0';m.style.padding='20px 24px';
-    m.style.borderBottom='1px solid var(--line)';m.style.gap='16px';
+  document.querySelector('.burger').addEventListener('click', () => {
+    const m = document.querySelector('.menu');
+    m.style.display = m.style.display === 'flex' ? 'none' : 'flex';
+    m.style.position = 'absolute'; m.style.flexDirection = 'column'; m.style.background = '#fff';
+    m.style.top = '70px'; m.style.left = '0'; m.style.right = '0'; m.style.padding = '20px 24px';
+    m.style.borderBottom = '1px solid var(--line)'; m.style.gap = '16px';
   });
 </script>
 </body>
