@@ -92,9 +92,13 @@
 
 .circular-carousel__tile {
   position: absolute;
+  /* backface-visibility: hidden — arka yüzleri gizle */
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   transform-origin: center center;
+  /* Sub-pixel seam fix: dilimleri 0.5px genişlet her yönde */
+  outline: none;
+  box-sizing: border-box;
 }
 
 .circular-carousel__frame {
@@ -104,7 +108,7 @@
   width: 100%;
   overflow: hidden;
   box-shadow: 0 16px 36px rgba(11, 34, 57, 0.22);
-  border: 1px solid rgba(255, 255, 255, 0.25);
+  /* Border kaldırıldı — seam artefaktına yol açıyordu */
   background: #10263f;
 }
 

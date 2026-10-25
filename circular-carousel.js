@@ -13,8 +13,8 @@
 (function (window) {
   'use strict';
 
-  const TILES = 1;
-  const OVERLAP = 0;
+  const TILES = 4;      // 4 dilim = belirgin kıvrım, seam yok
+  const OVERLAP = 8;    // Büyük overlap → dilimlerin arasında boşluk kalmaz
   const DRAG_THRESHOLD = 5;
   const SPRING = 118;
   const SETTLE_SPEED = 9;
@@ -177,52 +177,82 @@
     }
 
     buildTiles() {
-      // TILES=1: Tek parça kart — dilim yok, çizgi artefakt yok
-      this.tiles = [{
-        index: 0,
-        total: 1,
-        start: 0,
-        end: this.along,
-        size: this.along,
-        move: 'translate3d(0px, 0px, 0px) rotateY(0deg)'
-      }];
+      const total = TILES;
+      const length = this.along / total;
+      const bend = this.radius;
+
+      this.tiles = Array.from({ length: total }, (_, index) => {
+        // Her dilim biraz örtüşsün — sub-pixel boşluk kalmasın
+        const start = index * length - (index > 0 ? OVERLAP / 2 : 0);
+        const end   = (index + 1) * length + (index < total - 1 ? OVERLAP / 2 : 0);
+        const center = (start + end) / 2 - this.along / 2;
+        const alpha  = bend ? center / bend : 0;
+        const shift  = bend ? bend * Math.sin(alpha) : center;
+        const sink   = bend ? bend * (1 - Math.cos(alpha)) : 0;
+        const depth  = -sink;
+        const turn   = (alpha * 180) / Math.PI;
+        const move   = `translate3d(${shift}px, 0px, ${depth}px) rotateY(${turn}deg)`;
+        return { index, total, start, end, size: end - start, move };
+      });
     }
 
     createTileElement(item, tile, back) {
       const r = 'var(--cc-radius)';
+      const isFirst = tile.index === 0;
+      const isLast  = tile.index === tile.total - 1;
+
+      // Arka yüz için ters sıra (mirror)
+      const strip = back ? tile.total - 1 - tile.index : tile.index;
+      const firstStrip = strip === 0;
+      const lastStrip  = strip === tile.total - 1;
+
+      // Sadece köşe dilimlere border-radius uygula
+      const frameRadius = `${firstStrip ? r : 0} ${lastStrip ? r : 0} ${lastStrip ? r : 0} ${firstStrip ? r : 0}`;
+
+      // Fotoğrafın bu dilim içindeki kaydırma miktarı
+      const offset = back ? this.along - tile.end : tile.start;
 
       const tileDiv = document.createElement('div');
       tileDiv.className = 'circular-carousel__tile';
-      tileDiv.style.left = `${-this.cardW / 2}px`;
-      tileDiv.style.top = `${-this.cardH / 2}px`;
-      tileDiv.style.width = `${this.cardW}px`;
+      tileDiv.style.left   = `${-tile.size / 2}px`;
+      tileDiv.style.top    = `${-this.cardH / 2}px`;
+      tileDiv.style.width  = `${tile.size}px`;
       tileDiv.style.height = `${this.cardH}px`;
-      tileDiv.style.transform = back ? 'rotateY(180deg)' : '';
+      tileDiv.style.transform = tile.move + (back ? ' rotateY(180deg)' : '');
       tileDiv.setAttribute('aria-hidden', 'true');
 
       const frame = document.createElement('div');
       frame.className = 'circular-carousel__frame';
-      frame.style.width = `${this.cardW}px`;
-      frame.style.height = `${this.cardH}px`;
-      frame.style.borderRadius = r;
+      frame.style.width        = `${tile.size}px`;
+      frame.style.height       = `${this.cardH}px`;
+      frame.style.borderRadius = frameRadius;
+      // Kritik: overflow hidden — görüntü dilim dışına taşmasın
+      frame.style.overflow = 'hidden';
 
       if (!back) {
         const img = document.createElement('img');
         img.className = 'circular-carousel__photo';
         img.src = item.image || item.src;
-        img.alt = item.title || '';
+        img.alt = '';
         img.draggable = false;
         img.loading = 'lazy';
-        img.style.left = '0px';
-        img.style.top = '0px';
-        img.style.width = `${this.cardW}px`;
-        img.style.height = `${this.cardH}px`;
+        // Görseli tam kart genişliğinde, dilim kaydırmasıyla konumla
+        img.style.position = 'absolute';
+        img.style.left     = `${-offset}px`;
+        img.style.top      = '0px';
+        img.style.width    = `${this.cardW}px`;
+        img.style.height   = `${this.cardH}px`;
+        img.style.maxWidth = 'none';
+        img.style.objectFit   = 'cover';
+        img.style.userSelect  = 'none';
+        img.style.pointerEvents = 'none';
         frame.appendChild(img);
 
-        // Kartın üstüne web bar (browser simülasyonu)
-        if (item.url) {
+        // Browser bar sadece ilk (en sol) dilime
+        if (item.url && isFirst) {
           const bar = document.createElement('div');
           bar.className = 'circular-carousel__bar';
+          bar.style.width = `${this.cardW}px`; // tam kart genişliği
           bar.innerHTML = `
             <div class="circular-carousel__bar-dot" style="background:#ff5f56"></div>
             <div class="circular-carousel__bar-dot" style="background:#ffbd2e"></div>
@@ -236,10 +266,8 @@
         shade.className = 'circular-carousel__shade';
         frame.appendChild(shade);
       } else {
-        // Arka yüz — karanlık arka panel (derinlik etkisi)
         const inner = document.createElement('div');
         inner.className = 'circular-carousel__inner';
-        inner.style.borderRadius = r;
         frame.appendChild(inner);
       }
 
