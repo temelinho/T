@@ -92,7 +92,6 @@
 
 .circular-carousel__tile {
   position: absolute;
-  outline: 1px solid transparent;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   transform-origin: center center;

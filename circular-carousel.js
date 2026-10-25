@@ -13,8 +13,8 @@
 (function (window) {
   'use strict';
 
-  const TILES = 8;
-  const OVERLAP = 2.5;
+  const TILES = 1;
+  const OVERLAP = 0;
   const DRAG_THRESHOLD = 5;
   const SPRING = 118;
   const SETTLE_SPEED = 9;
@@ -177,81 +177,71 @@
     }
 
     buildTiles() {
-      const total = TILES;
-      const length = this.along / total;
-      const bend = this.radius;
-
-      this.tiles = Array.from({ length: total }, (_, index) => {
-        const start = index * length - (index > 0 ? OVERLAP / 2 : 0);
-        const end = (index + 1) * length + (index < total - 1 ? OVERLAP / 2 : 0);
-        const center = (start + end) / 2 - this.along / 2;
-        const alpha = bend ? center / bend : 0;
-        const shift = bend ? bend * Math.sin(alpha) : center;
-        const sink = bend ? bend * (1 - Math.cos(alpha)) : 0;
-        const depth = -sink;
-        const turn = (alpha * 180) / Math.PI;
-        const move = `translate3d(${shift}px, 0px, ${depth}px) rotateY(${turn}deg)`;
-        return { index, total, start, end, size: end - start, move };
-      });
+      // TILES=1: Tek parça kart — dilim yok, çizgi artefakt yok
+      this.tiles = [{
+        index: 0,
+        total: 1,
+        start: 0,
+        end: this.along,
+        size: this.along,
+        move: 'translate3d(0px, 0px, 0px) rotateY(0deg)'
+      }];
     }
 
     createTileElement(item, tile, back) {
-      const strip = back ? tile.total - 1 - tile.index : tile.index;
-      const first = strip === 0;
-      const last = strip === tile.total - 1;
       const r = 'var(--cc-radius)';
-      const frameRadius = `${first ? r : 0} ${last ? r : 0} ${last ? r : 0} ${first ? r : 0}`;
-      const offset = back ? this.along - tile.end : tile.start;
-      const size = tile.size;
 
       const tileDiv = document.createElement('div');
       tileDiv.className = 'circular-carousel__tile';
-      tileDiv.style.left = `${-size / 2}px`;
+      tileDiv.style.left = `${-this.cardW / 2}px`;
       tileDiv.style.top = `${-this.cardH / 2}px`;
-      tileDiv.style.width = `${size}px`;
+      tileDiv.style.width = `${this.cardW}px`;
       tileDiv.style.height = `${this.cardH}px`;
-      tileDiv.style.transform = tile.move + (back ? ' rotateY(180deg)' : '');
+      tileDiv.style.transform = back ? 'rotateY(180deg)' : '';
       tileDiv.setAttribute('aria-hidden', 'true');
 
       const frame = document.createElement('div');
       frame.className = 'circular-carousel__frame';
+      frame.style.width = `${this.cardW}px`;
       frame.style.height = `${this.cardH}px`;
-      frame.style.borderRadius = frameRadius;
+      frame.style.borderRadius = r;
 
-      const img = document.createElement('img');
-      img.className = 'circular-carousel__photo';
-      img.src = item.image || item.src;
-      img.alt = item.title || '';
-      img.draggable = false;
-      img.loading = 'lazy';
-      img.style.left = `${-offset}px`;
-      img.style.top = '0px';
-      img.style.width = `${this.cardW}px`;
-      img.style.height = `${this.cardH}px`;
-      frame.appendChild(img);
+      if (!back) {
+        const img = document.createElement('img');
+        img.className = 'circular-carousel__photo';
+        img.src = item.image || item.src;
+        img.alt = item.title || '';
+        img.draggable = false;
+        img.loading = 'lazy';
+        img.style.left = '0px';
+        img.style.top = '0px';
+        img.style.width = `${this.cardW}px`;
+        img.style.height = `${this.cardH}px`;
+        frame.appendChild(img);
 
-      // Kartın üstüne web bar (browser simülasyonu)
-      if (item.url && !back) {
-        const bar = document.createElement('div');
-        bar.className = 'circular-carousel__bar';
-        bar.innerHTML = `
-          <div class="circular-carousel__bar-dot" style="background:#ff5f56"></div>
-          <div class="circular-carousel__bar-dot" style="background:#ffbd2e"></div>
-          <div class="circular-carousel__bar-dot" style="background:#27c93f"></div>
-          <span class="circular-carousel__bar-url">${item.url.replace(/^https?:\/\//, '')}</span>
-        `;
-        frame.appendChild(bar);
-      }
+        // Kartın üstüne web bar (browser simülasyonu)
+        if (item.url) {
+          const bar = document.createElement('div');
+          bar.className = 'circular-carousel__bar';
+          bar.innerHTML = `
+            <div class="circular-carousel__bar-dot" style="background:#ff5f56"></div>
+            <div class="circular-carousel__bar-dot" style="background:#ffbd2e"></div>
+            <div class="circular-carousel__bar-dot" style="background:#27c93f"></div>
+            <span class="circular-carousel__bar-url">${item.url.replace(/^https?:\/\//, '')}</span>
+          `;
+          frame.appendChild(bar);
+        }
 
-      if (back) {
+        const shade = document.createElement('div');
+        shade.className = 'circular-carousel__shade';
+        frame.appendChild(shade);
+      } else {
+        // Arka yüz — karanlık arka panel (derinlik etkisi)
         const inner = document.createElement('div');
         inner.className = 'circular-carousel__inner';
+        inner.style.borderRadius = r;
         frame.appendChild(inner);
       }
-
-      const shade = document.createElement('div');
-      shade.className = 'circular-carousel__shade';
-      frame.appendChild(shade);
 
       tileDiv.appendChild(frame);
       return tileDiv;
