@@ -167,11 +167,14 @@ const SWELL_PRESETS = {
   }
 };
 
-const FLUID_SIZE = matchMedia('(pointer: coarse)').matches ? 48 : 64;
-const PRESSURE_STEPS = matchMedia('(pointer: coarse)').matches ? 6 : 10;
+const COARSE_POINTER = matchMedia('(pointer: coarse)').matches;
+const FLUID_SIZE = 64;
+const PRESSURE_STEPS = 10;
 const SPLAT_FORCE = 6900;
 const SPLASH_JETS = 3;
-const PIXEL_BUDGET = matchMedia('(pointer: coarse)').matches ? 260000 : 720000;
+const PIXEL_BUDGET = COARSE_POINTER ? 220000 : 720000;
+const TOUCH_POINTS = 8;
+const TOUCH_LIFETIME = 1.4;
 
 const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
 
@@ -353,6 +356,7 @@ uniform vec2 uFluidTexel;
 uniform float uFluid;
 uniform float uInk;
 uniform float uLean;
+uniform vec4 uTouchTrail[8];
 out vec4 fragColor;
 
 const float TURN[4] = float[4](0.0, -0.95, 0.78, 1.62);
@@ -373,6 +377,22 @@ void main() {
     flow = texture(tVelocity, fluidUv).xy * uFluidTexel * uSize;
     ink = texture(tInk, fluidUv).x;
   }
+
+  // Touch wakes are evaluated on the small slat grid, without fluid buffers.
+  float touchInk = 0.0;
+  for (int i = 0; i < 8; i++) {
+    vec4 touch = uTouchTrail[i];
+    if (touch.z <= 0.0) continue;
+    vec2 offset = center - touch.xy * uSize;
+    float distance = length(offset);
+    float radius = 48.0 + touch.w * 42.0;
+    float wake = exp(-dot(offset, offset) / (radius * radius));
+    float ripple = exp(-pow((distance - touch.w * 100.0) / 22.0, 2.0));
+    touchInk += (wake * 0.7 + ripple * 0.24) * touch.z;
+    flow += offset * wake * touch.z * 3.0;
+  }
+  // Overlapping strokes must not wash out the text above the background.
+  ink += min(touchInk, 0.5);
 
   float horizon = mix(8.0, 0.5, uPerspective);
   float depth = (1.0 + horizon) / (v + horizon);
@@ -584,7 +604,8 @@ function mountSlats(container, {
       uFluidTexel: { value: [1, 1] },
       uFluid: { value: 0 },
       uInk: { value: 1 },
-      uLean: { value: 0.5 }
+      uLean: { value: 0.5 },
+      'uTouchTrail[0]': { value: new Float32Array(TOUCH_POINTS * 4) }
     };
     const fieldMesh = new Mesh(gl, {
       geometry,
@@ -660,12 +681,13 @@ function mountSlats(container, {
 
     const motionQuery = matchMedia('(prefers-reduced-motion: reduce)');
     let reducedMotion = motionQuery.matches;
-    const frameInterval = 1000 / (matchMedia('(pointer: coarse)').matches ? 24 : 30);
+    const idleFrameInterval = 1000 / 30;
 
     let width = 1;
     let height = 1;
     let raf = 0;
     let last = performance.now();
+    let nextFrame = 0;
     let time = 0;
     let introClock = 0;
     let visible = false;
@@ -676,7 +698,12 @@ function mountSlats(container, {
     let fluidDirty = false;
     let splashTurn = 0;
     const splats = [];
-    const pointer = { x: 0, y: 0, tracked: false };
+    const pointer = { x: 0, y: 0, tracked: false, id: null };
+    const touchTrail = fieldUniforms['uTouchTrail[0]'].value;
+    const touchTimes = new Float64Array(TOUCH_POINTS).fill(-Infinity);
+    let touchIndex = 0;
+    let touchUntil = 0;
+    let touchInput = COARSE_POINTER || !floatTargets;
 
     const run = (mesh, target) => renderer.render({ scene: mesh, target, clear: false });
 
@@ -714,7 +741,7 @@ function mountSlats(container, {
     };
 
     const buildFluid = () => {
-      if (!floatTargets || reducedMotion) return;
+      if (touchInput || !floatTargets || reducedMotion) return;
       const aspect = width / height;
       const w = Math.max(8, Math.round(aspect >= 1 ? FLUID_SIZE * aspect : FLUID_SIZE));
       const h = Math.max(8, Math.round(aspect >= 1 ? FLUID_SIZE : FLUID_SIZE / aspect));
@@ -733,9 +760,12 @@ function mountSlats(container, {
     };
 
     const resize = () => {
-      width = Math.max(1, container.clientWidth);
-      height = Math.max(1, container.clientHeight);
-      renderer.dpr = Math.min(window.devicePixelRatio || 1, matchMedia('(pointer: coarse)').matches ? 1 : 1.25, Math.sqrt(PIXEL_BUDGET / (width * height)));
+      const nextWidth = Math.max(1, container.clientWidth);
+      const nextHeight = Math.max(1, container.clientHeight);
+      if (width === nextWidth && height === nextHeight) return;
+      width = nextWidth;
+      height = nextHeight;
+      renderer.dpr = Math.min(window.devicePixelRatio || 1, COARSE_POINTER ? 1 : 1.25, Math.sqrt(PIXEL_BUDGET / (width * height)));
       renderer.setSize(width, height);
       if (fluid) buildFluid();
       start();
@@ -841,11 +871,21 @@ function mountSlats(container, {
       try {
       if (!alive || !visible || document.hidden) return;
       reducedMotion = motionQuery.matches;
-      if (!reducedMotion && now - last < frameInterval - 1) { raf = requestAnimationFrame(frame); return; }
+      const frameInterval = touchInput && now < touchUntil ? 1000 / 60 : idleFrameInterval;
+      if (!reducedMotion && now < nextFrame - 1) { raf = requestAnimationFrame(frame); return; }
       const s = settingsRef.current;
       const dt = Math.min(0.05, Math.max(0, (now - last) / 1000));
       last = now;
+      // Keep the remainder: resetting the clock on each frame reduced 24 fps to 20.
+      nextFrame = Math.max(nextFrame + frameInterval, now + 1);
       if (!s) return;
+
+      for (let i = 0; i < TOUCH_POINTS; i++) {
+        const age = (now - touchTimes[i]) / 1000;
+        const remaining = reducedMotion ? 0 : Math.max(0, 1 - age / TOUCH_LIFETIME);
+        touchTrail[i * 4 + 2] = remaining * remaining;
+        touchTrail[i * 4 + 3] = remaining > 0 ? age : 0;
+      }
 
       if (!s.paused && !reducedMotion) time += dt * s.speed;
       introClock = s.intro && !reducedMotion ? introClock + dt / Math.max(0.2, s.introDuration) : 1;
@@ -926,7 +966,7 @@ function mountSlats(container, {
       if (!rendered) { container.parentElement.classList.add('micro-slats-ready'); rendered = true; }
 
       const moving = (!s.paused && !reducedMotion && s.speed !== 0) || introClock < 1;
-      if (visible && !reducedMotion && (moving || fluidActive || fluidDirty)) raf = requestAnimationFrame(frame);
+      if (visible && !reducedMotion && (moving || fluidActive || fluidDirty || now < touchUntil)) raf = requestAnimationFrame(frame);
       } catch (error) {
         alive = false;
         visible = false;
@@ -937,7 +977,8 @@ function mountSlats(container, {
 
     const start = () => {
       if (raf || !visible || !alive || document.hidden) return;
-      last = performance.now() - frameInterval;
+      last = performance.now() - idleFrameInterval;
+      nextFrame = 0;
       raf = requestAnimationFrame(frame);
     };
 
@@ -958,17 +999,43 @@ function mountSlats(container, {
       start();
     };
 
+    const queueTouch = (x, y) => {
+      const now = performance.now();
+      const wasActive = now < touchUntil;
+      const offset = touchIndex * 4;
+      touchTrail[offset] = x / width;
+      touchTrail[offset + 1] = y / height;
+      touchTimes[touchIndex] = now;
+      touchIndex = (touchIndex + 1) % TOUCH_POINTS;
+      touchUntil = now + TOUCH_LIFETIME * 1000;
+      if (!wasActive) nextFrame = Math.min(nextFrame, now);
+      start();
+    };
+
+    const ignoresInput = e => e.target.closest('a, button, input, textarea, select, [role="button"]');
+
     const onPointerMove = e => {
       if (!visible || document.hidden || reducedMotion) return;
-      if (!fluid) buildFluid();
+      if (e.pointerType === 'touch' && e.pointerId !== pointer.id) return;
+      if (ignoresInput(e)) { pointer.tracked = false; return; }
       const s = settingsRef.current;
       const spot = locate(e);
-      if (!fluid || !s || !s.interactive || reducedMotion || !spot.inside) {
+      if (!s || !s.interactive || !spot.inside) {
         pointer.tracked = false;
         return;
       }
       if (pointer.tracked && (spot.x !== pointer.x || spot.y !== pointer.y)) {
-        queue(spot.u, spot.v, (spot.x - pointer.x) / spot.h, (pointer.y - spot.y) / spot.h, null);
+        if (touchInput) {
+          const distance = Math.hypot(spot.x - pointer.x, spot.y - pointer.y);
+          if (distance < 10) return;
+          const steps = Math.min(4, Math.ceil(distance / 22));
+          for (let i = 1; i <= steps; i++) {
+            queueTouch(pointer.x + (spot.x - pointer.x) * i / steps, pointer.y + (spot.y - pointer.y) * i / steps);
+          }
+        } else {
+          if (!fluid) buildFluid();
+          if (fluid) queue(spot.u, spot.v, (spot.x - pointer.x) / spot.h, (pointer.y - spot.y) / spot.h, null);
+        }
       }
       pointer.x = spot.x;
       pointer.y = spot.y;
@@ -976,31 +1043,57 @@ function mountSlats(container, {
     };
 
     const onPointerDown = e => {
-      if (!visible || document.hidden || reducedMotion) return;
-      if (!fluid) buildFluid();
+      if (!visible || document.hidden || reducedMotion || !e.isPrimary || e.button !== 0 || ignoresInput(e)) return;
       const s = settingsRef.current;
       const spot = locate(e);
-      if (!fluid || !s || !s.interactive || reducedMotion || !spot.inside) return;
-      splashTurn += 2.39996;
-      queue(spot.u, spot.v, 0, 0, splashTurn);
+      if (!s || !s.interactive || !spot.inside) return;
+      // Touchscreens on hybrid laptops use the same cheap path as phones.
+      touchInput = COARSE_POINTER || e.pointerType === 'touch' || !floatTargets;
+      pointer.x = spot.x;
+      pointer.y = spot.y;
+      pointer.tracked = true;
+      pointer.id = e.pointerType === 'mouse' ? null : e.pointerId;
+      if (e.pointerType !== 'mouse') {
+        try { surface.setPointerCapture(e.pointerId); } catch (_) {}
+      }
+      if (touchInput) {
+        splats.length = 0;
+        fluidUntil = 0;
+        queueTouch(spot.x, spot.y);
+      }
+      else {
+        if (!fluid) buildFluid();
+        if (!fluid) return;
+        splashTurn += 2.39996;
+        queue(spot.u, spot.v, 0, 0, splashTurn);
+      }
     };
 
     const onPointerLeave = () => {
       pointer.tracked = false;
+      if (pointer.id !== null && surface.hasPointerCapture(pointer.id)) surface.releasePointerCapture(pointer.id);
+      pointer.id = null;
     };
 
     const onPointerOut = e => {
-      if (!e.relatedTarget) onPointerLeave();
+      if (!surface.contains(e.relatedTarget) && pointer.id === null) onPointerLeave();
+    };
+
+    const onPointerEnd = e => {
+      if (e.pointerId === pointer.id) onPointerLeave();
     };
 
     const onVisibility = () => {
-      if (document.hidden) { cancelAnimationFrame(raf); raf = 0; } else start();
+      if (document.hidden) { cancelAnimationFrame(raf); raf = 0; onPointerLeave(); } else start();
     };
 
     const surface = container.parentElement;
     surface.addEventListener('pointermove', onPointerMove, { passive: true });
     surface.addEventListener('pointerdown', onPointerDown, { passive: true });
     surface.addEventListener('pointerout', onPointerOut, { passive: true });
+    surface.addEventListener('pointerup', onPointerEnd, { passive: true });
+    surface.addEventListener('pointercancel', onPointerEnd, { passive: true });
+    surface.addEventListener('lostpointercapture', onPointerEnd, { passive: true });
     window.addEventListener('blur', onPointerLeave);
     document.addEventListener('visibilitychange', onVisibility);
 
@@ -1008,7 +1101,7 @@ function mountSlats(container, {
     resizeObserver.observe(container);
     const intersectionObserver = new IntersectionObserver(([entry]) => {
       visible = entry.isIntersecting;
-      if (visible) start(); else { cancelAnimationFrame(raf); raf = 0; pointer.tracked = false; }
+      if (visible) start(); else { cancelAnimationFrame(raf); raf = 0; onPointerLeave(); }
     });
     intersectionObserver.observe(container);
 
@@ -1018,7 +1111,10 @@ function mountSlats(container, {
       raf = 0;
       splats.length = 0;
       fluidUntil = 0;
-      pointer.tracked = false;
+      touchUntil = 0;
+      touchTimes.fill(-Infinity);
+      touchTrail.fill(0);
+      onPointerLeave();
       if (reducedMotion) introClock = 1;
       start();
     };
@@ -1037,6 +1133,9 @@ function mountSlats(container, {
       surface.removeEventListener('pointermove', onPointerMove);
       surface.removeEventListener('pointerdown', onPointerDown);
       surface.removeEventListener('pointerout', onPointerOut);
+      surface.removeEventListener('pointerup', onPointerEnd);
+      surface.removeEventListener('pointercancel', onPointerEnd);
+      surface.removeEventListener('lostpointercapture', onPointerEnd);
       window.removeEventListener('blur', onPointerLeave);
       document.removeEventListener('visibilitychange', onVisibility);
       wakeRef.current = null;

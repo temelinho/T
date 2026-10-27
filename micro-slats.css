@@ -3,6 +3,10 @@
   position: relative;
   isolation: isolate;
 }
+.micro-slats-ready {
+  /* Horizontal strokes reach the effect; vertical scrolling and zoom stay native. */
+  touch-action: pan-y pinch-zoom;
+}
 :is(.soft, #reklam, .cta-band, .system-tile, .form-section).micro-slats-ready { background-image: none; }
 .micro-slats-layer {
   position: absolute;

@@ -306,3 +306,21 @@ footer a:hover{color:#dfcaff}
   .reach-grid p{font-size:13px}
   .reach-panel{background:#101631f5}
 }
+
+/* Native contact links: no chat widget, network requests or animation loop. */
+.ci-whatsapp .ic svg,
+.quick-contact svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.soft .ci-whatsapp .ic{background:#133b32;color:#8be5b4;border-color:#8be5b43d}
+.quick-contact{position:fixed;right:24px;bottom:calc(20px + env(safe-area-inset-bottom,0px));z-index:45;display:flex;gap:5px;padding:6px;border:1px solid #e5e3ec;border-radius:22px;background:#fffffff5;box-shadow:0 8px 32px #080b2226}
+.quick-contact a{display:flex;align-items:center;justify-content:center;gap:9px;min-height:46px;padding:0 18px;border-radius:16px;font-size:13px;font-weight:600;white-space:nowrap;touch-action:manipulation}
+.quick-contact-whatsapp{background:#e8f7ee;color:#126b3c}
+.quick-contact-whatsapp:hover{background:#d9f1e4;color:#0c542d}
+.quick-contact-call{background:#f3eefb;color:#6239ac}
+.quick-contact-call:hover{background:#e9dff8;color:#4e298d}
+footer{padding-bottom:calc(98px + env(safe-area-inset-bottom,0px))}
+@media(max-width:600px){
+  .quick-contact{left:50%;right:auto;bottom:calc(12px + env(safe-area-inset-bottom,0px));width:min(360px,calc(100% - 24px));transform:translateX(-50%);border-radius:21px}
+  .quick-contact a{flex:1;min-width:0;padding-inline:10px}
+  body:has(input:focus,textarea:focus) .quick-contact{visibility:hidden;pointer-events:none}
+}
+@media print{.quick-contact{display:none}}
