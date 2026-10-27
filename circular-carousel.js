@@ -79,6 +79,7 @@
         selected: null,
         dir: this.options.direction === 'right' ? 1 : -1,
         press: null,
+        tappedIndex: null,
         drag: false,
         hover: false,
         pointer: { inside: false, x: 0, y: 0 },
@@ -367,11 +368,13 @@
     advance(dt, now) {
       const s = this.options;
       const state = this.state;
-      const paused = state.selected !== null || (s.pauseOnHover && state.hover) || state.drag || now < state.holdUntil;
+      const paused = state.selected !== null || state.press || (s.pauseOnHover && state.hover) || state.drag || now < state.holdUntil;
       const cruise = !paused && !this.motionQuery.matches ? s.speed * state.dir : 0;
       let busy = state.drag;
 
-      if (state.drag) {
+      if (state.press && !state.drag) {
+        state.velocity = 0;
+      } else if (state.drag) {
         state.velocity = state.velocity;
       } else if (state.target !== null) {
         if (this.motionQuery.matches) {
@@ -446,10 +449,13 @@
         const world = wrap(base + angle);
         const facing = Math.cos(world * TO_RAD);
         const emphasis = this.emphasis[index] || 0;
-        const lift = (isMobile ? 27 : 38) * emphasis;
+        const lift = (isMobile ? 24 : 34) * emphasis;
         const depth = (isMobile ? 55 : 100) * emphasis;
-        const scale = 1 + (isMobile ? 0.12 : 0.16) * emphasis;
-        card.style.transform = `rotateY(${base}deg) translateZ(${R + depth}px) translateY(${-lift}px) scale(${scale})`;
+        const pressed = !this.motionQuery.matches && state.press?.index === index && !state.press.moved;
+        const scale = (1 + (isMobile ? 0.12 : 0.16) * emphasis) * (pressed ? 0.99 : 1);
+        const lean = (isMobile ? -4 : -5) * emphasis;
+        // Scale and lean around the bottom edge, like lifting a card off a desk.
+        card.style.transform = `rotateY(${base}deg) translateZ(${R + depth}px) translateY(${this.cardH / 2 - lift + (pressed ? 3 : 0)}px) rotateX(${lean}deg) scale(${scale}) translateY(${-this.cardH / 2}px)`;
         const selected = index === state.selected;
         if (card.getAttribute('aria-pressed') !== String(selected)) {
           card.setAttribute('aria-pressed', String(selected));
@@ -544,9 +550,12 @@
 
       const onPointerDown = e => {
         state.suppressClick = false;
+        state.tappedIndex = null;
         if (!this.options.draggable || e.button !== 0) return;
+        const card = e.target.closest('[data-cc-index]');
         state.press = {
           id: e.pointerId,
+          index: card ? Number(card.dataset.ccIndex) : null,
           x: e.clientX,
           y: e.clientY,
           angle: state.angle,
@@ -554,6 +563,7 @@
           origin: 0,
           samples: [{ time: performance.now(), angle: state.angle }]
         };
+        this.wake();
       };
 
       const onPointerMove = e => {
@@ -605,7 +615,11 @@
         const press = state.press;
         if (!press || press.id !== e.pointerId) return;
         state.press = null;
-        if (!press.moved) return;
+        if (!press.moved) {
+          state.tappedIndex = e.type === 'pointercancel' ? null : press.index;
+          this.wake();
+          return;
+        }
 
         state.drag = false;
         this.dragging = false;
@@ -652,11 +666,13 @@
           return;
         }
         const card = e.target.closest('[data-cc-index]');
-        if (!card) {
+        // Retain the pressed surface if a compatibility click lands on a tile seam.
+        const index = card ? Number(card.dataset.ccIndex) : state.tappedIndex;
+        state.tappedIndex = null;
+        if (index === null) {
           this.clearFocus();
           return;
         }
-        const index = Number(card.getAttribute('data-cc-index'));
         if (this.options.focusOnClick) {
           this.focusIndex(index);
         }
