@@ -30,3 +30,6 @@ Trendyol's official LUXE application promotional screenshot, retrieved 2026-10-2
 The app area is displayed in the hero phone with CSS clipping; the external promotional frame is excluded.
 Presented as a third-party app example, not a Temel Technology client project.
 Source image: https://play-lh.googleusercontent.com/0TQ9ZGJ1QCm8OYzAQ9qtimUmybdiLZZPiAUhXZKb546D8RXDokMc40-w5tikCgyHZuERlaH-f4BcOuQ2R6g1=w526-h296-rw
+
+DELIVERY OPTIMIZATION — 2026-10-27
+Real screenshots are delivered as resized WebP derivatives; original captures remain in the repository. No interface content was generated or replaced. Instagram / Maps / mobile web: 600px wide; WhatsApp / Trendyol: 720px; desktop web: 1280px. Large project SVG covers are served as 1080px WebP images; small vector-only covers remain SVG.

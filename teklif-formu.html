@@ -6,6 +6,7 @@
 <title>Teklif Al | Temel Technology</title>
 <meta name="description" content="Projeniz için birkaç dakikada ücretsiz teklif alın. Bireysel, kurumsal ve işletme yazılım çözümleri.">
 <meta name="robots" content="index, follow">
+<link rel="canonical" href="https://temelinho.github.io/T/teklif-formu.html">
 <style>
   :root{
     --navy:#123a5e; --navy2:#1c507d; --ink:#0f2033; --body:#3f4d63; --muted:#6b7a90;
@@ -67,7 +68,7 @@
   .opt .check{margin-left:auto;width:22px;height:22px;border-radius:50%;border:2px solid var(--line);display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px}
   .opt.sel .check{background:var(--accent);border-color:var(--accent)}
   .field{margin-bottom:14px}
-  label.fl{display:block;font-size:13px;color:var(--muted);margin-bottom:6px;font-weight:600}
+  .fl{display:block;font-size:13px;color:var(--muted);margin-bottom:6px;font-weight:600}
   input,textarea{width:100%;background:#fff;border:1.5px solid var(--line);border-radius:10px;color:var(--ink);padding:12px 14px;font-size:14px;outline:none;transition:.2s;font-family:inherit}
   input:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(246,130,31,.13)}
   textarea{min-height:110px;resize:vertical}
@@ -84,6 +85,11 @@
   .success h2{margin-bottom:8px;color:var(--ink)}
   .trust{text-align:center;color:var(--muted);font-size:13px;margin-top:18px}
 
+  .quote-summary{color:var(--body);white-space:pre-wrap;overflow-wrap:anywhere;text-align:left;font:inherit;font-size:14px;line-height:1.6;background:var(--soft);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:20px}
+  .quote-actions[hidden],.quote-actions [hidden]{display:none}.quote-actions button:disabled{opacity:.5;cursor:wait}
+  .quote-actions{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+  .opt:focus-visible,.quote-actions a:focus-visible,.quote-actions button:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+  .step h2:focus,.success h2:focus{outline:none}
   /* FOOTER (site ile aynı) */
   footer{background:var(--navy);color:rgba(255,255,255,.72);padding:56px 0 26px}
   .foot-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:36px;margin-bottom:40px}
@@ -103,6 +109,7 @@
 <link rel="icon" href="images/temel-favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="theme.css">
 <script src="navigation.js" defer></script>
+<script src="teklif-formu.js" defer></script>
 </head>
 <body>
 
@@ -138,98 +145,103 @@
     <div class="wrap">
       <div class="form-wrap">
         <div class="card">
-          <div class="progress"><i id="bar"></i></div>
-          <form id="quoteForm">
+          <div class="progress" role="progressbar" aria-label="Teklif adımları" aria-valuemin="1" aria-valuemax="5" aria-valuenow="1"><i id="bar"></i></div>
+          <!-- Set data-endpoint to the verified Formspree form URL to enable direct email submission. -->
+          <form id="quoteForm" data-endpoint="" novalidate>
+            <noscript><p>Teklif için <a href="mailto:temeltechnology@gmail.com">e-posta üzerinden bize ulaşabilirsiniz</a>.</p></noscript>
 
             <!-- 1 -->
             <div class="step active" data-step="1">
               <div class="kicker">Adım 1 / 5</div>
-              <h2>Kimin için proje?</h2>
+              <h2 tabindex="-1">Kimin için proje?</h2>
               <p class="sub">Size en uygun çözümü sunabilmemiz için.</p>
               <div class="opts" data-single="musteri_tipi">
-                <div class="opt" data-value="Bireysel"><span class="emoji">👤</span><div><div class="t">Bireysel</div><div class="d">Kişisel site, portföy, küçük proje</div></div><span class="check">✓</span></div>
-                <div class="opt" data-value="Kurumsal"><span class="emoji">🏢</span><div><div class="t">Kurumsal</div><div class="d">Şirket sitesi, marka, kurumsal yazılım</div></div><span class="check">✓</span></div>
-                <div class="opt" data-value="İşletme"><span class="emoji">🏬</span><div><div class="t">İşletme / KOBİ</div><div class="d">E-ticaret, otomasyon, yönetim paneli</div></div><span class="check">✓</span></div>
+                <div class="opt" role="button" tabindex="0" aria-pressed="false" data-value="Bireysel"><span class="emoji">👤</span><div><div class="t">Bireysel</div><div class="d">Kişisel site, portföy, küçük proje</div></div><span class="check">✓</span></div>
+                <div class="opt" role="button" tabindex="0" aria-pressed="false" data-value="Kurumsal"><span class="emoji">🏢</span><div><div class="t">Kurumsal</div><div class="d">Şirket sitesi, marka, kurumsal yazılım</div></div><span class="check">✓</span></div>
+                <div class="opt" role="button" tabindex="0" aria-pressed="false" data-value="İşletme"><span class="emoji">🏬</span><div><div class="t">İşletme / KOBİ</div><div class="d">E-ticaret, otomasyon, yönetim paneli</div></div><span class="check">✓</span></div>
               </div>
-              <div class="err">Lütfen bir seçim yapın.</div>
+              <div class="err" role="alert">Lütfen bir seçim yapın.</div>
             </div>
 
             <!-- 2 -->
             <div class="step" data-step="2">
               <div class="kicker">Adım 2 / 5</div>
-              <h2>Hangi hizmet(ler)e ihtiyacınız var?</h2>
+              <h2 tabindex="-1">Hangi hizmet(ler)e ihtiyacınız var?</h2>
               <p class="sub">Birden fazla seçebilirsiniz.</p>
               <div class="opts two" data-multi="hizmetler">
-                <div class="opt" data-value="Web sitesi"><span class="emoji">🌐</span><div><div class="t">Web sitesi</div></div><span class="check">✓</span></div>
-                <div class="opt" data-value="Mobil uygulama"><span class="emoji">📱</span><div><div class="t">Mobil uygulama</div></div><span class="check">✓</span></div>
-                <div class="opt" data-value="Kurumsal yazılım"><span class="emoji">⚙️</span><div><div class="t">Kurumsal yazılım</div></div><span class="check">✓</span></div>
-                <div class="opt" data-value="E-ticaret"><span class="emoji">🛒</span><div><div class="t">E-ticaret</div></div><span class="check">✓</span></div>
-                <div class="opt" data-value="Entegrasyon / API"><span class="emoji">🔗</span><div><div class="t">Entegrasyon / API</div></div><span class="check">✓</span></div>
-                <div class="opt" data-value="Dijital reklam (Google / Sosyal medya)"><span class="emoji">📢</span><div><div class="t">Dijital reklam</div></div><span class="check">✓</span></div>
-                <div class="opt" data-value="Diğer / Emin değilim"><span class="emoji">💡</span><div><div class="t">Diğer / Emin değilim</div></div><span class="check">✓</span></div>
+                <div class="opt" role="button" tabindex="0" aria-pressed="false" data-value="Web sitesi"><span class="emoji">🌐</span><div><div class="t">Web sitesi</div></div><span class="check">✓</span></div>
+                <div class="opt" role="button" tabindex="0" aria-pressed="false" data-value="Mobil uygulama"><span class="emoji">📱</span><div><div class="t">Mobil uygulama</div></div><span class="check">✓</span></div>
+                <div class="opt" role="button" tabindex="0" aria-pressed="false" data-value="Kurumsal yazılım"><span class="emoji">⚙️</span><div><div class="t">Kurumsal yazılım</div></div><span class="check">✓</span></div>
+                <div class="opt" role="button" tabindex="0" aria-pressed="false" data-value="E-ticaret"><span class="emoji">🛒</span><div><div class="t">E-ticaret</div></div><span class="check">✓</span></div>
+                <div class="opt" role="button" tabindex="0" aria-pressed="false" data-value="Entegrasyon / API"><span class="emoji">🔗</span><div><div class="t">Entegrasyon / API</div></div><span class="check">✓</span></div>
+                <div class="opt" role="button" tabindex="0" aria-pressed="false" data-value="Dijital reklam (Google / Sosyal medya)"><span class="emoji">📢</span><div><div class="t">Dijital reklam</div></div><span class="check">✓</span></div>
+                <div class="opt" role="button" tabindex="0" aria-pressed="false" data-value="Diğer / Emin değilim"><span class="emoji">💡</span><div><div class="t">Diğer / Emin değilim</div></div><span class="check">✓</span></div>
               </div>
-              <div class="err">Lütfen en az bir hizmet seçin.</div>
+              <div class="err" role="alert">Lütfen en az bir hizmet seçin.</div>
             </div>
 
             <!-- 3 -->
             <div class="step" data-step="3">
               <div class="kicker">Adım 3 / 5</div>
-              <h2>Bütçe ve zamanlama</h2>
+              <h2 tabindex="-1">Bütçe ve zamanlama</h2>
               <p class="sub">Yaklaşık aralık yeterli — netleştirmeyi birlikte yaparız.</p>
-              <label class="fl">Tahmini bütçe</label>
-              <div class="opts two" data-single="butce" style="margin-bottom:16px">
-                <div class="opt" data-value="< 10.000 ₺"><div class="t">&lt; 10.000 ₺</div><span class="check">✓</span></div>
-                <div class="opt" data-value="10.000 – 30.000 ₺"><div class="t">10.000 – 30.000 ₺</div><span class="check">✓</span></div>
-                <div class="opt" data-value="30.000 – 75.000 ₺"><div class="t">30.000 – 75.000 ₺</div><span class="check">✓</span></div>
-                <div class="opt" data-value="75.000 ₺ +"><div class="t">75.000 ₺ +</div><span class="check">✓</span></div>
+              <p class="fl" id="budget-label">Tahmini bütçe</p>
+              <div class="opts two" data-single="butce" role="group" aria-labelledby="budget-label" style="margin-bottom:16px">
+                <div class="opt" role="button" tabindex="0" aria-pressed="false" data-value="< 10.000 ₺"><div class="t">&lt; 10.000 ₺</div><span class="check">✓</span></div>
+                <div class="opt" role="button" tabindex="0" aria-pressed="false" data-value="10.000 – 30.000 ₺"><div class="t">10.000 – 30.000 ₺</div><span class="check">✓</span></div>
+                <div class="opt" role="button" tabindex="0" aria-pressed="false" data-value="30.000 – 75.000 ₺"><div class="t">30.000 – 75.000 ₺</div><span class="check">✓</span></div>
+                <div class="opt" role="button" tabindex="0" aria-pressed="false" data-value="75.000 ₺ +"><div class="t">75.000 ₺ +</div><span class="check">✓</span></div>
               </div>
-              <label class="fl">Ne zaman başlamak istersiniz?</label>
-              <div class="opts two" data-single="zaman">
-                <div class="opt" data-value="En kısa sürede"><div class="t">En kısa sürede</div><span class="check">✓</span></div>
-                <div class="opt" data-value="1-3 ay içinde"><div class="t">1-3 ay içinde</div><span class="check">✓</span></div>
-                <div class="opt" data-value="Sadece fikir alıyorum"><div class="t">Sadece fikir alıyorum</div><span class="check">✓</span></div>
+              <p class="fl" id="time-label">Ne zaman başlamak istersiniz?</p>
+              <div class="opts two" data-single="zaman" role="group" aria-labelledby="time-label">
+                <div class="opt" role="button" tabindex="0" aria-pressed="false" data-value="En kısa sürede"><div class="t">En kısa sürede</div><span class="check">✓</span></div>
+                <div class="opt" role="button" tabindex="0" aria-pressed="false" data-value="1-3 ay içinde"><div class="t">1-3 ay içinde</div><span class="check">✓</span></div>
+                <div class="opt" role="button" tabindex="0" aria-pressed="false" data-value="Sadece fikir alıyorum"><div class="t">Sadece fikir alıyorum</div><span class="check">✓</span></div>
               </div>
-              <div class="err">Lütfen bütçe ve zaman seçin.</div>
+              <div class="err" role="alert">Lütfen bütçe ve zaman seçin.</div>
             </div>
 
             <!-- 4 -->
             <div class="step" data-step="4">
               <div class="kicker">Adım 4 / 5</div>
-              <h2>Projenizi anlatın</h2>
+              <h2 tabindex="-1">Projenizi anlatın</h2>
               <p class="sub">Kısaca ne yapmak istediğinizi yazın.</p>
               <div class="field">
-                <label class="fl">Proje detayı</label>
-                <textarea name="detay" placeholder="Örn: Restoranım için online sipariş alabilen bir site istiyorum..."></textarea>
+                <label class="fl" for="detay">Proje detayı</label>
+                <textarea id="detay" name="detay" maxlength="1500" required placeholder="Örn: Restoranım için online sipariş alabilen bir site istiyorum..."></textarea>
               </div>
-              <div class="err">Lütfen birkaç cümle yazın.</div>
+              <div class="err" role="alert">Lütfen birkaç cümle yazın.</div>
             </div>
 
             <!-- 5 -->
             <div class="step" data-step="5">
               <div class="kicker">Adım 5 / 5</div>
-              <h2>Size nasıl ulaşalım?</h2>
+              <h2 tabindex="-1">Size nasıl ulaşalım?</h2>
               <p class="sub">Teklifi bu bilgilerle ileteceğiz.</p>
-              <div class="field"><label class="fl">Ad Soyad *</label><input name="ad" type="text" placeholder="Adınız Soyadınız"></div>
-              <div class="field"><label class="fl">E-posta *</label><input name="email" type="email" placeholder="ornek@eposta.com"></div>
-              <div class="field"><label class="fl">Telefon</label><input name="telefon" type="tel" placeholder="05xx xxx xx xx"></div>
-              <div class="field"><label class="fl">Şirket / Marka (opsiyonel)</label><input name="sirket" type="text" placeholder="Şirket adı"></div>
-              <div class="err">Lütfen ad ve geçerli bir e-posta girin.</div>
+              <div class="field"><label class="fl" for="ad">Ad Soyad *</label><input id="ad" name="ad" autocomplete="name" maxlength="100" required type="text" placeholder="Adınız Soyadınız"></div>
+              <div class="field"><label class="fl" for="email">E-posta *</label><input id="email" name="email" autocomplete="email" maxlength="120" required type="email" placeholder="ornek@eposta.com"></div>
+              <div class="field"><label class="fl" for="telefon">Telefon</label><input id="telefon" name="telefon" autocomplete="tel" maxlength="30" type="tel" placeholder="05xx xxx xx xx"></div>
+              <div class="field"><label class="fl" for="sirket">Şirket / Marka (opsiyonel)</label><input id="sirket" name="sirket" autocomplete="organization" maxlength="100" type="text" placeholder="Şirket adı"></div>
+              <div class="err" role="alert">Lütfen ad ve geçerli bir e-posta girin.</div>
             </div>
 
             <!-- success -->
             <div class="success">
               <div class="big">✓</div>
-              <h2>Teşekkürler! Talebiniz alındı.</h2>
-              <p class="sub">En kısa sürede size dönüş yapacağız.</p>
+              <h2 tabindex="-1">Teklif özetiniz hazır.</h2>
+              <p class="sub">Henüz gönderilmedi. Özeti e-posta uygulamanızda açıp bize gönderebilirsiniz.</p>
+              <pre class="quote-summary" id="quote-summary"></pre>
+              <p class="err" id="send-error" role="alert"></p>
+              <div class="quote-actions"><button class="btn btn-primary" id="email-send" type="button" hidden>Teklifi gönder →</button><a class="btn btn-primary" id="mailto-send">E-postada aç ↗</a><button class="btn btn-ghost" type="button" id="edit-quote">Bilgileri düzenle</button></div>
             </div>
 
             <div class="nav-btns" id="nav">
               <button type="button" class="form-btn back" id="prevBtn" style="visibility:hidden">← Geri</button>
-              <button type="button" class="form-btn next" id="nextBtn">Devam →</button>
+              <button type="submit" class="form-btn next" id="nextBtn">Devam →</button>
             </div>
           </form>
         </div>
-        <p class="trust">🔒 Bilgileriniz yalnızca teklif için kullanılır, üçüncü kişilerle paylaşılmaz.</p>
+        <p class="trust">Özet bu sayfada hazırlanır. Bilgileriniz yalnızca gönderim adımını tamamladığınızda iletilir.</p>
       </div>
     </div>
   </section>
@@ -248,102 +260,11 @@
     </div>
     <div class="foot-bottom">
       <span>© 2026 Temel Technology. Tüm hakları saklıdır.</span>
-      <span>Gizlilik Politikası · Kullanım Şartları</span>
+      <span>Yazılım · Tasarım · Dijital reklam</span>
     </div>
   </div>
 </footer>
 
-<script>
-/* KURULUM: Formspree ID'nizi buraya yazın (formspree.io ücretsiz).
-   Boş bırakırsanız test modu: veri ekranda JSON olarak gösterilir. */
-const FORMSPREE_ID = "FORM_ID"; // örn: "mabcwxyz"
 
-const state = { musteri_tipi:"", hizmetler:[], butce:"", zaman:"", detay:"", ad:"", email:"", telefon:"", sirket:"" };
-let step = 1; const TOTAL = 5;
-const $ = s => document.querySelector(s);
-const steps = document.querySelectorAll('.step');
-const bar = $('#bar'), prevBtn = $('#prevBtn'), nextBtn = $('#nextBtn'), nav = $('#nav');
-
-document.querySelectorAll('[data-single]').forEach(group=>{
-  const key = group.dataset.single;
-  group.querySelectorAll('.opt').forEach(opt=>{
-    opt.addEventListener('click',()=>{
-      group.querySelectorAll('.opt').forEach(o=>o.classList.remove('sel'));
-      opt.classList.add('sel'); state[key]=opt.dataset.value; clearErr();
-    });
-  });
-});
-document.querySelectorAll('[data-multi]').forEach(group=>{
-  const key = group.dataset.multi;
-  group.querySelectorAll('.opt').forEach(opt=>{
-    opt.addEventListener('click',()=>{
-      opt.classList.toggle('sel');
-      state[key] = [...group.querySelectorAll('.opt.sel')].map(o=>o.dataset.value);
-      clearErr();
-    });
-  });
-});
-document.querySelectorAll('input,textarea').forEach(el=>{
-  el.addEventListener('input',()=>{ state[el.name]=el.value; clearErr(); });
-});
-
-function clearErr(){ document.querySelectorAll('.err').forEach(e=>e.style.display='none'); }
-function showErr(){ const s=document.querySelector('.step[data-step="'+step+'"] .err'); if(s) s.style.display='block'; }
-
-function valid(){
-  if(step===1) return !!state.musteri_tipi;
-  if(step===2) return state.hizmetler.length>0;
-  if(step===3) return !!state.butce && !!state.zaman;
-  if(step===4) return state.detay.trim().length>=5;
-  if(step===5) return state.ad.trim() && /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(state.email);
-  return true;
-}
-function render(){
-  steps.forEach(s=>s.classList.toggle('active', +s.dataset.step===step));
-  bar.style.width = (step/TOTAL*100)+'%';
-  prevBtn.style.visibility = step>1 ? 'visible':'hidden';
-  nextBtn.textContent = step===TOTAL ? 'Gönder ✓' : 'Devam →';
-}
-prevBtn.onclick=()=>{ if(step>1){step--;render();} };
-nextBtn.onclick=()=>{
-  if(!valid()){ showErr(); return; }
-  if(step<TOTAL){ step++; render(); } else submit();
-};
-
-async function submit(){
-  const payload = {
-    musteri_tipi: state.musteri_tipi, hizmetler: state.hizmetler.join(", "),
-    butce: state.butce, zaman: state.zaman, detay: state.detay,
-    ad: state.ad, email: state.email, telefon: state.telefon, sirket: state.sirket,
-    _subject: "Yeni teklif talebi — "+state.ad+" ("+state.musteri_tipi+")",
-    tum_veri_json: JSON.stringify(state, null, 2)
-  };
-  if(!FORMSPREE_ID || FORMSPREE_ID==="FORM_ID"){
-    document.querySelector('.success').style.display='block';
-    steps.forEach(s=>s.classList.remove('active')); nav.style.display='none';
-    document.querySelector('.success .sub').innerHTML =
-      '<b>Test modu:</b> Formspree ID girilmedi. Toplanan veri:<pre style="text-align:left;background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:12px;margin-top:12px;overflow:auto;font-size:12px;color:var(--ink)">'
-      + JSON.stringify(state,null,2) + '</pre>';
-    return;
-  }
-  nextBtn.disabled=true; nextBtn.textContent='Gönderiliyor...';
-  try{
-    const res = await fetch("https://formspree.io/f/"+FORMSPREE_ID,{
-      method:'POST', headers:{'Accept':'application/json','Content-Type':'application/json'},
-      body: JSON.stringify(payload)
-    });
-    if(res.ok){
-      document.querySelector('.success').style.display='block';
-      steps.forEach(s=>s.classList.remove('active')); nav.style.display='none';
-    } else throw new Error('hata');
-  }catch(e){
-    nextBtn.disabled=false; nextBtn.textContent='Tekrar dene';
-    const er=document.querySelector('.step[data-step="5"] .err');
-    er.textContent='Gönderilemedi. Lütfen tekrar deneyin.'; er.style.display='block';
-  }
-}
-
-render();
-</script>
 </body>
 </html>

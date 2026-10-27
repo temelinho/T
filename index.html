@@ -7,7 +7,7 @@
 <meta name="description" content="Özel yazılım, web ve mobil uygulama geliştirme; ayrıca Google Ads, sosyal medya ve Google Haritalar reklamları. Malatya merkezli yazılım ve dijital reklam ajansı.">
 <meta name="keywords" content="özel yazılım geliştirme, web sitesi, mobil uygulama, e-ticaret, kurumsal yazılım, dijital reklam, google ads, sosyal medya reklamı, google haritalar reklamı, dijital pazarlama">
 <meta name="robots" content="index, follow">
-<link rel="canonical" href="https://www.orneksiteniz.com/">
+<link rel="canonical" href="https://temelinho.github.io/T/">
 <!-- Open Graph -->
 <meta property="og:type" content="website">
 <meta property="og:title" content="Temel Technology | Yazılım ve Dijital Reklam Ajansı">
@@ -24,7 +24,7 @@
   "@context":"https://schema.org",
   "@type":"Organization",
   "name":"Temel Technology",
-  "url":"https://www.orneksiteniz.com/",
+  "url":"https://temelinho.github.io/T/",
   "description":"Yazılım geliştirme ve dijital reklam ajansı: özel yazılım, web/mobil uygulama, Google Ads, sosyal medya ve Google Haritalar reklamları.",
   "email":"temeltechnology@gmail.com",
   "telephone":"+905066922004",
@@ -202,6 +202,9 @@
 <script src="hero.js" defer></script>
 <link rel="stylesheet" href="theme.css">
 <script src="navigation.js" defer></script>
+<script src="circular-carousel.js" defer></script>
+<script src="portfolio.js" defer></script>
+<noscript><style>#carousel-view-container,.view-switch{display:none}#portfolio{display:grid!important}</style></noscript>
 </head>
 <body>
 
@@ -246,8 +249,8 @@
         <div class="hero-visual ecosystem" aria-label="Yazılım ve reklam hizmetleri vitrini">
   <div class="ecosystem-heading"><span class="ecosystem-dot"></span> BİR MARKA. TÜM DİJİTAL DÜNYASI.<span class="ecosystem-number">03 / 05</span><button class="showcase-autoplay" type="button" aria-pressed="true" aria-label="Otomatik geçişi duraklat">Ⅱ</button></div>
   <div class="device-stage" aria-label="Örnek işletme ekranları. Kaydırarak hizmetleri keşfedin.">
-    <div class="desktop-preview" aria-hidden="true"><div class="desktop-top"><i></i><i></i><i></i><span>alanyaklimatemizligi.com</span></div><img class="real-desktop-screen" src="images/hero-web-klima-desktop.jpg" width="1280" height="720" alt="" decoding="async" draggable="false"></div>
-    <article class="device device-instagram is-active" data-channel="instagram" aria-label="Instagram resmî hesabının gerçek ekranı"><div class="phone-hardware"><div class="phone-status"><span>9:41</span><i class="dynamic-island"></i><span class="status-signals">▮▮▮ ▰</span></div><div class="phone-content screen-instagram"><img class="real-instagram-screen" src="images/hero-instagram-real.jpg" width="780" height="1490" alt="Instagram resmî instagram profilinin gerçek ekran görüntüsü; doğrulanmış hesap, hikâyeler ve gönderiler" fetchpriority="high" decoding="async" draggable="false"></div><div class="home-indicator"></div></div></article><article class="device device-whatsapp" data-channel="whatsapp" aria-label="WhatsApp örnek ekranı"><div class="phone-hardware"><div class="phone-status"><span>9:41</span><i class="dynamic-island"></i><span class="status-signals">▮▮▮ ▰</span></div><div class="phone-content screen-whatsapp"><div class="official-whatsapp-crop"><img class="official-whatsapp-source" src="images/hero-whatsapp-current.webp" width="1080" height="1920" alt="WhatsApp’ın güncel resmî Google Play görselindeki Türkçe sohbetler ekranı" decoding="async" draggable="false"></div></div><div class="home-indicator"></div></div></article><article class="device device-maps" data-channel="maps" aria-label="Google Haritalar örnek ekranı"><div class="phone-hardware"><div class="phone-status"><span>9:41</span><i class="dynamic-island"></i><span class="status-signals">▮▮▮ ▰</span></div><div class="phone-content screen-maps"><img class="real-maps-screen" src="images/hero-maps-gunes-klima.jpg" width="860" height="1646" alt="Güneş Klima Bakım ve Temizliği işletmesinin gerçek Google Haritalar profili" decoding="async" draggable="false"></div><div class="home-indicator"></div></div></article><article class="device device-app" data-channel="app" aria-label="Trendyol gerçek uygulama görseli"><div class="phone-hardware"><div class="phone-status"><span>9:41</span><i class="dynamic-island"></i><span class="status-signals">▮▮▮ ▰</span></div><div class="phone-content screen-app"><div class="real-app-crop"><img class="real-app-source" src="images/hero-app-trendyol.webp" width="1080" height="2347" alt="Trendyol uygulamasının resmî mağaza görselindeki LUXE alışveriş ekranı; ürün fotoğrafları ve uygulama menüsü" loading="eager" decoding="async" draggable="false"></div></div><div class="home-indicator"></div></div></article><article class="device device-web" data-channel="web" aria-label="Web Sitesi örnek ekranı"><div class="phone-hardware"><div class="phone-status"><span>9:41</span><i class="dynamic-island"></i><span class="status-signals">▮▮▮ ▰</span></div><div class="phone-content screen-web"><div class="mobile-url">⌑ &nbsp; alanyaklimatemizligi.com <span>↻</span></div><img class="real-web-screen" src="images/hero-web-klima-mobile.jpg" width="780" height="1490" alt="Alanya Klima Temizliği sitesinin gerçek mobil ekran görüntüsü" loading="eager" decoding="async" draggable="false"></div><div class="home-indicator"></div></div></article>
+    <div class="desktop-preview" aria-hidden="true"><div class="desktop-top"><i></i><i></i><i></i><span>alanyaklimatemizligi.com</span></div><img width="1280" height="720" class="real-desktop-screen" src="images/hero-web-klima-desktop.webp" alt="" decoding="async" draggable="false" fetchpriority="low"></div>
+    <article class="device device-instagram is-active" data-channel="instagram" aria-label="Instagram resmî hesabının gerçek ekranı"><div class="phone-hardware"><div class="phone-status"><span>9:41</span><i class="dynamic-island"></i><span class="status-signals">▮▮▮ ▰</span></div><div class="phone-content screen-instagram"><img width="600" height="1146" class="real-instagram-screen" src="images/hero-instagram-screen.webp" alt="Instagram resmî instagram profilinin gerçek ekran görüntüsü; doğrulanmış hesap, hikâyeler ve gönderiler" fetchpriority="high" decoding="async" draggable="false"></div><div class="home-indicator"></div></div></article><article class="device device-whatsapp" data-channel="whatsapp" aria-label="WhatsApp örnek ekranı"><div class="phone-hardware"><div class="phone-status"><span>9:41</span><i class="dynamic-island"></i><span class="status-signals">▮▮▮ ▰</span></div><div class="phone-content screen-whatsapp"><div class="official-whatsapp-crop"><img width="720" height="1280" class="official-whatsapp-source" src="images/hero-whatsapp-screen.webp" alt="WhatsApp’ın güncel resmî Google Play görselindeki Türkçe sohbetler ekranı" decoding="async" draggable="false"></div></div><div class="home-indicator"></div></div></article><article class="device device-maps" data-channel="maps" aria-label="Google Haritalar örnek ekranı"><div class="phone-hardware"><div class="phone-status"><span>9:41</span><i class="dynamic-island"></i><span class="status-signals">▮▮▮ ▰</span></div><div class="phone-content screen-maps"><img width="600" height="1148" class="real-maps-screen" src="images/hero-maps-gunes-klima.webp" alt="Güneş Klima Bakım ve Temizliği işletmesinin gerçek Google Haritalar profili" decoding="async" draggable="false"></div><div class="home-indicator"></div></div></article><article class="device device-app" data-channel="app" aria-label="Trendyol gerçek uygulama görseli"><div class="phone-hardware"><div class="phone-status"><span>9:41</span><i class="dynamic-island"></i><span class="status-signals">▮▮▮ ▰</span></div><div class="phone-content screen-app"><div class="real-app-crop"><img width="720" height="1565" class="real-app-source" src="images/hero-app-trendyol-screen.webp" alt="Trendyol uygulamasının resmî mağaza görselindeki LUXE alışveriş ekranı; ürün fotoğrafları ve uygulama menüsü" loading="eager" decoding="async" draggable="false" fetchpriority="low"></div></div><div class="home-indicator"></div></div></article><article class="device device-web" data-channel="web" aria-label="Web Sitesi örnek ekranı"><div class="phone-hardware"><div class="phone-status"><span>9:41</span><i class="dynamic-island"></i><span class="status-signals">▮▮▮ ▰</span></div><div class="phone-content screen-web"><div class="mobile-url">⌑ &nbsp; alanyaklimatemizligi.com <span>↻</span></div><img width="600" height="1146" class="real-web-screen" src="images/hero-web-klima-mobile.webp" alt="Alanya Klima Temizliği sitesinin gerçek mobil ekran görüntüsü" loading="eager" decoding="async" draggable="false" fetchpriority="low"></div><div class="home-indicator"></div></div></article>
     <div class="ecosystem-stamp" aria-hidden="true"><span>✦</span> TASARIM + YAZILIM + REKLAM</div>
   </div>
   <div class="service-selector" role="group" aria-label="Dijital hizmetleri keşfedin"><button type="button" data-service="web" aria-pressed="false" aria-label="Web sitesi geliştirme">Web</button><button type="button" data-service="app" aria-pressed="false" aria-label="Mobil uygulama geliştirme">Mobil</button><button type="button" data-service="instagram" aria-pressed="true" aria-label="Instagram ve reklam yönetimi">Instagram</button><button type="button" data-service="whatsapp" aria-pressed="false" aria-label="WhatsApp iletişim çözümleri">WhatsApp</button><button type="button" data-service="maps" aria-pressed="false" aria-label="Google Haritalar işletme profili">Haritalar</button></div>
@@ -279,9 +282,9 @@
           <a class="web-product" href="https://alanyaklimatemizligi.com" target="_blank" rel="noopener noreferrer" aria-label="Alanya Klima Temizliği gerçek projesini ziyaret edin">
             <div class="product-browser">
               <div class="product-browser-bar"><span aria-hidden="true">● ● ●</span><span>alanyaklimatemizligi.com</span><span aria-hidden="true">↗</span></div>
-              <img src="images/hero-web-klima-desktop.jpg" width="1280" height="720" alt="Alanya Klima Temizliği için hazırladığımız web sitesinin masaüstü görünümü" loading="lazy" decoding="async">
+              <img width="1280" height="720" src="images/hero-web-klima-desktop.webp" alt="Alanya Klima Temizliği için hazırladığımız web sitesinin masaüstü görünümü" loading="lazy" decoding="async">
             </div>
-            <div class="product-phone" aria-hidden="true"><img src="images/hero-web-klima-mobile.jpg" width="780" height="1490" alt="" loading="lazy" decoding="async"></div>
+            <div class="product-phone" aria-hidden="true"><img width="600" height="1146" src="images/hero-web-klima-mobile.webp" alt="" loading="lazy" decoding="async"></div>
           </a>
           <div class="tile-footnote">Yayındaki projemiz · Alanya Klima Temizliği <span aria-hidden="true">↗</span></div>
         </article>
@@ -397,7 +400,7 @@
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
             </button>
             <div class="carousel-counter">
-              <b id="active-idx">01</b> <span style="opacity:0.5">/</span> <span id="total-count">06</span>
+              <b id="active-idx">01</b> <span style="opacity:0.5">/</span> <span id="total-count">08</span>
             </div>
             <button class="carousel-arrow-btn" id="cc-next" aria-label="Sonraki Proje" title="Sonraki Proje">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
@@ -414,35 +417,35 @@
       <!-- KLASİK IZGARA GÖRÜNÜMÜ (SEÇİLDİĞİNDE AÇILIR) -->
       <div class="grid grid-3" id="portfolio" style="display:none">
         <article class="pcard" data-cat="web">
-          <button type="button" class="thumb" style="background:linear-gradient(135deg,#123a5e,#1c507d)" aria-pressed="false" aria-label="Alanya Ev Temizlik projesini öne çıkar"><img loading="lazy" src="images/alanyaevtemizlik-cover.svg" alt="Proje için hazırlanmış görsel sunum"></button>
+          <button type="button" class="thumb" style="background:linear-gradient(135deg,#123a5e,#1c507d)" aria-pressed="false" aria-label="Alanya Ev Temizlik projesini öne çıkar"><img width="1080" height="800" loading="lazy" src="images/alanyaevtemizlik-cover.webp" alt="Proje için hazırlanmış görsel sunum" decoding="async"></button>
           <div class="body"><span class="cat">Web Sitesi</span><h3>Alanya Ev Temizlik</h3><p>Ev ve ofis temizlik hizmetleri için SEO odaklı, mobil uyumlu tanıtım ve rezervasyon sitesi.</p><a class="res" href="https://alanyaevtemizlik.com.tr" target="_blank" rel="noopener">Siteyi ziyaret et →</a></div>
         </article>
         <article class="pcard" data-cat="web">
-          <button type="button" class="thumb" style="background:linear-gradient(135deg,#1c507d,#2b6699)" aria-pressed="false" aria-label="Alanya Çekici &amp; Çilingir projesini öne çıkar"><img loading="lazy" src="images/alanyacekicicilingir-cover.svg" alt="Proje için hazırlanmış görsel sunum"></button>
+          <button type="button" class="thumb" style="background:linear-gradient(135deg,#1c507d,#2b6699)" aria-pressed="false" aria-label="Alanya Çekici &amp; Çilingir projesini öne çıkar"><img width="1080" height="800" loading="lazy" src="images/alanyacekicicilingir-cover.webp" alt="Proje için hazırlanmış görsel sunum" decoding="async"></button>
           <div class="body"><span class="cat">Web Sitesi</span><h3>Alanya Çekici & Çilingir</h3><p>7/24 acil çekici ve çilingir hizmetleri için hızlı erişimli yerel hizmet sitesi.</p><a class="res" href="https://alanyacekicicilingir.com.tr" target="_blank" rel="noopener">Siteyi ziyaret et →</a></div>
         </article>
         <article class="pcard" data-cat="web">
-          <button type="button" class="thumb" style="background:linear-gradient(135deg,#123a5e,#26608f)" aria-pressed="false" aria-label="Manavgat Ev Temizlik projesini öne çıkar"><img loading="lazy" src="images/manavgatevtemizlik-cover.svg" alt="Proje için hazırlanmış görsel sunum"></button>
+          <button type="button" class="thumb" style="background:linear-gradient(135deg,#123a5e,#26608f)" aria-pressed="false" aria-label="Manavgat Ev Temizlik projesini öne çıkar"><img width="1080" height="800" loading="lazy" src="images/manavgatevtemizlik-cover.webp" alt="Proje için hazırlanmış görsel sunum" decoding="async"></button>
           <div class="body"><span class="cat">Web Sitesi</span><h3>Manavgat Ev Temizlik</h3><p>Yerel SEO ile bölgesel temizlik hizmetlerini öne çıkaran tanıtım sitesi.</p><a class="res" href="https://manavgatevtemizlik.com.tr" target="_blank" rel="noopener">Siteyi ziyaret et →</a></div>
         </article>
         <article class="pcard" data-cat="web">
-          <button type="button" class="thumb" style="background:linear-gradient(135deg,#1c507d,#123a5e)" aria-pressed="false" aria-label="Kıbrıs Ev Temizlik projesini öne çıkar"><img loading="lazy" src="images/kibrisevtemizlik-cover.svg" alt="Proje için hazırlanmış görsel sunum"></button>
+          <button type="button" class="thumb" style="background:linear-gradient(135deg,#1c507d,#123a5e)" aria-pressed="false" aria-label="Kıbrıs Ev Temizlik projesini öne çıkar"><img width="1080" height="800" loading="lazy" src="images/kibrisevtemizlik-cover.webp" alt="Proje için hazırlanmış görsel sunum" decoding="async"></button>
           <div class="body"><span class="cat">Web Sitesi</span><h3>Kıbrıs Ev Temizlik</h3><p>Kıbrıs bölgesi için hizmet tanıtımı ve iletişim odaklı kurumsal site.</p><a class="res" href="https://kıbrısevtemizlik.com.tr" target="_blank" rel="noopener">Siteyi ziyaret et →</a></div>
         </article>
         <article class="pcard" data-cat="web">
-          <button type="button" class="thumb" style="background:linear-gradient(135deg,#123a5e,#1c507d)" aria-pressed="false" aria-label="Alanya Klima Temizliği projesini öne çıkar"><img loading="lazy" src="images/alanyaklimatemizligi-cover.svg" alt="Proje için hazırlanmış görsel sunum"></button>
+          <button type="button" class="thumb" style="background:linear-gradient(135deg,#123a5e,#1c507d)" aria-pressed="false" aria-label="Alanya Klima Temizliği projesini öne çıkar"><img width="1080" height="800" loading="lazy" src="images/alanyaklimatemizligi-cover.webp" alt="Proje için hazırlanmış görsel sunum" decoding="async"></button>
           <div class="body"><span class="cat">Web Sitesi</span><h3>Alanya Klima Temizliği</h3><p>Klima bakım ve temizlik hizmetleri için dönüşüm odaklı yerel web sitesi.</p><a class="res" href="https://alanyaklimatemizligi.com" target="_blank" rel="noopener">Siteyi ziyaret et →</a></div>
         </article>
         <article class="pcard" data-cat="kurumsal">
-          <button type="button" class="thumb" style="background:linear-gradient(135deg,#1c507d,#2b6699)" aria-pressed="false" aria-label="Eliva Digital projesini öne çıkar"><img loading="lazy" src="images/elivadigital-cover.svg" alt="Proje için hazırlanmış görsel sunum"></button>
+          <button type="button" class="thumb" style="background:linear-gradient(135deg,#1c507d,#2b6699)" aria-pressed="false" aria-label="Eliva Digital projesini öne çıkar"><img width="1080" height="800" loading="lazy" src="images/elivadigital-cover.webp" alt="Proje için hazırlanmış görsel sunum" decoding="async"></button>
           <div class="body"><span class="cat">Kurumsal / Ajans</span><h3>Eliva Digital</h3><p>Dijital ajans için kurumsal tanıtım sitesi ve hizmet vitrini.</p><a class="res" href="https://elivadigital.com.tr" target="_blank" rel="noopener">Siteyi ziyaret et →</a></div>
         </article>
         <article class="pcard" data-cat="kurumsal">
-          <button type="button" class="thumb" style="background:linear-gradient(135deg,#0a1f18,#14362b)" aria-pressed="false" aria-label="Eliva Moss projesini öne çıkar"><img loading="lazy" src="images/elivamoss-cover.svg" alt="Proje için hazırlanmış görsel sunum"></button>
+          <button type="button" class="thumb" style="background:linear-gradient(135deg,#0a1f18,#14362b)" aria-pressed="false" aria-label="Eliva Moss projesini öne çıkar"><img loading="lazy" src="images/elivamoss-cover.svg" alt="Proje için hazırlanmış görsel sunum" decoding="async"></button>
           <div class="body"><span class="cat">Biyofilik Tasarım & Kurumsal</span><h3>Eliva Moss</h3><p>Bakım gerektirmeyen stabilize yosun duvar panoları ve dikey bahçe tasarımları için lüks ürün vitrini.</p><a class="res" href="https://elivamoss.com.tr" target="_blank" rel="noopener">Siteyi ziyaret et →</a></div>
         </article>
         <article class="pcard" data-cat="kurumsal">
-          <button type="button" class="thumb" style="background:linear-gradient(135deg,#070c18,#0f1b33)" aria-pressed="false" aria-label="Beyonder projesini öne çıkar"><img loading="lazy" src="images/beyonder-cover.svg" alt="Proje için hazırlanmış görsel sunum"></button>
+          <button type="button" class="thumb" style="background:linear-gradient(135deg,#070c18,#0f1b33)" aria-pressed="false" aria-label="Beyonder projesini öne çıkar"><img loading="lazy" src="images/beyonder-cover.svg" alt="Proje için hazırlanmış görsel sunum" decoding="async"></button>
           <div class="body"><span class="cat">Vitrin Sitesi / Portfolyo</span><h3>Beyonder</h3><p>Yeni nesil etkileşimli deneyimler ve ajans işlerimizi sunduğumuz özel vitrin platformu.</p><a class="res" href="https://beyonder.com.tr" target="_blank" rel="noopener">Siteyi ziyaret et →</a></div>
         </article>
       </div>
@@ -535,210 +538,11 @@
     </div>
     <div class="foot-bottom">
       <span>© 2026 Temel Technology. Tüm hakları saklıdır.</span>
-      <span>Gizlilik Politikası · Kullanım Şartları</span>
+      <span>Yazılım · Tasarım · Dijital reklam</span>
     </div>
   </div>
 </footer>
 
-<script src="circular-carousel.js"></script>
-<script>
-  // PORTFOLIO DATA
-  const PORTFOLIO_DATA = [
-    {
-      title: 'Alanya Ev Temizlik',
-      category: 'Web Sitesi',
-      catKey: 'web',
-      desc: 'Ev ve ofis temizlik hizmetleri için SEO odaklı, mobil uyumlu tanıtım ve rezervasyon sitesi.',
-      url: 'https://alanyaevtemizlik.com.tr',
-      image: 'images/alanyaevtemizlik-cover.svg'
-    },
-    {
-      title: 'Alanya Çekici & Çilingir',
-      category: 'Web Sitesi',
-      catKey: 'web',
-      desc: '7/24 acil çekici ve çilingir hizmetleri için hızlı erişimli yerel hizmet sitesi.',
-      url: 'https://alanyacekicicilingir.com.tr',
-      image: 'images/alanyacekicicilingir-cover.svg'
-    },
-    {
-      title: 'Manavgat Ev Temizlik',
-      category: 'Web Sitesi',
-      catKey: 'web',
-      desc: 'Yerel SEO ile bölgesel temizlik hizmetlerini öne çıkaran tanıtım sitesi.',
-      url: 'https://manavgatevtemizlik.com.tr',
-      image: 'images/manavgatevtemizlik-cover.svg'
-    },
-    {
-      title: 'Kıbrıs Ev Temizlik',
-      category: 'Web Sitesi',
-      catKey: 'web',
-      desc: 'Kıbrıs bölgesi için hizmet tanıtımı ve iletişim odaklı kurumsal site.',
-      url: 'https://kıbrısevtemizlik.com.tr',
-      image: 'images/kibrisevtemizlik-cover.svg'
-    },
-    {
-      title: 'Alanya Klima Temizliği',
-      category: 'Web Sitesi',
-      catKey: 'web',
-      desc: 'Klima bakım ve temizlik hizmetleri için dönüşüm odaklı yerel web sitesi.',
-      url: 'https://alanyaklimatemizligi.com',
-      image: 'images/alanyaklimatemizligi-cover.svg'
-    },
-    {
-      title: 'Eliva Digital',
-      category: 'Kurumsal / Ajans',
-      catKey: 'kurumsal',
-      desc: 'Dijital ajans için kurumsal tanıtım sitesi ve hizmet vitrini.',
-      url: 'https://elivadigital.com.tr',
-      image: 'images/elivadigital-cover.svg'
-    },
-    {
-      title: 'Eliva Moss',
-      category: 'Biyofilik Tasarım & Kurumsal',
-      catKey: 'kurumsal',
-      desc: 'Bakım gerektirmeyen stabilize yosun duvar panoları ve dikey bahçe tasarımları için lüks ürün vitrini.',
-      url: 'https://elivamoss.com.tr',
-      image: 'images/elivamoss-cover.svg'
-    },
-    {
-      title: 'Beyonder',
-      category: 'Vitrin Sitesi / Portfolyo',
-      catKey: 'kurumsal',
-      desc: 'Yeni nesil etkileşimli deneyimler ve ajans işlerimizi sunduğumuz özel vitrin platformu.',
-      url: 'https://beyonder.com.tr',
-      image: 'images/beyonder-cover.svg'
-    }
-  ];
 
-  // DOM REFERANSLARI
-  const activeCat = document.getElementById('active-cat');
-  const activeTitle = document.getElementById('active-title');
-  const activeDesc = document.getElementById('active-desc');
-  const activeLink = document.getElementById('active-link');
-  const activeIdx = document.getElementById('active-idx');
-  const totalCount = document.getElementById('total-count');
-
-  function updateActiveInfo(index, item) {
-    if (!item) return;
-    activeCat.textContent = item.category;
-    activeTitle.textContent = item.title;
-    activeDesc.textContent = item.desc;
-    activeLink.href = item.url;
-    const total = (carousel && carousel.originalCount) ? carousel.originalCount : PORTFOLIO_DATA.length;
-    const current = (index % total) + 1;
-    activeIdx.textContent = String(current).padStart(2, '0');
-    totalCount.textContent = String(total).padStart(2, '0');
-  }
-
-  // CIRCULAR CAROUSEL BAŞLAT
-  const carousel = new CircularCarousel('#circular-carousel-mount', {
-    items: PORTFOLIO_DATA,
-    cardWidth: 320,
-    aspectRatio: 1.35,
-    gap: 32,
-    tilt: -5,
-    perspective: 2500,
-    speed: 10,
-    direction: 'left',
-    draggable: true,
-    momentum: 0.65,
-    snap: true,
-    pauseOnHover: true,
-    focusOnClick: true,
-    parallax: 0.25,
-    depthFade: 0.35,
-    fadeColor: '#e8e3f0',
-    innerShade: 0.7,
-    cornerRadius: 14,
-    onChange: (index, item) => {
-      updateActiveInfo(index, item);
-    }
-  });
-
-  updateActiveInfo(0, PORTFOLIO_DATA[0]);
-
-  // OK BUTONLARI
-  document.getElementById('cc-prev').addEventListener('click', () => carousel.prev());
-  document.getElementById('cc-next').addEventListener('click', () => carousel.next());
-
-  // FİLTRELEME
-  const fbtns = document.querySelectorAll('.filters button');
-  const cards = document.querySelectorAll('#portfolio .pcard');
-  function selectGridCard(selected) {
-    cards.forEach(card => {
-      const active = card === selected;
-      card.classList.toggle('is-selected', active);
-      card.querySelector('.thumb').setAttribute('aria-pressed', String(active));
-    });
-  }
-  cards.forEach(card => {
-    card.querySelector('.thumb').addEventListener('click', () => selectGridCard(card));
-  });
-  fbtns.forEach(b => {
-    b.addEventListener('click', () => {
-      fbtns.forEach(x => x.classList.remove('active'));
-      b.classList.add('active');
-      const f = b.dataset.f;
-      selectGridCard(null);
-
-      const filtered = f === 'all'
-        ? PORTFOLIO_DATA
-        : PORTFOLIO_DATA.filter(item => item.catKey === f);
-
-      carousel.setItems(filtered);
-      updateActiveInfo(0, filtered[0]);
-
-      cards.forEach(c => {
-        c.style.display = (f === 'all' || c.dataset.cat === f) ? '' : 'none';
-      });
-    });
-  });
-
-  // GÖRÜNÜM GEÇİŞİ (3D Vitrin / Izgara)
-  const viewCarouselBtn = document.getElementById('view-carousel-btn');
-  const viewGridBtn = document.getElementById('view-grid-btn');
-  const carouselViewContainer = document.getElementById('carousel-view-container');
-  const portfolioGrid = document.getElementById('portfolio');
-
-  viewCarouselBtn.addEventListener('click', () => {
-    carouselViewContainer.style.display = '';
-    portfolioGrid.style.display = 'none';
-    viewCarouselBtn.style.background = '#fff';
-    viewCarouselBtn.style.color = 'var(--navy)';
-    viewCarouselBtn.style.boxShadow = '0 2px 6px rgba(0,0,0,0.06)';
-    viewGridBtn.style.background = 'transparent';
-    viewGridBtn.style.color = 'var(--muted)';
-    viewGridBtn.style.boxShadow = 'none';
-    carousel.measure();
-    carousel.wake();
-  });
-
-  viewGridBtn.addEventListener('click', () => {
-    carouselViewContainer.style.display = 'none';
-    portfolioGrid.style.display = 'grid';
-    viewGridBtn.style.background = '#fff';
-    viewGridBtn.style.color = 'var(--navy)';
-    viewGridBtn.style.boxShadow = '0 2px 6px rgba(0,0,0,0.06)';
-    viewCarouselBtn.style.background = 'transparent';
-    viewCarouselBtn.style.color = 'var(--muted)';
-    viewCarouselBtn.style.boxShadow = 'none';
-  });
-
-  // tüm teklif/iletişim butonları her ortamda çalışsın (güvence)
-  document.querySelectorAll('a[href="teklif-formu.html"]').forEach(a => {
-    a.style.cursor = 'pointer';
-    a.addEventListener('click', e => { e.preventDefault(); window.location.href = 'teklif-formu.html'; });
-  });
-
-  // iç bağlantılar (menü) yumuşak kaydırma güvencesi
-  document.querySelectorAll('a[href^="#"]').forEach(a => {
-    a.addEventListener('click', e => {
-      const id = a.getAttribute('href');
-      if (id.length > 1) { const t = document.querySelector(id); if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth' }); } }
-    });
-  });
-
-
-</script>
 </body>
 </html>

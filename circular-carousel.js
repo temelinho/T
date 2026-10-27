@@ -22,7 +22,6 @@
 
   const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
   const wrap = degrees => ((((degrees + 180) % 360) + 360) % 360) - 180;
-  const easeOut = t => 1 - Math.pow(1 - t, 4);
 
   const rotateX = (p, degrees) => {
     const r = degrees * TO_RAD;
@@ -95,7 +94,9 @@
       this.cardRefs = [];
       this.emphasis = [];
       this.raf = null;
-      this.visible = true;
+      this.visible = false;
+      this.frameHandler = this.frame.bind(this);
+      this.viewportWidth = window.innerWidth;
       this.motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
 
       this.initDOM();
@@ -106,6 +107,7 @@
       this.measure();
       this.ready = true;
       this.root.setAttribute('data-ready', '');
+      this.render(performance.now());
       this.wake();
     }
 
@@ -202,8 +204,6 @@
 
     createTileElement(item, tile, back) {
       const r = 'var(--cc-radius)';
-      const isFirst = tile.index === 0;
-      const isLast  = tile.index === tile.total - 1;
 
       // Arka yüz için ters sıra (mirror)
       const strip = back ? tile.total - 1 - tile.index : tile.index;
@@ -227,7 +227,7 @@
       tileDiv.setAttribute('aria-hidden', 'true');
 
       const frame = document.createElement('div');
-      frame.className = 'circular-carousel__frame';
+      frame.className = 'circular-carousel__frame' + (back ? ' circular-carousel__frame--back' : '');
       frame.style.width        = `${tile.size}px`;
       frame.style.height       = `${this.cardH}px`;
       frame.style.borderRadius = frameRadius;
@@ -239,7 +239,8 @@
       img.src = item.image || item.src;
       img.alt = item.title || '';
       img.draggable = false;
-      img.loading = 'lazy';
+      img.loading = 'eager';
+      img.decoding = 'async';
       img.style.position = 'absolute';
       img.style.left     = `${-offset}px`;
       img.style.top      = '0px';
@@ -251,33 +252,7 @@
       img.style.pointerEvents = 'none';
       frame.appendChild(img);
 
-      // 2. Browser bar (Ön yüzde ve arka yüzde ilk dilime)
-      if (item.url) {
-        const bar = document.createElement('div');
-        bar.className = 'circular-carousel__bar';
-        bar.style.width = `${this.cardW}px`;
-        bar.style.left = `${-offset}px`;
-        bar.innerHTML = `
-          <div class="circular-carousel__bar-dot" style="background:#ff5f56"></div>
-          <div class="circular-carousel__bar-dot" style="background:#ffbd2e"></div>
-          <div class="circular-carousel__bar-dot" style="background:#27c93f"></div>
-          <span class="circular-carousel__bar-url">${item.url.replace(/^https?:\/\//, '')}</span>
-        `;
-        frame.appendChild(bar);
-      }
-
-      // 3. Arka yüz gölgelendirmesi (silindirin iç kısmındaki derinlik efekti)
-      if (back) {
-        const inner = document.createElement('div');
-        inner.className = 'circular-carousel__inner';
-        frame.appendChild(inner);
-      }
-
-      // 4. Derinlik solma katmanı (arkadaki kartlar için kademeli geçiş)
-      const shade = document.createElement('div');
-      shade.className = 'circular-carousel__shade';
-      frame.appendChild(shade);
-
+      // Browser chrome is baked into the cover. Shading uses two CSS pseudo-elements.
       tileDiv.appendChild(frame);
       return tileDiv;
     }
@@ -286,6 +261,7 @@
       this.ring.innerHTML = '';
       this.cardRefs = [];
       this.emphasis = this.items.map(() => 0);
+      this.cardCache = this.items.map(() => ({}));
 
       this.items.forEach((item, index) => {
         const card = document.createElement('div');
@@ -439,7 +415,11 @@
       const isMobile = window.innerWidth <= 640;
       const activeIdx = ((Math.round(-state.angle / this.step) % this.count) + this.count) % this.count || 0;
 
-      this.camera.style.transform = `translate3d(0, 0, ${-R}px) rotateX(${s.tilt + state.pitch}deg) rotateY(${state.yaw}deg)`;
+      const cameraTransform = `translate3d(0, 0, ${-R}px) rotateX(${(s.tilt + state.pitch).toFixed(3)}deg) rotateY(${state.yaw.toFixed(3)}deg)`;
+      if (this.cameraTransform !== cameraTransform) {
+        this.camera.style.transform = cameraTransform;
+        this.cameraTransform = cameraTransform;
+      }
       this.ring.style.transform = `rotateY(${angle}deg)`;
 
       for (let index = 0; index < this.count; index++) {
@@ -455,15 +435,26 @@
         const scale = (1 + (isMobile ? 0.12 : 0.16) * emphasis) * (pressed ? 0.99 : 1);
         const lean = (isMobile ? -4 : -5) * emphasis;
         // Scale and lean around the bottom edge, like lifting a card off a desk.
-        card.style.transform = `rotateY(${base}deg) translateZ(${R + depth}px) translateY(${this.cardH / 2 - lift + (pressed ? 3 : 0)}px) rotateX(${lean}deg) scale(${scale}) translateY(${-this.cardH / 2}px)`;
+        const transform = `rotateY(${base}deg) translateZ(${R + depth}px) translateY(${this.cardH / 2 - lift + (pressed ? 3 : 0)}px) rotateX(${lean}deg) scale(${scale}) translateY(${-this.cardH / 2}px)`;
+        const cached = this.cardCache[index];
+        if (cached.transform !== transform) {
+          card.style.transform = transform;
+          cached.transform = transform;
+        }
         const selected = index === state.selected;
-        if (card.getAttribute('aria-pressed') !== String(selected)) {
+        if (cached.selected !== selected) {
+          cached.selected = selected;
           card.setAttribute('aria-pressed', String(selected));
         }
-        card.tabIndex = index === activeIdx ? 0 : -1;
+        const tabIndex = index === activeIdx ? 0 : -1;
+        if (cached.tabIndex !== tabIndex) { card.tabIndex = tabIndex; cached.tabIndex = tabIndex; }
 
         const fade = s.depthFade * Math.pow((1 - facing) / 2, 1.25);
-        card.style.setProperty('--cc-depth', fade.toFixed(3));
+        const depthShade = fade.toFixed(3);
+        if (cached.depthShade !== depthShade) {
+          card.style.setProperty('--cc-depth', depthShade);
+          cached.depthShade = depthShade;
+        }
       }
 
       if (activeIdx !== this.active) {
@@ -482,7 +473,7 @@
       this.render(now);
 
       if (busy && this.visible && !document.hidden) {
-        this.raf = requestAnimationFrame(this.frame.bind(this));
+        this.raf = requestAnimationFrame(this.frameHandler);
       } else {
         this.state.last = 0;
       }
@@ -490,8 +481,14 @@
 
     wake() {
       if (!this.raf && this.visible && !document.hidden) {
-        this.raf = requestAnimationFrame(this.frame.bind(this));
+        this.raf = requestAnimationFrame(this.frameHandler);
       }
+    }
+
+    stop() {
+      cancelAnimationFrame(this.raf);
+      this.raf = null;
+      this.state.last = 0;
     }
 
     focusIndex(index) {
@@ -682,6 +679,8 @@
       });
 
       const onResize = () => {
+        if (window.innerWidth === this.viewportWidth) return;
+        this.viewportWidth = window.innerWidth;
         this.calculateDimensions();
         this.buildTiles();
         this.renderCards();
@@ -693,7 +692,9 @@
         cancelAnimationFrame(resizeFrame);
         resizeFrame = requestAnimationFrame(onResize);
       });
-      document.addEventListener('visibilitychange', () => { if (!document.hidden) this.wake(); });
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) this.stop(); else this.wake();
+      });
       this.motionQuery.addEventListener('change', () => this.wake());
       root.tabIndex = 0;
       root.setAttribute('role', 'region');
@@ -714,7 +715,7 @@
 
       const io = new IntersectionObserver(([entry]) => {
         this.visible = entry.isIntersecting;
-        if (this.visible) this.wake();
+        if (this.visible) this.wake(); else this.stop();
       });
       io.observe(root);
     }

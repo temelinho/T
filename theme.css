@@ -205,9 +205,11 @@ section{padding:84px 0}
 }
 
 /* A readable front card on phones; the ring continues beyond the viewport. */
+#circular-carousel-mount{height:440px}
 @media(max-width:640px){
   #carousel-view-container{width:calc(100% + 44px);margin-inline:-22px}
   #carousel-view-container .circular-carousel{height:clamp(300px,88vw,480px)}
+  #circular-carousel-mount{height:clamp(300px,88vw,480px)}
   #carousel-view-container .carousel-active-info{padding-inline:22px}
   .carousel-hint{font-size:10px;line-height:1.6}
 }

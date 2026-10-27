@@ -126,55 +126,24 @@
   -webkit-user-drag: none;
 }
 
-.circular-carousel__shade,
-.circular-carousel__inner {
+.circular-carousel__frame::after,
+.circular-carousel__frame--back::before {
+  content: '';
   position: absolute;
   inset: 0;
   pointer-events: none;
 }
 
-.circular-carousel__shade {
+.circular-carousel__frame::after {
+  z-index: 2;
   background: var(--cc-fade);
   opacity: var(--cc-depth, 0);
-  transition: opacity 0.15s ease;
 }
 
-.circular-carousel__inner {
+.circular-carousel__frame--back::before {
+  z-index: 1;
   background: #000000;
   opacity: var(--cc-inner);
-}
-
-/* Kartın üst simülasyon barı (Web Browser Bar) */
-.circular-carousel__bar {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 24px;
-  background: rgb(18, 58, 94);
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  padding: 0 8px;
-  z-index: 2;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-}
-
-.circular-carousel__bar-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.4);
-}
-
-.circular-carousel__bar-url {
-  margin-left: 6px;
-  font-size: 10px;
-  color: rgba(255, 255, 255, 0.75);
-  font-family: ui-monospace, Menlo, Consolas, monospace;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 /* Alt panel: Aktif Kart Bilgisi, Link ve Kontroller */
