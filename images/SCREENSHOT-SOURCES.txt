@@ -1,0 +1,32 @@
+Hero screenshot sources — updated 2026-10-27
+
+WEB
+https://alanyaklimatemizligi.com
+Real mobile and desktop captures. Files: hero-web-klima-mobile.jpg, hero-web-klima-desktop.jpg.
+
+GOOGLE MAPS
+User-provided link: https://share.google/tDwCWmuGkTOJjURBa
+Business: Güneş Klima Bakım ve Temizliği
+Verified website: alanyaklimatemizligi.com
+Verified telephone: 0534 350 36 30
+Exact place URL: https://www.google.com/maps/place/G%C3%BCne%C5%9F+Klima+Bak%C4%B1m+ve+Temizli%C4%9Fi/@36.5060409,31.8838263,11z/data=!4m10!1m2!2m1!1zR8O8bmXFnyBLbGltYSBCYWvEsW0gdmUgVGVtaXpsacSfaSBBbGFueWE!3m6!1s0x84c1e802452830cb:0xa5624ee1b1cabe40!8m2!3d36.5060409!4d32.023902!15sCilHw7xuZcWfIEtsaW1hIEJha8SxbSB2ZSBUZW1pemxpxJ9pIEFsYW55YVorIilnw7xuZcWfIGtsaW1hIGJha8SxbSB2ZSB0ZW1pemxpxJ9pIGFsYW55YZIBH2Fpcl9jb25kaXRpb25pbmdfcmVwYWlyX3NlcnZpY2WaAURDaTlEUVVsUlFVTnZaRU5vZEhsalJqbHZUMnRGTW1GV1VsQmtlVEY1VlRGT1NsUklTa3RWVmxsNlZXeFdiMVV4UlJBQuABAPoBBAgAED0!16s%2Fg%2F11zcnll08h?hl=tr&entry=ttu&g_ep=EgoyMDI2MTAyMC4wIKXMDSoASAFQAw%3D%3D
+Real profile capture. A transient sidebar help tooltip was hidden; business details and Google attribution were retained.
+File: hero-maps-gunes-klima.jpg.
+
+WHATSAPP
+Current official listing: https://play.google.com/store/apps/details?id=com.whatsapp&hl=tr
+Source image: https://play-lh.googleusercontent.com/4MNDGrK_p75r_7WaFVrIf9Tb3nyEuBvddLUpG47sxydvQnucti3QGPLjc01t_49YGxUPyaBKAgXcI_FEB8y_=w1052-h592-rw
+File: hero-whatsapp-current.webp. Displays the white-header Turkish Chats screen published in the listing on 2026-10-27, clipped to its app content with CSS. This is a current published store illustration; no specific installed app build is claimed.
+
+INSTAGRAM
+https://www.instagram.com/instagram/
+Real public mobile profile capture taken 2026-10-27 after dismissing the login prompt.
+File: hero-instagram-real.jpg. Third-party service example; not a client account or endorsement.
+
+MOBILE APP
+https://play.google.com/store/apps/details?id=trendyol.com&hl=tr
+File: hero-app-trendyol.webp.
+Trendyol's official LUXE application promotional screenshot, retrieved 2026-10-27.
+The app area is displayed in the hero phone with CSS clipping; the external promotional frame is excluded.
+Presented as a third-party app example, not a Temel Technology client project.
+Source image: https://play-lh.googleusercontent.com/0TQ9ZGJ1QCm8OYzAQ9qtimUmybdiLZZPiAUhXZKb546D8RXDokMc40-w5tikCgyHZuERlaH-f4BcOuQ2R6g1=w526-h296-rw

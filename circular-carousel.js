@@ -13,8 +13,8 @@
 (function (window) {
   'use strict';
 
-  const TILES = 4;      // 4 dilim = belirgin kıvrım, seam yok
-  const OVERLAP = 8;    // Büyük overlap → dilimlerin arasında boşluk kalmaz
+  const TILES = 12;
+  const OVERLAP = 0.6;
   const DRAG_THRESHOLD = 5;
   const SPRING = 118;
   const SETTLE_SPEED = 9;
@@ -76,6 +76,7 @@
         angle: 0,
         velocity: 0,
         target: null,
+        selected: null,
         dir: this.options.direction === 'right' ? 1 : -1,
         press: null,
         drag: false,
@@ -91,8 +92,10 @@
       };
 
       this.cardRefs = [];
+      this.emphasis = [];
       this.raf = null;
       this.visible = true;
+      this.motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
 
       this.initDOM();
       this.calculateDimensions();
@@ -159,7 +162,7 @@
       let baseWidth = this.options.cardWidth;
 
       if (isMobile) {
-        baseWidth = Math.min(260, window.innerWidth - 60);
+        baseWidth = Math.min(460, window.innerWidth - 48);
       } else if (isTablet) {
         baseWidth = 280;
       }
@@ -177,7 +180,7 @@
     }
 
     buildTiles() {
-      const total = TILES;
+      const total = window.innerWidth <= 640 ? 8 : TILES;
       const length = this.along / total;
       const bend = this.radius;
 
@@ -218,7 +221,8 @@
       tileDiv.style.top    = `${-this.cardH / 2}px`;
       tileDiv.style.width  = `${tile.size}px`;
       tileDiv.style.height = `${this.cardH}px`;
-      tileDiv.style.transform = tile.move + (back ? ' rotateY(180deg)' : '');
+      // Ön yüz +0.5px, arka yüz 180deg çevrilip +0.5px öne (z-fighting önleme)
+      tileDiv.style.transform = tile.move + (back ? ' rotateY(180deg) translateZ(0.5px)' : ' translateZ(0.5px)');
       tileDiv.setAttribute('aria-hidden', 'true');
 
       const frame = document.createElement('div');
@@ -226,50 +230,52 @@
       frame.style.width        = `${tile.size}px`;
       frame.style.height       = `${this.cardH}px`;
       frame.style.borderRadius = frameRadius;
-      // Kritik: overflow hidden — görüntü dilim dışına taşmasın
       frame.style.overflow = 'hidden';
 
-      if (!back) {
-        const img = document.createElement('img');
-        img.className = 'circular-carousel__photo';
-        img.src = item.image || item.src;
-        img.alt = '';
-        img.draggable = false;
-        img.loading = 'lazy';
-        // Görseli tam kart genişliğinde, dilim kaydırmasıyla konumla
-        img.style.position = 'absolute';
-        img.style.left     = `${-offset}px`;
-        img.style.top      = '0px';
-        img.style.width    = `${this.cardW}px`;
-        img.style.height   = `${this.cardH}px`;
-        img.style.maxWidth = 'none';
-        img.style.objectFit   = 'cover';
-        img.style.userSelect  = 'none';
-        img.style.pointerEvents = 'none';
-        frame.appendChild(img);
+      // 1. Görsel (Hem ön hem arka yüze eklenir - React Bits gibi silindirin arkasında görsel görünür)
+      const img = document.createElement('img');
+      img.className = 'circular-carousel__photo';
+      img.src = item.image || item.src;
+      img.alt = item.title || '';
+      img.draggable = false;
+      img.loading = 'lazy';
+      img.style.position = 'absolute';
+      img.style.left     = `${-offset}px`;
+      img.style.top      = '0px';
+      img.style.width    = `${this.cardW}px`;
+      img.style.height   = `${this.cardH}px`;
+      img.style.maxWidth = 'none';
+      img.style.objectFit   = 'cover';
+      img.style.userSelect  = 'none';
+      img.style.pointerEvents = 'none';
+      frame.appendChild(img);
 
-        // Browser bar sadece ilk (en sol) dilime
-        if (item.url && isFirst) {
-          const bar = document.createElement('div');
-          bar.className = 'circular-carousel__bar';
-          bar.style.width = `${this.cardW}px`; // tam kart genişliği
-          bar.innerHTML = `
-            <div class="circular-carousel__bar-dot" style="background:#ff5f56"></div>
-            <div class="circular-carousel__bar-dot" style="background:#ffbd2e"></div>
-            <div class="circular-carousel__bar-dot" style="background:#27c93f"></div>
-            <span class="circular-carousel__bar-url">${item.url.replace(/^https?:\/\//, '')}</span>
-          `;
-          frame.appendChild(bar);
-        }
+      // 2. Browser bar (Ön yüzde ve arka yüzde ilk dilime)
+      if (item.url) {
+        const bar = document.createElement('div');
+        bar.className = 'circular-carousel__bar';
+        bar.style.width = `${this.cardW}px`;
+        bar.style.left = `${-offset}px`;
+        bar.innerHTML = `
+          <div class="circular-carousel__bar-dot" style="background:#ff5f56"></div>
+          <div class="circular-carousel__bar-dot" style="background:#ffbd2e"></div>
+          <div class="circular-carousel__bar-dot" style="background:#27c93f"></div>
+          <span class="circular-carousel__bar-url">${item.url.replace(/^https?:\/\//, '')}</span>
+        `;
+        frame.appendChild(bar);
+      }
 
-        const shade = document.createElement('div');
-        shade.className = 'circular-carousel__shade';
-        frame.appendChild(shade);
-      } else {
+      // 3. Arka yüz gölgelendirmesi (silindirin iç kısmındaki derinlik efekti)
+      if (back) {
         const inner = document.createElement('div');
         inner.className = 'circular-carousel__inner';
         frame.appendChild(inner);
       }
+
+      // 4. Derinlik solma katmanı (arkadaki kartlar için kademeli geçiş)
+      const shade = document.createElement('div');
+      shade.className = 'circular-carousel__shade';
+      frame.appendChild(shade);
 
       tileDiv.appendChild(frame);
       return tileDiv;
@@ -278,20 +284,23 @@
     renderCards() {
       this.ring.innerHTML = '';
       this.cardRefs = [];
+      this.emphasis = this.items.map(() => 0);
 
       this.items.forEach((item, index) => {
         const card = document.createElement('div');
         card.className = 'circular-carousel__card';
         card.setAttribute('data-cc-index', index);
-        card.setAttribute('role', 'group');
-        card.setAttribute('aria-label', item.title || `Proje ${index + 1}`);
+        card.setAttribute('role', 'button');
+        card.setAttribute('aria-label', `${item.title || `Proje ${index + 1}`} projesini öne çıkar`);
+        card.setAttribute('aria-pressed', String(index === this.state.selected));
+        card.tabIndex = index === this.active ? 0 : -1;
 
         // Ön yüz dilimleri
         this.tiles.forEach(tile => {
           card.appendChild(this.createTileElement(item, tile, false));
         });
 
-        // Arka yüz dilimleri (silindirik derinlik etkisi)
+        // Arka yüz dilimleri (React Bits: layout.backfaces — arkadaki kartların da görünmesi için)
         this.tiles.forEach(tile => {
           card.appendChild(this.createTileElement(item, tile, true));
         });
@@ -337,7 +346,12 @@
 
       const spanX = Math.max(maxX - minX, 1);
       const spanY = Math.max(maxY - minY, 1);
-      const fit = Math.min(1, width / spanX, height / spanY);
+      // On phones, frame the front card instead of shrinking the entire ring.
+      // The clipped neighbours keep the curved carousel visible at a readable size.
+      const isMobile = window.innerWidth <= 640;
+      const fit = isMobile
+        ? Math.min(1, rect.width * 0.76 / this.cardW, height / (this.cardH * 1.2 + 44))
+        : Math.min(1, width / spanX, height / spanY);
 
       this.state.fit = fit;
       this.state.shift = -((minY + maxY) / 2) * fit;
@@ -353,34 +367,40 @@
     advance(dt, now) {
       const s = this.options;
       const state = this.state;
-      const paused = (s.pauseOnHover && state.hover) || state.drag || now < state.holdUntil;
-      const cruise = !paused ? s.speed * state.dir : 0;
+      const paused = state.selected !== null || (s.pauseOnHover && state.hover) || state.drag || now < state.holdUntil;
+      const cruise = !paused && !this.motionQuery.matches ? s.speed * state.dir : 0;
       let busy = state.drag;
 
       if (state.drag) {
         state.velocity = state.velocity;
       } else if (state.target !== null) {
-        let remaining = dt;
-        const damping = 2 * Math.sqrt(SPRING);
-        while (remaining > 0) {
-          const h = Math.min(remaining, 1 / 240);
-          const accel = SPRING * (state.target - state.angle) - damping * state.velocity;
-          state.velocity += accel * h;
-          state.angle += state.velocity * h;
-          remaining -= h;
-        }
-        if (Math.abs(state.target - state.angle) < 0.005 && Math.abs(state.velocity) < 0.04) {
+        if (this.motionQuery.matches) {
           state.angle = state.target;
           state.velocity = 0;
           state.target = null;
+        } else {
+          let remaining = dt;
+          const damping = 2 * Math.sqrt(SPRING);
+          while (remaining > 0) {
+            const h = Math.min(remaining, 1 / 240);
+            const accel = SPRING * (state.target - state.angle) - damping * state.velocity;
+            state.velocity += accel * h;
+            state.angle += state.velocity * h;
+            remaining -= h;
+          }
+          if (Math.abs(state.target - state.angle) < 0.005 && Math.abs(state.velocity) < 0.04) {
+            state.angle = state.target;
+            state.velocity = 0;
+            state.target = null;
+          }
+          busy = true;
         }
-        busy = true;
       } else {
         const tau = 0.18 + s.momentum * 1.5;
         state.velocity += (cruise - state.velocity) * (1 - Math.exp(-dt / tau));
         state.angle += state.velocity * dt;
 
-        if (cruise === 0 && s.snap && Math.abs(state.velocity) < SETTLE_SPEED) {
+        if (cruise === 0 && s.snap && Math.abs(state.velocity) < SETTLE_SPEED && Math.abs(state.angle - this.nearest(state.angle)) > 0.005) {
           state.target = this.nearest(state.angle);
         }
         busy = busy || cruise !== 0 || Math.abs(state.velocity) > 0.01 || state.target !== null;
@@ -389,12 +409,21 @@
       if (now < state.holdUntil) busy = true;
 
       const ease = 1 - Math.exp(-dt / 0.35);
-      const aimYaw = state.pointer.inside ? state.pointer.x * s.parallax * 9 : 0;
-      const aimPitch = state.pointer.inside ? -state.pointer.y * s.parallax * 6 : 0;
+      const parallaxEnabled = state.pointer.inside && state.selected === null && !this.motionQuery.matches;
+      const aimYaw = parallaxEnabled ? state.pointer.x * s.parallax * 9 : 0;
+      const aimPitch = parallaxEnabled ? -state.pointer.y * s.parallax * 6 : 0;
       state.yaw += (aimYaw - state.yaw) * ease;
       state.pitch += (aimPitch - state.pitch) * ease;
 
       if (Math.abs(aimYaw - state.yaw) > 0.01 || Math.abs(aimPitch - state.pitch) > 0.01) busy = true;
+
+      const focusEase = 1 - Math.exp(-dt / 0.16);
+      this.emphasis.forEach((value, index) => {
+        const target = index === state.selected ? 1 : 0;
+        const next = this.motionQuery.matches ? target : value + (target - value) * focusEase;
+        this.emphasis[index] = Math.abs(target - next) < 0.001 ? target : next;
+        if (this.emphasis[index] !== target) busy = true;
+      });
 
       return busy;
     }
@@ -404,6 +433,8 @@
       const state = this.state;
       const angle = state.angle;
       const R = this.radius;
+      const isMobile = window.innerWidth <= 640;
+      const activeIdx = ((Math.round(-state.angle / this.step) % this.count) + this.count) % this.count || 0;
 
       this.camera.style.transform = `translate3d(0, 0, ${-R}px) rotateX(${s.tilt + state.pitch}deg) rotateY(${state.yaw}deg)`;
       this.ring.style.transform = `rotateY(${angle}deg)`;
@@ -412,15 +443,23 @@
         const card = this.cardRefs[index];
         if (!card) continue;
         const base = index * this.step;
-        card.style.transform = `rotateY(${base}deg) translateZ(${R}px)`;
-
         const world = wrap(base + angle);
         const facing = Math.cos(world * TO_RAD);
+        const emphasis = this.emphasis[index] || 0;
+        const lift = (isMobile ? 27 : 38) * emphasis;
+        const depth = (isMobile ? 55 : 100) * emphasis;
+        const scale = 1 + (isMobile ? 0.12 : 0.16) * emphasis;
+        card.style.transform = `rotateY(${base}deg) translateZ(${R + depth}px) translateY(${-lift}px) scale(${scale})`;
+        const selected = index === state.selected;
+        if (card.getAttribute('aria-pressed') !== String(selected)) {
+          card.setAttribute('aria-pressed', String(selected));
+        }
+        card.tabIndex = index === activeIdx ? 0 : -1;
+
         const fade = s.depthFade * Math.pow((1 - facing) / 2, 1.25);
         card.style.setProperty('--cc-depth', fade.toFixed(3));
       }
 
-      const activeIdx = ((Math.round(-state.angle / this.step) % this.count) + this.count) % this.count || 0;
       if (activeIdx !== this.active) {
         this.active = activeIdx;
         if (typeof s.onChange === 'function') {
@@ -451,25 +490,31 @@
 
     focusIndex(index) {
       const state = this.state;
+      index = ((index % this.count) + this.count) % this.count;
       let target = -index * this.step;
       target += 360 * Math.round((state.angle - target) / 360);
+      state.selected = index;
       state.target = target;
-      state.holdUntil = performance.now() + 3000;
+      state.velocity = 0;
+      state.holdUntil = 0;
+      this.root.setAttribute('data-selected', '');
+      this.wake();
+    }
+
+    clearFocus() {
+      this.state.selected = null;
+      this.root.removeAttribute('data-selected');
       this.wake();
     }
 
     next() {
       const base = this.state.target ?? Math.round(this.state.angle / this.step) * this.step;
-      this.state.target = base - this.step;
-      this.state.holdUntil = performance.now() + 2500;
-      this.wake();
+      this.focusIndex(Math.round(-base / this.step) + 1);
     }
 
     prev() {
       const base = this.state.target ?? Math.round(this.state.angle / this.step) * this.step;
-      this.state.target = base + this.step;
-      this.state.holdUntil = performance.now() + 2500;
-      this.wake();
+      this.focusIndex(Math.round(-base / this.step) - 1);
     }
 
     setItems(newItems) {
@@ -480,6 +525,9 @@
       this.state.angle = 0;
       this.state.target = null;
       this.state.velocity = 0;
+      this.state.selected = null;
+      this.state.holdUntil = 0;
+      this.root.removeAttribute('data-selected');
       this.calculateDimensions();
       this.buildTiles();
       this.renderCards();
@@ -509,7 +557,7 @@
       };
 
       const onPointerMove = e => {
-        if (e.pointerType === 'mouse') {
+        if (e.pointerType === 'mouse' && (root.contains(e.target) || state.press)) {
           state.pointer.inside = true;
           const rect = root.getBoundingClientRect();
           state.pointer.x = clamp(((e.clientX - rect.left) / rect.width) * 2 - 1, -1, 1);
@@ -518,7 +566,7 @@
 
         const press = state.press;
         if (!press || press.id !== e.pointerId) {
-          this.wake();
+          if (root.contains(e.target)) this.wake();
           return;
         }
 
@@ -534,6 +582,7 @@
           press.moved = true;
           press.origin = delta;
           state.drag = true;
+          this.clearFocus();
           state.target = null;
           state.velocity = 0;
           this.dragging = true;
@@ -603,7 +652,10 @@
           return;
         }
         const card = e.target.closest('[data-cc-index]');
-        if (!card) return;
+        if (!card) {
+          this.clearFocus();
+          return;
+        }
         const index = Number(card.getAttribute('data-cc-index'));
         if (this.options.focusOnClick) {
           this.focusIndex(index);
@@ -620,7 +672,29 @@
         this.measure();
         this.wake();
       };
-      window.addEventListener('resize', onResize);
+      let resizeFrame;
+      window.addEventListener('resize', () => {
+        cancelAnimationFrame(resizeFrame);
+        resizeFrame = requestAnimationFrame(onResize);
+      });
+      document.addEventListener('visibilitychange', () => { if (!document.hidden) this.wake(); });
+      this.motionQuery.addEventListener('change', () => this.wake());
+      root.tabIndex = 0;
+      root.setAttribute('role', 'region');
+      root.setAttribute('aria-label', 'Proje vitrini. Ok tuşlarıyla gezinin, Enter ile kartı büyütün, Escape ile seçimi kaldırın.');
+      root.addEventListener('keydown', e => {
+        if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+          e.preventDefault();
+          e.key === 'ArrowRight' ? this.next() : this.prev();
+        } else if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          const card = e.target.closest('[data-cc-index]');
+          this.focusIndex(card ? Number(card.dataset.ccIndex) : this.active);
+        } else if (e.key === 'Escape') {
+          e.preventDefault();
+          this.clearFocus();
+        }
+      });
 
       const io = new IntersectionObserver(([entry]) => {
         this.visible = entry.isIntersecting;

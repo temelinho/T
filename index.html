@@ -17,10 +17,6 @@
 <meta property="og:image" content="https://temelinho.github.io/T/kurumsal-teknoloji-hero-bg-v4.webp">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://temelinho.github.io/T/kurumsal-teknoloji-hero-bg-v4.webp">
-<link rel="preload" as="image" href="kurumsal-teknoloji-hero-bg-v4.webp" type="image/webp">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="circular-carousel.css">
 <!-- Structured data -->
 <script type="application/ld+json">
@@ -201,13 +197,18 @@
     .cta-band{padding:40px 24px}
   }
 </style>
+<link rel="icon" href="images/temel-favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="hero.css">
+<script src="hero.js" defer></script>
+<link rel="stylesheet" href="theme.css">
+<script src="navigation.js" defer></script>
 </head>
 <body>
 
 <header>
   <div class="wrap nav">
-    <a href="#" class="logo"><span class="mark"><svg viewBox="0 0 48 48" width="36" height="36" aria-hidden="true"><defs><linearGradient id="ttg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3a7cb8"/><stop offset="1" stop-color="#123a5e"/></linearGradient></defs><path d="M24 3 42 13.5 42 34.5 24 45 6 34.5 6 13.5Z" fill="url(#ttg)"/><rect x="13.5" y="15" width="21" height="4.3" rx="1.2" fill="#fff"/><rect x="21.85" y="15" width="4.3" height="17.5" rx="1.2" fill="#fff"/><path d="M27.6 20.6 35.4 13.2" stroke="#9fcbee" stroke-width="2.6" stroke-linecap="round"/><path d="M30.8 12.8 35.9 12.8 35.9 17.9" stroke="#9fcbee" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></span> Temel Technology</a>
-    <nav><ul class="menu">
+    <a href="#" class="logo"><span class="mark"><img src="images/temel-mark.svg" width="42" height="42" alt=""></span><span class="brand-name">temel<span>TECHNOLOGY</span></span></a>
+    <nav><ul class="menu" id="site-menu">
       <li><a href="#hizmetler">Yazılım</a></li>
       <li><a href="#reklam">Reklam</a></li>
       <li><a href="#islerimiz">İşlerimiz</a></li>
@@ -218,37 +219,41 @@
     <div class="nav-cta">
       <span class="lang">TR</span>
       <a href="teklif-formu.html" class="btn btn-primary">Teklif Al</a>
-      <button class="burger" aria-label="Menü"><span></span><span></span><span></span></button>
+      <button class="burger" aria-label="Menüyü aç" aria-controls="site-menu" aria-expanded="false"><span></span><span></span><span></span></button>
     </div>
   </div>
 </header>
 
 <main>
   <!-- HERO -->
-  <section class="hero" style="padding-top:76px">
+  <section class="hero">
     <div class="wrap">
       <div class="hero-grid">
         <div class="hero-copy">
-          <span class="proof"><span class="dot"></span> <b>8+</b> işletmeyi dijitalde büyüttük</span>
-          <h1>Yazılımınızı kuruyor, <em>reklamınızı</em> yönetiyoruz.</h1>
-          <p class="lead">Firmanıza özel web ve mobil yazılımlar geliştiriyor; aynı zamanda Google, sosyal medya ve haritalar üzerinden reklamlarınızı yönetiyoruz. Hem ürününüzü kuruyor hem müşteriye ulaştırıyoruz.</p>
+          <span class="proof">Yazılım. Reklam. Birlikte.</span>
+          <h1>Dijitalde.<br><em>Bir adım ötesi.</em></h1>
+          <p class="lead">Web’den mobile, Instagram’dan müşterinize.<br>İşletmenizin tüm dijital dünyası, tek ekipte.</p>
           <div class="hero-actions">
-            <a href="teklif-formu.html" class="btn btn-primary">Ücretsiz Teklif Al →</a>
+            <a href="teklif-formu.html" class="btn btn-primary">Projenizi Konuşalım ↗</a>
             <a href="#islerimiz" class="btn btn-ghost">İşlerimizi Görün</a>
           </div>
           <div class="stats">
-            <div class="stat"><div class="n">8+</div><div class="l">Yayında web projesi</div></div>
+            <div class="stat"><div class="n">8+</div><div class="l">Onlarca proje</div></div>
             <div class="stat"><div class="n">%100</div><div class="l">Kaynak kod sizin</div></div>
             <div class="stat"><div class="n">7/24</div><div class="l">Destek &amp; bakım</div></div>
           </div>
         </div>
-        <div class="hero-visual">
-          <div class="shots">
-            <figure class="shot shot-a"><span class="tagchip">Yazılım</span><img loading="lazy" src="images/promo-yazilim.webp" alt="Web ve mobil yazılım geliştirme"><figcaption><b>Web & Mobil Yazılım</b><span>Firmanıza özel, ölçeklenebilir</span></figcaption></figure>
-            <figure class="shot shot-b"><span class="tagchip">Reklam</span><img loading="lazy" src="images/promo-reklam.webp" alt="Dijital reklam ve pazarlama"><figcaption><b>Dijital Reklam</b><span>Google & sosyal medya</span></figcaption></figure>
-            <figure class="shot shot-c"><span class="tagchip">Büyüme</span><img loading="lazy" src="images/promo-seo.webp" alt="SEO ve organik büyüme"><figcaption><b>SEO & Büyüme</b><span>Kalıcı görünürlük</span></figcaption></figure>
-          </div>
-        </div>
+        <div class="hero-visual ecosystem" aria-label="Yazılım ve reklam hizmetleri vitrini">
+  <div class="ecosystem-heading"><span class="ecosystem-dot"></span> BİR MARKA. TÜM DİJİTAL DÜNYASI.<span class="ecosystem-number">03 / 05</span><button class="showcase-autoplay" type="button" aria-pressed="true" aria-label="Otomatik geçişi duraklat">Ⅱ</button></div>
+  <div class="device-stage" aria-label="Örnek işletme ekranları. Kaydırarak hizmetleri keşfedin.">
+    <div class="desktop-preview" aria-hidden="true"><div class="desktop-top"><i></i><i></i><i></i><span>alanyaklimatemizligi.com</span></div><img class="real-desktop-screen" src="images/hero-web-klima-desktop.jpg" width="1280" height="720" alt="" decoding="async" draggable="false"></div>
+    <article class="device device-instagram is-active" data-channel="instagram" aria-label="Instagram resmî hesabının gerçek ekranı"><div class="phone-hardware"><div class="phone-status"><span>9:41</span><i class="dynamic-island"></i><span class="status-signals">▮▮▮ ▰</span></div><div class="phone-content screen-instagram"><img class="real-instagram-screen" src="images/hero-instagram-real.jpg" width="780" height="1490" alt="Instagram resmî instagram profilinin gerçek ekran görüntüsü; doğrulanmış hesap, hikâyeler ve gönderiler" fetchpriority="high" decoding="async" draggable="false"></div><div class="home-indicator"></div></div></article><article class="device device-whatsapp" data-channel="whatsapp" aria-label="WhatsApp örnek ekranı"><div class="phone-hardware"><div class="phone-status"><span>9:41</span><i class="dynamic-island"></i><span class="status-signals">▮▮▮ ▰</span></div><div class="phone-content screen-whatsapp"><div class="official-whatsapp-crop"><img class="official-whatsapp-source" src="images/hero-whatsapp-current.webp" width="1080" height="1920" alt="WhatsApp’ın güncel resmî Google Play görselindeki Türkçe sohbetler ekranı" decoding="async" draggable="false"></div></div><div class="home-indicator"></div></div></article><article class="device device-maps" data-channel="maps" aria-label="Google Haritalar örnek ekranı"><div class="phone-hardware"><div class="phone-status"><span>9:41</span><i class="dynamic-island"></i><span class="status-signals">▮▮▮ ▰</span></div><div class="phone-content screen-maps"><img class="real-maps-screen" src="images/hero-maps-gunes-klima.jpg" width="860" height="1646" alt="Güneş Klima Bakım ve Temizliği işletmesinin gerçek Google Haritalar profili" decoding="async" draggable="false"></div><div class="home-indicator"></div></div></article><article class="device device-app" data-channel="app" aria-label="Trendyol gerçek uygulama görseli"><div class="phone-hardware"><div class="phone-status"><span>9:41</span><i class="dynamic-island"></i><span class="status-signals">▮▮▮ ▰</span></div><div class="phone-content screen-app"><div class="real-app-crop"><img class="real-app-source" src="images/hero-app-trendyol.webp" width="1080" height="2347" alt="Trendyol uygulamasının resmî mağaza görselindeki LUXE alışveriş ekranı; ürün fotoğrafları ve uygulama menüsü" loading="eager" decoding="async" draggable="false"></div></div><div class="home-indicator"></div></div></article><article class="device device-web" data-channel="web" aria-label="Web Sitesi örnek ekranı"><div class="phone-hardware"><div class="phone-status"><span>9:41</span><i class="dynamic-island"></i><span class="status-signals">▮▮▮ ▰</span></div><div class="phone-content screen-web"><div class="mobile-url">⌑ &nbsp; alanyaklimatemizligi.com <span>↻</span></div><img class="real-web-screen" src="images/hero-web-klima-mobile.jpg" width="780" height="1490" alt="Alanya Klima Temizliği sitesinin gerçek mobil ekran görüntüsü" loading="eager" decoding="async" draggable="false"></div><div class="home-indicator"></div></div></article>
+    <div class="ecosystem-stamp" aria-hidden="true"><span>✦</span> TASARIM + YAZILIM + REKLAM</div>
+  </div>
+  <div class="service-selector" role="group" aria-label="Dijital hizmetleri keşfedin"><button type="button" data-service="web" aria-pressed="false" aria-label="Web sitesi geliştirme">Web</button><button type="button" data-service="app" aria-pressed="false" aria-label="Mobil uygulama geliştirme">Mobil</button><button type="button" data-service="instagram" aria-pressed="true" aria-label="Instagram ve reklam yönetimi">Instagram</button><button type="button" data-service="whatsapp" aria-pressed="false" aria-label="WhatsApp iletişim çözümleri">WhatsApp</button><button type="button" data-service="maps" aria-pressed="false" aria-label="Google Haritalar işletme profili">Haritalar</button></div>
+  <div class="service-caption"><span class="service-line"></span><p id="service-description" aria-live="polite">Instagram’da görünür olun, reklamlarla doğru kitleye ulaşın.</p></div>
+  <p class="demo-note"><a href="https://www.instagram.com/instagram/" target="_blank" rel="noopener noreferrer">@instagram · Resmî profilin gerçek ekranı ↗</a></p>
+</div>
       </div>
     </div>
   </section>
@@ -256,32 +261,55 @@
   <!-- SERVICES -->
   <section id="hizmetler">
     <div class="wrap">
-      <div class="sec-head">
-        <div class="eyebrow">Yazılım Hizmetleri</div>
-        <h2>İhtiyacınıza göre uçtan uca çözümler</h2>
-        <p>Küçük bir siteden karmaşık kurumsal yazılıma kadar, her ölçekte projeyi hayata geçiriyoruz.</p>
+      <div class="section-heading-row">
+        <div class="sec-head">
+          <div class="eyebrow">Yazılım & Tasarım</div>
+          <h2>İyi tasarım.<br>Güçlü yazılım.</h2>
+          <p>İlk izlenimden günlük kullanıma, her ayrıntısı işletmeniz için düşünülmüş dijital ürünler.</p>
+        </div>
+        <a class="text-link" href="teklif-formu.html">Birlikte geliştirelim <span aria-hidden="true">↗</span></a>
       </div>
-      <div class="grid grid-4">
-        <div class="scard">
-          <div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="14" rx="2"/><path d="M8 20h8M12 18v2"/></svg></div>
-          <h3>Web & Mobil Uygulama</h3>
-          <p>Kurumsal siteler, web uygulamaları ve iOS/Android mobil uygulamalar.</p>
-        </div>
-        <div class="scard">
-          <div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l7 4v6c0 5-3 8-7 10-4-2-7-5-7-10V6l7-4z"/></svg></div>
-          <h3>Kurumsal Yazılım</h3>
-          <p>ERP, CRM, otomasyon ve işletmenize özel yönetim panelleri.</p>
-        </div>
-        <div class="scard">
-          <div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 002 1.6h9.7a2 2 0 002-1.6L23 6H6"/></svg></div>
-          <h3>E-ticaret</h3>
-          <p>Online mağaza, ödeme/kargo entegrasyonu ve pazaryeri bağlantıları.</p>
-        </div>
-        <div class="scard">
-          <div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7V4h16v3M9 20h6M12 4v16"/></svg></div>
-          <h3>Bireysel Projeler</h3>
-          <p>Kişisel siteler, portföyler ve girişimler için hızlı MVP çözümleri.</p>
-        </div>
+      <div class="solution-grid">
+        <article class="service-tile web-tile">
+          <div class="tile-copy">
+            <span class="tile-kicker">Web & Mobil</span>
+            <h3>Her ekranda.<br>Aynı özen.</h3>
+            <p>Hızlı web siteleri ve iOS / Android uygulamaları. Güzel görünen, kolay kullanılan deneyimler.</p>
+          </div>
+          <a class="web-product" href="https://alanyaklimatemizligi.com" target="_blank" rel="noopener noreferrer" aria-label="Alanya Klima Temizliği gerçek projesini ziyaret edin">
+            <div class="product-browser">
+              <div class="product-browser-bar"><span aria-hidden="true">● ● ●</span><span>alanyaklimatemizligi.com</span><span aria-hidden="true">↗</span></div>
+              <img src="images/hero-web-klima-desktop.jpg" width="1280" height="720" alt="Alanya Klima Temizliği için hazırladığımız web sitesinin masaüstü görünümü" loading="lazy" decoding="async">
+            </div>
+            <div class="product-phone" aria-hidden="true"><img src="images/hero-web-klima-mobile.jpg" width="780" height="1490" alt="" loading="lazy" decoding="async"></div>
+          </a>
+          <div class="tile-footnote">Yayındaki projemiz · Alanya Klima Temizliği <span aria-hidden="true">↗</span></div>
+        </article>
+        <article class="service-tile system-tile">
+          <div class="tile-copy">
+            <span class="tile-kicker">İşletmenize Özel Yazılım</span>
+            <h3>Bir arada.<br>Kontrol sizde.</h3>
+            <p>Müşteri, sipariş ve operasyon süreçlerinizi birbirine bağlayan yönetim sistemleri.</p>
+          </div>
+          <div class="system-map" aria-label="Müşteriler, siparişler, operasyon ve raporlama tek sistemde">
+            <div class="system-module"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3"/><path d="M5 21v-3a7 7 0 0 1 14 0v3"/></svg><span>Müşteriler</span></div>
+            <div class="system-module"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="5" width="14" height="16" rx="3"/><path d="M9 5V3h6v2M9 11h6M9 15h4"/></svg><span>Siparişler</span></div>
+            <div class="system-core" aria-hidden="true"><img src="images/temel-mark.svg" width="42" height="42" alt=""></div>
+            <div class="system-module"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="6" height="6" rx="1.5"/><rect x="15" y="15" width="6" height="6" rx="1.5"/><path d="M15 6h3v6M6 12v6h3"/></svg><span>Operasyon</span></div>
+            <div class="system-module"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20V10M12 20V4M19 20v-7"/></svg><span>Raporlama</span></div>
+          </div>
+          <a class="text-link" href="teklif-formu.html">İşinize özel çözümü konuşalım <span aria-hidden="true">↗</span></a>
+        </article>
+        <a class="service-tile compact-tile" href="teklif-formu.html">
+          <span class="compact-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2l2.5 12h11L21 7H6M9 21h.01M18 21h.01"/></svg></span>
+          <div><h3>Mağazanız, her yerde.</h3><p>E-ticaret, ödeme ve kargo entegrasyonları.</p></div>
+          <span class="tile-arrow" aria-hidden="true">↗</span>
+        </a>
+        <a class="service-tile compact-tile" href="teklif-formu.html">
+          <span class="compact-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 5-6 7 6 7m8-14 6 7-6 7m-3-16-2 18"/></svg></span>
+          <div><h3>Bir fikirle başlar.</h3><p>Girişimler, kişisel siteler ve ilk ürününüz.</p></div>
+          <span class="tile-arrow" aria-hidden="true">↗</span>
+        </a>
       </div>
     </div>
   </section>
@@ -289,32 +317,35 @@
   <!-- ADVERTISING -->
   <section id="reklam" class="soft">
     <div class="wrap">
-      <div class="sec-head">
-        <div class="eyebrow">Dijital Reklam & Pazarlama</div>
-        <h2>Ürününüzü doğru müşteriye ulaştırıyoruz</h2>
-        <p>Sadece yazılımınızı kurmakla kalmıyor, Google'dan sosyal medyaya kadar reklamlarınızı yönetip işinizi büyütüyoruz.</p>
+      <div class="section-heading-row">
+        <div class="sec-head">
+          <div class="eyebrow">Dijital Reklam & Pazarlama</div>
+          <h2>Doğru yerde.<br>Doğru insanların önünde.</h2>
+          <p>Web siteniz, sosyal medyanız ve reklamlarınız aynı hedef için birlikte çalışsın.</p>
+        </div>
+        <a class="text-link" href="teklif-formu.html">Markanızı büyütelim <span aria-hidden="true">↗</span></a>
       </div>
-      <div class="grid grid-4">
-        <div class="scard">
-          <div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.3-4.3"/></svg></div>
-          <h3>Google Ads</h3>
-          <p>Arama ve görüntülü reklamlarla, sizi arayan müşterilerin karşısına çıkın.</p>
+      <div class="reach-panel">
+        <div class="reach-copy">
+          <span class="tile-kicker">Birbirine Bağlı Bir Deneyim</span>
+          <h3>Keşiften<br>ilk mesaja.</h3>
+          <p>Müşteriniz sizi Google’da bulsun, Instagram’da tanısın, web sitenizi incelesin. WhatsApp’tan size kolayca ulaşsın.</p>
+          <div class="journey-labels"><span>Keşif</span><i aria-hidden="true">→</i><span>İlgi</span><i aria-hidden="true">→</i><span>İletişim</span></div>
         </div>
-        <div class="scard">
-          <div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></div>
-          <h3>Sosyal Medya Reklamları</h3>
-          <p>Instagram, Facebook ve TikTok'ta hedef kitlenize özel kampanyalar.</p>
+        <div class="channel-network" aria-label="Web siteniz Google, Instagram, Haritalar ve WhatsApp ile bağlantılı">
+          <div class="network-ring" aria-hidden="true"></div>
+          <div class="network-center"><img src="images/temel-mark.svg" width="48" height="48" alt=""><span>Markanız</span></div>
+          <div class="channel-node node-google"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg><span>Google</span></div>
+          <div class="channel-node node-instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/></svg><span>Instagram</span></div>
+          <div class="channel-node node-maps"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0Z"/><circle cx="12" cy="10" r="2.5"/></svg><span>Haritalar</span></div>
+          <div class="channel-node node-whatsapp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 11.5a9 9 0 0 1-13.5 7.8L3 21l1.7-4.5A9 9 0 1 1 21 11.5Z"/><path d="M8 8c0 4 4 8 8 8l1-2-3-1-1 1-3-3 1-1-1-3Z"/></svg><span>WhatsApp</span></div>
         </div>
-        <div class="scard">
-          <div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
-          <h3>Google Haritalar & Yerel İşletme</h3>
-          <p>Google Business Profile ile haritalarda üst sıralarda çıkın, yorum toplayın.</p>
-        </div>
-        <div class="scard">
-          <div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/></svg></div>
-          <h3>SEO & İçerik</h3>
-          <p>Arama motorlarında organik büyüme için teknik SEO ve içerik stratejisi.</p>
-        </div>
+      </div>
+      <div class="reach-grid">
+        <article><span class="service-index">01</span><h3>Google Ads</h3><p>Sizi arayan müşterilere ulaşan arama ve görüntülü reklamlar.</p></article>
+        <article><span class="service-index">02</span><h3>Sosyal medya</h3><p>Instagram, Facebook ve TikTok için içerik ve kampanya yönetimi.</p></article>
+        <article><span class="service-index">03</span><h3>Haritalar & Yerel SEO</h3><p>Güncel işletme profiliyle yakınınızdaki müşteriler için görünür olun.</p></article>
+        <article><span class="service-index">04</span><h3>SEO & İçerik</h3><p>Teknik iyileştirmeler ve markanıza özel içerikle organik görünürlük.</p></article>
       </div>
     </div>
   </section>
@@ -375,7 +406,7 @@
 
           <div class="carousel-hint">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 9l-3 3 3 3M19 9l3 3-3 3M2 12h20"/></svg>
-            <span>Kartları mouse veya parmağınızla tutup sürükleyebilirsiniz</span>
+            <span>Kaydırarak keşfedin. Bir karta dokunun, öne gelsin.</span>
           </div>
         </div>
       </div>
@@ -383,35 +414,35 @@
       <!-- KLASİK IZGARA GÖRÜNÜMÜ (SEÇİLDİĞİNDE AÇILIR) -->
       <div class="grid grid-3" id="portfolio" style="display:none">
         <article class="pcard" data-cat="web">
-          <div class="thumb" style="background:linear-gradient(135deg,#123a5e,#1c507d)"><div class="pbar"><s></s><s></s><s></s><em>alanyaevtemizlik.com.tr</em></div><img loading="lazy" src="images/alanyaevtemizlik.webp" alt="Alanya Ev Temizlik web sitesi ekran görüntüsü"></div>
+          <div class="thumb" style="background:linear-gradient(135deg,#123a5e,#1c507d)"><div class="pbar"><s></s><s></s><s></s><em>alanyaevtemizlik.com.tr</em></div><img loading="lazy" src="images/alanyaevtemizlik-cover.svg" alt="Proje için hazırlanmış görsel sunum"></div>
           <div class="body"><span class="cat">Web Sitesi</span><h3>Alanya Ev Temizlik</h3><p>Ev ve ofis temizlik hizmetleri için SEO odaklı, mobil uyumlu tanıtım ve rezervasyon sitesi.</p><a class="res" href="https://alanyaevtemizlik.com.tr" target="_blank" rel="noopener">Siteyi ziyaret et →</a></div>
         </article>
         <article class="pcard" data-cat="web">
-          <div class="thumb" style="background:linear-gradient(135deg,#1c507d,#2b6699)"><div class="pbar"><s></s><s></s><s></s><em>alanyacekicicilingir.com.tr</em></div><img loading="lazy" src="images/alanyacekicicilingir.webp" alt="Alanya Çekici Çilingir web sitesi ekran görüntüsü"></div>
+          <div class="thumb" style="background:linear-gradient(135deg,#1c507d,#2b6699)"><div class="pbar"><s></s><s></s><s></s><em>alanyacekicicilingir.com.tr</em></div><img loading="lazy" src="images/alanyacekicicilingir-cover.svg" alt="Proje için hazırlanmış görsel sunum"></div>
           <div class="body"><span class="cat">Web Sitesi</span><h3>Alanya Çekici & Çilingir</h3><p>7/24 acil çekici ve çilingir hizmetleri için hızlı erişimli yerel hizmet sitesi.</p><a class="res" href="https://alanyacekicicilingir.com.tr" target="_blank" rel="noopener">Siteyi ziyaret et →</a></div>
         </article>
         <article class="pcard" data-cat="web">
-          <div class="thumb" style="background:linear-gradient(135deg,#123a5e,#26608f)"><div class="pbar"><s></s><s></s><s></s><em>manavgatevtemizlik.com.tr</em></div><img loading="lazy" src="images/manavgatevtemizlik.webp" alt="Manavgat Ev Temizlik web sitesi ekran görüntüsü"></div>
+          <div class="thumb" style="background:linear-gradient(135deg,#123a5e,#26608f)"><div class="pbar"><s></s><s></s><s></s><em>manavgatevtemizlik.com.tr</em></div><img loading="lazy" src="images/manavgatevtemizlik-cover.svg" alt="Proje için hazırlanmış görsel sunum"></div>
           <div class="body"><span class="cat">Web Sitesi</span><h3>Manavgat Ev Temizlik</h3><p>Yerel SEO ile bölgesel temizlik hizmetlerini öne çıkaran tanıtım sitesi.</p><a class="res" href="https://manavgatevtemizlik.com.tr" target="_blank" rel="noopener">Siteyi ziyaret et →</a></div>
         </article>
         <article class="pcard" data-cat="web">
-          <div class="thumb" style="background:linear-gradient(135deg,#1c507d,#123a5e)"><div class="pbar"><s></s><s></s><s></s><em>kıbrısevtemizlik.com.tr</em></div><img loading="lazy" src="images/kibrisevtemizlik.webp" alt="Kıbrıs Ev Temizlik web sitesi ekran görüntüsü"></div>
+          <div class="thumb" style="background:linear-gradient(135deg,#1c507d,#123a5e)"><div class="pbar"><s></s><s></s><s></s><em>kıbrısevtemizlik.com.tr</em></div><img loading="lazy" src="images/kibrisevtemizlik-cover.svg" alt="Proje için hazırlanmış görsel sunum"></div>
           <div class="body"><span class="cat">Web Sitesi</span><h3>Kıbrıs Ev Temizlik</h3><p>Kıbrıs bölgesi için hizmet tanıtımı ve iletişim odaklı kurumsal site.</p><a class="res" href="https://kıbrısevtemizlik.com.tr" target="_blank" rel="noopener">Siteyi ziyaret et →</a></div>
         </article>
         <article class="pcard" data-cat="web">
-          <div class="thumb" style="background:linear-gradient(135deg,#123a5e,#1c507d)"><div class="pbar"><s></s><s></s><s></s><em>alanyaklimatemizligi.com</em></div><img loading="lazy" src="images/alanyaklimatemizligi.webp" alt="Alanya Klima Temizliği web sitesi ekran görüntüsü"></div>
+          <div class="thumb" style="background:linear-gradient(135deg,#123a5e,#1c507d)"><div class="pbar"><s></s><s></s><s></s><em>alanyaklimatemizligi.com</em></div><img loading="lazy" src="images/alanyaklimatemizligi-cover.svg" alt="Proje için hazırlanmış görsel sunum"></div>
           <div class="body"><span class="cat">Web Sitesi</span><h3>Alanya Klima Temizliği</h3><p>Klima bakım ve temizlik hizmetleri için dönüşüm odaklı yerel web sitesi.</p><a class="res" href="https://alanyaklimatemizligi.com" target="_blank" rel="noopener">Siteyi ziyaret et →</a></div>
         </article>
         <article class="pcard" data-cat="kurumsal">
-          <div class="thumb" style="background:linear-gradient(135deg,#1c507d,#2b6699)"><div class="pbar"><s></s><s></s><s></s><em>elivadigital.com.tr</em></div><img loading="lazy" src="images/elivadigital.webp" alt="Eliva Digital web sitesi ekran görüntüsü"></div>
+          <div class="thumb" style="background:linear-gradient(135deg,#1c507d,#2b6699)"><div class="pbar"><s></s><s></s><s></s><em>elivadigital.com.tr</em></div><img loading="lazy" src="images/elivadigital-cover.svg" alt="Proje için hazırlanmış görsel sunum"></div>
           <div class="body"><span class="cat">Kurumsal / Ajans</span><h3>Eliva Digital</h3><p>Dijital ajans için kurumsal tanıtım sitesi ve hizmet vitrini.</p><a class="res" href="https://elivadigital.com.tr" target="_blank" rel="noopener">Siteyi ziyaret et →</a></div>
         </article>
         <article class="pcard" data-cat="kurumsal">
-          <div class="thumb" style="background:linear-gradient(135deg,#0a1f18,#14362b)"><div class="pbar"><s></s><s></s><s></s><em>elivamoss.com.tr</em></div><img loading="lazy" src="images/elivamoss.svg" alt="Eliva Moss web sitesi ekran görüntüsü"></div>
+          <div class="thumb" style="background:linear-gradient(135deg,#0a1f18,#14362b)"><div class="pbar"><s></s><s></s><s></s><em>elivamoss.com.tr</em></div><img loading="lazy" src="images/elivamoss-cover.svg" alt="Proje için hazırlanmış görsel sunum"></div>
           <div class="body"><span class="cat">Biyofilik Tasarım & Kurumsal</span><h3>Eliva Moss</h3><p>Bakım gerektirmeyen stabilize yosun duvar panoları ve dikey bahçe tasarımları için lüks ürün vitrini.</p><a class="res" href="https://elivamoss.com.tr" target="_blank" rel="noopener">Siteyi ziyaret et →</a></div>
         </article>
         <article class="pcard" data-cat="kurumsal">
-          <div class="thumb" style="background:linear-gradient(135deg,#070c18,#0f1b33)"><div class="pbar"><s></s><s></s><s></s><em>beyonder.com.tr</em></div><img loading="lazy" src="images/beyonder.svg" alt="Beyonder vitrin sitesi ekran görüntüsü"></div>
+          <div class="thumb" style="background:linear-gradient(135deg,#070c18,#0f1b33)"><div class="pbar"><s></s><s></s><s></s><em>beyonder.com.tr</em></div><img loading="lazy" src="images/beyonder-cover.svg" alt="Proje için hazırlanmış görsel sunum"></div>
           <div class="body"><span class="cat">Vitrin Sitesi / Portfolyo</span><h3>Beyonder</h3><p>Yeni nesil etkileşimli deneyimler ve ajans işlerimizi sunduğumuz özel vitrin platformu.</p><a class="res" href="https://beyonder.com.tr" target="_blank" rel="noopener">Siteyi ziyaret et →</a></div>
         </article>
       </div>
@@ -424,15 +455,15 @@
     <div class="wrap">
       <div class="sec-head">
         <div class="eyebrow">Nasıl Çalışıyoruz</div>
-        <h2>Şeffaf ve öngörülebilir bir süreç</h2>
-        <p>Her adımda ne olduğunu bilirsiniz. Sürprizsiz, net iletişimle ilerleriz.</p>
+        <h2>Fikirden yayına.<br>Her adım net.</h2>
+        <p>Tek bir ekip, açık iletişim. Başlarken de büyürken de yanınızdayız.</p>
       </div>
       <div class="steps">
-        <div class="stepc"><div class="num">1</div><h4>Keşif</h4><p>İhtiyacınızı ve hedeflerinizi birlikte netleştiririz.</p></div>
-        <div class="stepc"><div class="num">2</div><h4>Teklif</h4><p>Kapsam, süre ve şeffaf fiyatı içeren teklifi sunarız.</p></div>
-        <div class="stepc"><div class="num">3</div><h4>Tasarım</h4><p>Arayüz ve deneyimi onayınızla tasarlarız.</p></div>
-        <div class="stepc"><div class="num">4</div><h4>Geliştirme</h4><p>Test edilmiş, güvenli ve hızlı kodu yazarız.</p></div>
-        <div class="stepc"><div class="num">5</div><h4>Teslim & Destek</h4><p>Yayına alır, bakım ve destekle yanınızda oluruz.</p></div>
+        <div class="stepc"><div class="num">01</div><h4>Keşif</h4><p>İhtiyacınızı ve hedeflerinizi birlikte netleştiririz.</p></div>
+        <div class="stepc"><div class="num">02</div><h4>Teklif</h4><p>Kapsam, süre ve şeffaf fiyatı içeren teklifi sunarız.</p></div>
+        <div class="stepc"><div class="num">03</div><h4>Tasarım</h4><p>Arayüz ve deneyimi onayınızla tasarlarız.</p></div>
+        <div class="stepc"><div class="num">04</div><h4>Geliştirme</h4><p>Test edilmiş, güvenli ve hızlı kodu yazarız.</p></div>
+        <div class="stepc"><div class="num">05</div><h4>Teslim & Destek</h4><p>Yayına alır, bakım ve destekle yanınızda oluruz.</p></div>
       </div>
     </div>
   </section>
@@ -442,7 +473,7 @@
     <div class="wrap">
       <div class="sec-head">
         <div class="eyebrow">Neden Biz</div>
-        <h2>Uzun vadeli bir iş ortağı</h2>
+        <h2>İşinizi sahiplenen<br>bir teknoloji ekibi.</h2>
       </div>
       <div class="why-list">
         <div class="why-item"><span class="chk">✓</span><div><h4>Kodun sahibi sizsiniz</h4><p>Geliştirdiğimiz her şeyin tam sahipliği ve kaynak kodu size aittir.</p></div></div>
@@ -459,8 +490,9 @@
   <section>
     <div class="wrap">
       <div class="cta-band">
-        <h2>Projenizi konuşalım</h2>
-        <p>Birkaç dakikada ihtiyacınızı anlatın, size özel bir teklif hazırlayalım.</p>
+        <img class="cta-mark" src="images/temel-mark-light.svg" width="48" height="48" alt="">
+        <h2>Sıradaki güzel iş,<br>sizinki olsun.</h2>
+        <p>Fikrinizi anlatın. Tasarımını, yazılımını ve nasıl büyüyeceğini birlikte düşünelim.</p>
         <div class="hero-actions"><a href="teklif-formu.html" class="btn btn-primary">Ücretsiz Teklif Al →</a><a href="#iletisim" class="btn btn-light">İletişime Geç</a></div>
       </div>
     </div>
@@ -494,7 +526,7 @@
   <div class="wrap">
     <div class="foot-grid">
       <div class="foot-brand">
-        <a href="#" class="logo" style="color:#fff"><span class="mark"><svg viewBox="0 0 48 48" width="36" height="36" aria-hidden="true"><defs><linearGradient id="ttg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3a7cb8"/><stop offset="1" stop-color="#123a5e"/></linearGradient></defs><path d="M24 3 42 13.5 42 34.5 24 45 6 34.5 6 13.5Z" fill="url(#ttg)"/><rect x="13.5" y="15" width="21" height="4.3" rx="1.2" fill="#fff"/><rect x="21.85" y="15" width="4.3" height="17.5" rx="1.2" fill="#fff"/><path d="M27.6 20.6 35.4 13.2" stroke="#9fcbee" stroke-width="2.6" stroke-linecap="round"/><path d="M30.8 12.8 35.9 12.8 35.9 17.9" stroke="#9fcbee" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></span> Temel Technology</a>
+        <a href="#" class="logo" style="color:#fff"><span class="mark"><img src="images/temel-mark-light.svg" width="32" height="32" alt=""></span><span class="brand-name">temel<span>TECHNOLOGY</span></span></a>
         <p>Bireysel, kurumsal ve işletmeler için özel yazılım, web ve mobil uygulama çözümleri.</p>
       </div>
       <div><h4>Hizmetler</h4><ul><li><a href="#hizmetler">Yazılım Geliştirme</a></li><li><a href="#hizmetler">Web & Mobil</a></li><li><a href="#reklam">Google Ads</a></li><li><a href="#reklam">Sosyal Medya Reklamı</a></li><li><a href="#reklam">Google Haritalar</a></li></ul></div>
@@ -518,7 +550,7 @@
       catKey: 'web',
       desc: 'Ev ve ofis temizlik hizmetleri için SEO odaklı, mobil uyumlu tanıtım ve rezervasyon sitesi.',
       url: 'https://alanyaevtemizlik.com.tr',
-      image: 'images/alanyaevtemizlik.webp'
+      image: 'images/alanyaevtemizlik-cover.svg'
     },
     {
       title: 'Alanya Çekici & Çilingir',
@@ -526,7 +558,7 @@
       catKey: 'web',
       desc: '7/24 acil çekici ve çilingir hizmetleri için hızlı erişimli yerel hizmet sitesi.',
       url: 'https://alanyacekicicilingir.com.tr',
-      image: 'images/alanyacekicicilingir.webp'
+      image: 'images/alanyacekicicilingir-cover.svg'
     },
     {
       title: 'Manavgat Ev Temizlik',
@@ -534,7 +566,7 @@
       catKey: 'web',
       desc: 'Yerel SEO ile bölgesel temizlik hizmetlerini öne çıkaran tanıtım sitesi.',
       url: 'https://manavgatevtemizlik.com.tr',
-      image: 'images/manavgatevtemizlik.webp'
+      image: 'images/manavgatevtemizlik-cover.svg'
     },
     {
       title: 'Kıbrıs Ev Temizlik',
@@ -542,7 +574,7 @@
       catKey: 'web',
       desc: 'Kıbrıs bölgesi için hizmet tanıtımı ve iletişim odaklı kurumsal site.',
       url: 'https://kıbrısevtemizlik.com.tr',
-      image: 'images/kibrisevtemizlik.webp'
+      image: 'images/kibrisevtemizlik-cover.svg'
     },
     {
       title: 'Alanya Klima Temizliği',
@@ -550,7 +582,7 @@
       catKey: 'web',
       desc: 'Klima bakım ve temizlik hizmetleri için dönüşüm odaklı yerel web sitesi.',
       url: 'https://alanyaklimatemizligi.com',
-      image: 'images/alanyaklimatemizligi.webp'
+      image: 'images/alanyaklimatemizligi-cover.svg'
     },
     {
       title: 'Eliva Digital',
@@ -558,7 +590,7 @@
       catKey: 'kurumsal',
       desc: 'Dijital ajans için kurumsal tanıtım sitesi ve hizmet vitrini.',
       url: 'https://elivadigital.com.tr',
-      image: 'images/elivadigital.webp'
+      image: 'images/elivadigital-cover.svg'
     },
     {
       title: 'Eliva Moss',
@@ -566,7 +598,7 @@
       catKey: 'kurumsal',
       desc: 'Bakım gerektirmeyen stabilize yosun duvar panoları ve dikey bahçe tasarımları için lüks ürün vitrini.',
       url: 'https://elivamoss.com.tr',
-      image: 'images/elivamoss.svg'
+      image: 'images/elivamoss-cover.svg'
     },
     {
       title: 'Beyonder',
@@ -574,7 +606,7 @@
       catKey: 'kurumsal',
       desc: 'Yeni nesil etkileşimli deneyimler ve ajans işlerimizi sunduğumuz özel vitrin platformu.',
       url: 'https://beyonder.com.tr',
-      image: 'images/beyonder.svg'
+      image: 'images/beyonder-cover.svg'
     }
   ];
 
@@ -614,9 +646,9 @@
     pauseOnHover: true,
     focusOnClick: true,
     parallax: 0.25,
-    depthFade: 0.55,
-    fadeColor: '#0b2239',
-    innerShade: 0.5,
+    depthFade: 0.35,
+    fadeColor: '#e8e3f0',
+    innerShade: 0.7,
     cornerRadius: 14,
     onChange: (index, item) => {
       updateActiveInfo(index, item);
@@ -695,14 +727,7 @@
     });
   });
 
-  // mobile menu (basit)
-  document.querySelector('.burger').addEventListener('click', () => {
-    const m = document.querySelector('.menu');
-    m.style.display = m.style.display === 'flex' ? 'none' : 'flex';
-    m.style.position = 'absolute'; m.style.flexDirection = 'column'; m.style.background = '#fff';
-    m.style.top = '70px'; m.style.left = '0'; m.style.right = '0'; m.style.padding = '20px 24px';
-    m.style.borderBottom = '1px solid var(--line)'; m.style.gap = '16px';
-  });
+
 </script>
 </body>
 </html>

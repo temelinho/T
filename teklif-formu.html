@@ -6,9 +6,6 @@
 <title>Teklif Al | Temel Technology</title>
 <meta name="description" content="Projeniz için birkaç dakikada ücretsiz teklif alın. Bireysel, kurumsal ve işletme yazılım çözümleri.">
 <meta name="robots" content="index, follow">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
     --navy:#123a5e; --navy2:#1c507d; --ink:#0f2033; --body:#3f4d63; --muted:#6b7a90;
@@ -103,13 +100,16 @@
     .page-head h1{font-size:30px}.card{padding:26px 20px}
   }
 </style>
+<link rel="icon" href="images/temel-favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="theme.css">
+<script src="navigation.js" defer></script>
 </head>
 <body>
 
 <header>
   <div class="wrap nav">
-    <a href="index.html" class="logo"><span class="mark"><svg viewBox="0 0 48 48" width="36" height="36" aria-hidden="true"><defs><linearGradient id="ttg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3a7cb8"/><stop offset="1" stop-color="#123a5e"/></linearGradient></defs><path d="M24 3 42 13.5 42 34.5 24 45 6 34.5 6 13.5Z" fill="url(#ttg)"/><rect x="13.5" y="15" width="21" height="4.3" rx="1.2" fill="#fff"/><rect x="21.85" y="15" width="4.3" height="17.5" rx="1.2" fill="#fff"/><path d="M27.6 20.6 35.4 13.2" stroke="#9fcbee" stroke-width="2.6" stroke-linecap="round"/><path d="M30.8 12.8 35.9 12.8 35.9 17.9" stroke="#9fcbee" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></span> Temel Technology</a>
-    <nav><ul class="menu">
+    <a href="index.html" class="logo"><span class="mark"><img src="images/temel-mark.svg" width="32" height="32" alt=""></span><span class="brand-name">temel<span>TECHNOLOGY</span></span></a>
+    <nav><ul class="menu" id="site-menu">
       <li><a href="index.html#hizmetler">Yazılım</a></li>
       <li><a href="index.html#reklam">Reklam</a></li>
       <li><a href="index.html#islerimiz">İşlerimiz</a></li>
@@ -120,7 +120,7 @@
     <div class="nav-cta">
       <span class="lang">TR</span>
       <a href="index.html" class="btn btn-ghost">← Ana Sayfa</a>
-      <button class="burger" aria-label="Menü"><span></span><span></span><span></span></button>
+      <button class="burger" aria-label="Menüyü aç" aria-controls="site-menu" aria-expanded="false"><span></span><span></span><span></span></button>
     </div>
   </div>
 </header>
@@ -239,7 +239,7 @@
   <div class="wrap">
     <div class="foot-grid">
       <div class="foot-brand">
-        <a href="index.html" class="logo" style="color:#fff"><span class="mark"><svg viewBox="0 0 48 48" width="36" height="36" aria-hidden="true"><defs><linearGradient id="ttg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3a7cb8"/><stop offset="1" stop-color="#123a5e"/></linearGradient></defs><path d="M24 3 42 13.5 42 34.5 24 45 6 34.5 6 13.5Z" fill="url(#ttg)"/><rect x="13.5" y="15" width="21" height="4.3" rx="1.2" fill="#fff"/><rect x="21.85" y="15" width="4.3" height="17.5" rx="1.2" fill="#fff"/><path d="M27.6 20.6 35.4 13.2" stroke="#9fcbee" stroke-width="2.6" stroke-linecap="round"/><path d="M30.8 12.8 35.9 12.8 35.9 17.9" stroke="#9fcbee" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></span> Temel Technology</a>
+        <a href="index.html" class="logo" style="color:#fff"><span class="mark"><img src="images/temel-mark-light.svg" width="32" height="32" alt=""></span><span class="brand-name">temel<span>TECHNOLOGY</span></span></a>
         <p>Bireysel, kurumsal ve işletmeler için özel yazılım, web ve mobil uygulama çözümleri.</p>
       </div>
       <div><h4>Hizmetler</h4><ul><li><a href="index.html#hizmetler">Web & Mobil</a></li><li><a href="index.html#hizmetler">Kurumsal Yazılım</a></li><li><a href="index.html#hizmetler">E-ticaret</a></li><li><a href="index.html#hizmetler">Bireysel Projeler</a></li></ul></div>
@@ -343,15 +343,6 @@ async function submit(){
   }
 }
 
-// mobil menü
-document.querySelector('.burger').addEventListener('click',()=>{
-  const m=document.querySelector('.menu');
-  const open = m.style.display==='flex';
-  m.style.display= open?'none':'flex';
-  if(!open){ m.style.position='absolute';m.style.flexDirection='column';m.style.background='#fff';
-    m.style.top='70px';m.style.left='0';m.style.right='0';m.style.padding='20px 24px';
-    m.style.borderBottom='1px solid var(--line)';m.style.gap='16px'; }
-});
 render();
 </script>
 </body>

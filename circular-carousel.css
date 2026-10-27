@@ -48,6 +48,8 @@
 .circular-carousel__view {
   position: absolute;
   inset: 0;
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
 }
 
 .circular-carousel__stage {
@@ -59,6 +61,8 @@
   opacity: 0;
   transition: opacity 0.5s ease;
   transform-origin: center center;
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
 }
 
 .circular-carousel[data-ready] .circular-carousel__stage {
@@ -107,7 +111,7 @@
   top: 0;
   width: 100%;
   overflow: hidden;
-  box-shadow: 0 16px 36px rgba(11, 34, 57, 0.22);
+  box-shadow: none;
   /* Border kaldırıldı — seam artefaktına yol açıyordu */
   background: #10263f;
 }
@@ -147,8 +151,7 @@
   left: 0;
   right: 0;
   height: 24px;
-  background: rgba(18, 58, 94, 0.95);
-  backdrop-filter: blur(4px);
+  background: rgb(18, 58, 94);
   display: flex;
   align-items: center;
   gap: 4px;
