@@ -1,0 +1,31 @@
+/* Optional Micro Slats trial. theme.css retains the original indigo backgrounds. */
+.micro-slats-surface {
+  position: relative;
+  isolation: isolate;
+}
+:is(.soft, #reklam, .cta-band, .system-tile, .form-section).micro-slats-ready { background-image: none; }
+.micro-slats-layer {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .6s ease;
+}
+.micro-slats-ready > .micro-slats-layer { opacity: 1; }
+.micro-slats-layer canvas { opacity: .78; }
+.micro-slats-layer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg, #070b216e, #070b211a 60%, #070b2138),
+    linear-gradient(180deg, #080b2226, transparent 38%, #080b225e);
+}
+.system-tile > .micro-slats-layer canvas { opacity: .55; }
+.cta-band > .micro-slats-layer canvas { opacity: .65; }
+.form-section > .micro-slats-layer canvas { opacity: .6; }
+@media (prefers-reduced-motion: reduce) {
+  .micro-slats-layer { transition: none; }
+}
