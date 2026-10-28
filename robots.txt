@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://temeltechnology.com/sitemap.xml
