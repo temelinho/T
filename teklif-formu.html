@@ -108,9 +108,11 @@
 </style>
 <link rel="icon" href="images/temel-favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="theme.css">
+<link rel="stylesheet" href="experience.css">
 <link rel="stylesheet" href="micro-slats.css">
 <script src="micro-slats.js" defer></script>
 <script src="navigation.js" defer></script>
+<script src="mail-delivery.js" defer></script>
 <script src="teklif-formu.js" defer></script>
 </head>
 <body>
@@ -123,7 +125,7 @@
       <li><a href="index.html#reklam">Reklam</a></li>
       <li><a href="index.html#islerimiz">İşlerimiz</a></li>
       <li><a href="index.html#surec">Süreç</a></li>
-      <li><a href="index.html#neden">Neden Biz</a></li>
+      <li><a href="index.html#hakkimizda">Hakkımızda</a></li>
       <li><a href="index.html#iletisim">İletişim</a></li>
     </ul></nav>
     <div class="nav-cta">
@@ -147,9 +149,11 @@
     <div class="wrap">
       <div class="form-wrap">
         <div class="card">
+          <p id="prefill-note" class="prefill-note" hidden></p>
           <div class="progress" role="progressbar" aria-label="Teklif adımları" aria-valuemin="1" aria-valuemax="5" aria-valuenow="1"><i id="bar"></i></div>
-          <!-- Submission destination is managed in the Formspree dashboard. -->
-          <form id="quoteForm" data-endpoint="https://formspree.io/f/mljjbvvb" novalidate>
+          <!-- Resend activates on Vercel after its private server settings are ready. -->
+          <form id="quoteForm" data-endpoint="https://formspree.io/f/mljjbvvb" data-resend-endpoint="/api/quote" novalidate>
+            <div class="form-trap" aria-hidden="true"><label for="website">Bu alanı boş bırakın</label><input type="text" name="website" id="website" tabindex="-1" autocomplete="off" maxlength="200"></div>
             <noscript><p>Teklif için <a href="mailto:temeltechnology@gmail.com">e-posta üzerinden bize ulaşabilirsiniz</a>.</p></noscript>
 
             <!-- 1 -->
@@ -170,7 +174,7 @@
               <div class="kicker">Adım 2 / 5</div>
               <h2 tabindex="-1">Hangi hizmet(ler)e ihtiyacınız var?</h2>
               <p class="sub">Birden fazla seçebilirsiniz.</p>
-              <div class="opts two" data-multi="hizmetler">
+              <div class="opts two service-checks" data-multi="hizmetler">
                 <div class="opt" role="button" tabindex="0" aria-pressed="false" data-value="Web sitesi"><span class="emoji">🌐</span><div><div class="t">Web sitesi</div></div><span class="check">✓</span></div>
                 <div class="opt" role="button" tabindex="0" aria-pressed="false" data-value="Mobil uygulama"><span class="emoji">📱</span><div><div class="t">Mobil uygulama</div></div><span class="check">✓</span></div>
                 <div class="opt" role="button" tabindex="0" aria-pressed="false" data-value="Kurumsal yazılım"><span class="emoji">⚙️</span><div><div class="t">Kurumsal yazılım</div></div><span class="check">✓</span></div>
@@ -193,6 +197,7 @@
                 <div class="opt" role="button" tabindex="0" aria-pressed="false" data-value="10.000 – 30.000 ₺"><div class="t">10.000 – 30.000 ₺</div><span class="check">✓</span></div>
                 <div class="opt" role="button" tabindex="0" aria-pressed="false" data-value="30.000 – 75.000 ₺"><div class="t">30.000 – 75.000 ₺</div><span class="check">✓</span></div>
                 <div class="opt" role="button" tabindex="0" aria-pressed="false" data-value="75.000 ₺ +"><div class="t">75.000 ₺ +</div><span class="check">✓</span></div>
+                <div class="opt" role="button" tabindex="0" aria-pressed="false" data-value="Bütçem henüz belli değil"><div><div class="t">Bütçem henüz belli değil</div><div class="d">İhtiyacı ve kapsamı birlikte belirleyelim.</div></div><span class="check">✓</span></div>
               </div>
               <p class="fl" id="time-label">Ne zaman başlamak istersiniz?</p>
               <div class="opts two" data-single="zaman" role="group" aria-labelledby="time-label">
@@ -256,8 +261,8 @@
         <a href="index.html" class="logo" style="color:#fff"><span class="mark"><img src="images/temel-mark-light.svg" width="32" height="32" alt=""></span><span class="brand-name">temel<span>TECHNOLOGY</span></span></a>
         <p>Bireysel, kurumsal ve işletmeler için özel yazılım, web ve mobil uygulama çözümleri.</p>
       </div>
-      <div><h4>Hizmetler</h4><ul><li><a href="index.html#hizmetler">Web & Mobil</a></li><li><a href="index.html#hizmetler">Kurumsal Yazılım</a></li><li><a href="index.html#hizmetler">E-ticaret</a></li><li><a href="index.html#hizmetler">Bireysel Projeler</a></li></ul></div>
-      <div><h4>Kurumsal</h4><ul><li><a href="index.html#islerimiz">İşlerimiz</a></li><li><a href="index.html#surec">Süreç</a></li><li><a href="index.html#neden">Neden Biz</a></li><li><a href="index.html#iletisim">İletişim</a></li></ul></div>
+      <div><h4>Hizmetler</h4><ul><li><a href="web-tasarim.html">Web & E-ticaret</a></li><li><a href="mobil-uygulama.html">Mobil Uygulama</a></li><li><a href="index.html#hizmetler">Özel Yazılım</a></li><li><a href="dijital-reklam.html">Dijital Reklam</a></li></ul></div>
+      <div><h4>Kurumsal</h4><ul><li><a href="index.html#islerimiz">İşlerimiz</a></li><li><a href="index.html#hakkimizda">Hakkımızda</a></li><li><a href="index.html#surec">Süreç</a></li><li><a href="index.html#sss">Sık Sorulan Sorular</a></li><li><a href="index.html#iletisim">İletişim</a></li></ul></div>
       <div><h4>İletişim</h4><ul><li><a href="mailto:temeltechnology@gmail.com">temeltechnology@gmail.com</a></li><li><a href="tel:+905066922004" aria-label="0506 692 20 04 numarasını arayın">0506 692 20 04 · Ara</a></li><li><a href="https://wa.me/905066922004" target="_blank" rel="noopener noreferrer">WhatsApp’tan yazın ↗</a></li><li>Battalgazi, Malatya</li></ul></div>
     </div>
     <div class="foot-bottom">

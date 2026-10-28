@@ -1,0 +1,10 @@
+{
+  "name": "temel-technology",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "node scripts/build-static.cjs",
+    "test": "node --test tests/*.test.mjs"
+  },
+  "engines": { "node": "22.x" }
+}

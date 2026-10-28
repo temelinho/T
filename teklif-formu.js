@@ -12,7 +12,7 @@
   const sendButton = form.querySelector('#email-send');
   const editButton = form.querySelector('#edit-quote');
   const mailLink = form.querySelector('#mailto-send');
-  const endpoint = /^https:\/\/formspree\.io\/f\/[a-zA-Z0-9]+$/.test(form.dataset.endpoint || '') ? form.dataset.endpoint : '';
+  const delivery = window.quoteDelivery;
   let sending = false;
   let step = 1;
 
@@ -41,6 +41,27 @@
       });
     });
   });
+  // Accept only known service identifiers; incoming text is never inserted as HTML.
+  const serviceNames = {
+    web: 'Web sitesi', mobil: 'Mobil uygulama', yazilim: 'Kurumsal yazılım',
+    eticaret: 'E-ticaret', entegrasyon: 'Entegrasyon / API',
+    reklam: 'Dijital reklam (Google / Sosyal medya)'
+  };
+  const params = new URLSearchParams(location.search);
+  const requested = [...new Set((params.get('services') || '').split(',').filter(key => Object.hasOwn(serviceNames, key)).map(key => serviceNames[key]))];
+  const allowedGoals = ['Daha fazla müşteriye ulaşmak', 'İnternetten satış yapmak', 'İş süreçlerimi otomatikleştirmek', 'Mobil uygulama geliştirmek'];
+  const allowedProjects = ['Eliva Moss', 'Alanya Klima Temizliği', 'Eliva Digital', 'Alanya Çekici & Çilingir', 'Alanya Ev Temizlik', 'Manavgat Ev Temizlik', 'Kıbrıs Ev Temizlik', 'Beyonder'];
+  if (allowedGoals.includes(params.get('goal'))) state.hedef = params.get('goal');
+  if (allowedProjects.includes(params.get('project'))) state.ornek_proje = params.get('project');
+  requested.forEach(name => {
+    const option = [...form.querySelectorAll('[data-multi="hizmetler"] .opt')].find(item => item.dataset.value === name);
+    option?.click();
+  });
+  const note = document.getElementById('prefill-note');
+  if (note && requested.length) {
+    note.hidden = false;
+    note.textContent = `Başlangıç için önerilen hizmetler: ${requested.join(', ')}. Seçimleri 2. adımda değiştirebilirsiniz.` + (state.ornek_proje ? ` İlham aldığınız proje: ${state.ornek_proje}.` : '');
+  }
   form.addEventListener('input', clearErrors);
 
   function readFields() {
@@ -72,14 +93,24 @@
       ...(state.telefon ? [`Telefon: ${state.telefon}`] : []),
       ...(state.sirket ? [`Şirket / Marka: ${state.sirket}`] : []),
       `Proje türü: ${state.musteri_tipi}`, `Hizmetler: ${state.hizmetler.join(', ')}`,
+      ...(state.hedef ? [`Hedef: ${state.hedef}`] : []),
+      ...(state.ornek_proje ? [`İlgilendiğim proje: ${state.ornek_proje}`] : []),
       `Bütçe: ${state.butce}`, `Zamanlama: ${state.zaman}`, '', 'Proje detayı:', state.detay
     ].join('\n');
     document.querySelector('#quote-summary').textContent = summary;
     mailLink.href = `mailto:temeltechnology@gmail.com?subject=${encodeURIComponent('Proje teklif talebi — ' + state.ad)}&body=${encodeURIComponent(summary)}`;
-    sendButton.hidden = !endpoint;
-    mailLink.classList.toggle('btn-primary', !endpoint);
-    mailLink.classList.toggle('btn-ghost', Boolean(endpoint));
-    if (endpoint) result.querySelector('.sub').textContent = 'Henüz gönderilmedi. Özeti kontrol edin; Teklifi gönder düğmesiyle talebinizi bize iletin.';
+    const updateDelivery = () => {
+      if (sending) return;
+      const available = Boolean(delivery?.available);
+      sendButton.hidden = !available;
+      mailLink.classList.toggle('btn-primary', !available);
+      mailLink.classList.toggle('btn-ghost', available);
+      result.querySelector('.sub').textContent = available
+        ? 'Henüz gönderilmedi. Özeti kontrol edin; Teklifi gönder düğmesiyle talebinizi bize iletin.'
+        : 'Henüz gönderilmedi. Özeti e-posta uygulamanızda açıp bize gönderebilirsiniz.';
+    };
+    updateDelivery();
+    delivery?.ready.then(updateDelivery);
     steps.forEach(element => element.classList.remove('active'));
     nav.style.display = 'none';
     result.style.display = 'block';
@@ -102,7 +133,7 @@
     render();
   });
   sendButton.addEventListener('click', async () => {
-    if (!endpoint || sending) return;
+    if (!delivery?.available || sending) return;
     sending = true;
     sendButton.disabled = editButton.disabled = true;
     sendButton.textContent = 'Gönderiliyor…';
@@ -111,21 +142,18 @@
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 15000);
     try {
-      const response = await fetch(endpoint, {
-        method: 'POST',
-        headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
-        body: JSON.stringify({...state, hizmetler: state.hizmetler.join(', '), _subject: 'Yeni teklif talebi — ' + state.ad}),
-        signal: controller.signal
-      });
-      if (!response.ok) throw new Error('submission-failed');
+      await delivery.send({...state}, controller.signal);
       result.querySelector('h2').textContent = 'Talebiniz iletildi.';
       result.querySelector('.sub').textContent = 'Teşekkürler. Projenizi inceleyip paylaştığınız iletişim bilgileriyle size dönüş yapacağız.';
       result.querySelector('.quote-actions').hidden = true;
       result.querySelector('h2').focus({preventScroll: true});
     } catch (failure) {
-      error.textContent = failure.name === 'AbortError'
-        ? 'Gönderim sonucu doğrulanamadı. Tekrar göndermeden önce e-posta üzerinden bizimle iletişime geçebilirsiniz.'
-        : 'Gönderim tamamlanamadı. Tekrar deneyebilir veya E-postada aç bağlantısını kullanabilirsiniz.';
+      if (failure.message === 'rate_limited') error.textContent = 'Kısa sürede çok sayıda deneme yapıldı. Birkaç dakika sonra tekrar deneyebilir veya e-posta üzerinden bize ulaşabilirsiniz.';
+      else if (failure.message === 'invalid_request') error.textContent = 'Bilgilerinizi kontrol edip tekrar deneyin. Bilgileri düzenle düğmesiyle formunuza dönebilirsiniz.';
+      else if (failure.name === 'AbortError' || failure.message === 'result_unknown') error.textContent = delivery.provider === 'resend'
+        ? 'Gönderim sonucu doğrulanamadı. Aynı talebi tekrar deneyebilirsiniz; yinelenen gönderim kontrol edilir.'
+        : 'Gönderim sonucu doğrulanamadı. Tekrar göndermeden önce e-posta üzerinden bizimle iletişime geçebilirsiniz.';
+      else error.textContent = 'Gönderim tamamlanamadı. Tekrar deneyebilir veya E-postada aç bağlantısını kullanabilirsiniz.';
       error.style.display = 'block';
       sendButton.disabled = editButton.disabled = false;
       sendButton.textContent = 'Tekrar dene →';

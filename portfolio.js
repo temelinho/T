@@ -83,7 +83,7 @@
   // Touch uses native scrolling. Mouse dragging never turns into a card click.
   track.addEventListener('pointerdown', event => {
     suppressClick = false;
-    if (event.pointerType !== 'mouse' || event.button !== 0 || event.target.closest('a')) return;
+    if (event.pointerType !== 'mouse' || event.button !== 0 || event.target.closest('a, .work-detail')) return;
     drag = {id: event.pointerId, x: event.clientX, scroll: track.scrollLeft, moved: false};
   });
   track.addEventListener('pointermove', event => {

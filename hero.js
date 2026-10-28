@@ -21,7 +21,8 @@
   let hovering = false;
   let timer = null;
   let resumeAt = 0;
-  const INTERVAL = 4500;
+  const INTERVAL = 2500;
+  const INTERACTION_PAUSE = INTERVAL * 2;
 
   function schedule() {
     clearTimeout(timer);
@@ -78,7 +79,7 @@
     link.rel = 'noopener noreferrer';
     note.appendChild(link);
     if (manual) {
-      resumeAt = Date.now() + 9000;
+      resumeAt = Date.now() + INTERACTION_PAUSE;
       schedule();
     }
     count.textContent = `${String(index + 1).padStart(2, '0')} / 05`;
@@ -98,7 +99,7 @@
   stage.addEventListener('pointerdown', event => {
     if (event.pointerType === 'mouse' && event.button !== 0) return;
     press = {x: event.clientX, y: event.clientY, id: event.pointerId};
-    resumeAt = Date.now() + 9000;
+    resumeAt = Date.now() + INTERACTION_PAUSE;
     schedule();
   });
   stage.addEventListener('pointerup', event => {
@@ -128,7 +129,7 @@
     schedule();
   });
   visual.addEventListener('focusin', () => {
-    resumeAt = Date.now() + 9000;
+    resumeAt = Date.now() + INTERACTION_PAUSE;
     schedule();
   });
   document.addEventListener('visibilitychange', schedule);
