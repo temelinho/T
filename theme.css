@@ -40,14 +40,14 @@ section{padding:84px 0}
 .tile-copy h3,.reach-copy h3{font-size:36px;line-height:1.08;letter-spacing:-1.3px;font-weight:650;margin-bottom:14px}
 .tile-copy p{color:var(--muted);font-size:14px;line-height:1.6;max-width:360px}
 .web-tile{background:linear-gradient(145deg,#f5f5f7 45%,#eee8f5)}
-.web-product{display:block;position:relative;margin:24px 34px 0;height:240px;border-radius:12px}
+.web-product{display:block;position:relative;margin:24px 34px 0;width:calc(100% - 68px);height:240px;border:0;padding:0;border-radius:12px;background:transparent;color:inherit;font:inherit;text-align:left;appearance:none;cursor:pointer}
 .product-browser{position:absolute;left:0;top:14px;bottom:8px;width:89%;overflow:hidden;border:1px solid #dedce3;border-radius:12px;background:white;box-shadow:0 14px 28px #2d1c3f10;transform:rotate(-2deg);transition:transform .35s}
 .product-browser-bar{display:flex;justify-content:space-between;align-items:center;height:25px;padding:0 11px;color:#86818c;font-size:8px;background:#fafafa;border-bottom:1px solid #edeaf0}
 .product-browser-bar>span:first-child{font-size:7px;letter-spacing:1px;color:#c5becd}
 .product-browser img{display:block;width:100%;height:calc(100% - 25px);object-fit:cover;object-position:top}
 .product-phone{position:absolute;top:0;right:0;width:108px;border:4px solid #27232b;border-radius:20px;box-shadow:0 10px 18px #2920321c;overflow:hidden;background:#fff;transform:rotate(3deg);transition:transform .35s}
 .product-phone img{display:block;width:100%;height:auto}
-.web-product:hover .product-browser,.web-product:hover .product-phone{transform:rotate(0)}
+.web-product:is(:hover,:active,:focus-visible) .product-browser,.web-product:is(:hover,:active,:focus-visible) .product-phone{transform:rotate(0)}
 .tile-footnote{display:flex;justify-content:space-between;gap:8px;padding:5px 34px 24px;color:#7b7285;font-size:9px}
 .system-tile{display:flex;flex-direction:column;background:radial-gradient(ellipse at 100% 0,#e7d9fb80,transparent 65%),#f1ebf8}
 .system-map{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:65px 32px;align-content:center;max-width:350px;width:calc(100% - 68px);min-height:220px;margin:12px auto}
@@ -99,7 +99,7 @@ section{padding:84px 0}
   .tile-copy{padding:28px 27px 0}
   .tile-copy h3{font-size:32px}
   .tile-copy p{font-size:13px}
-  .web-product{margin:24px 27px 0;height:215px}
+  .web-product{margin:24px 27px 0;width:calc(100% - 54px);height:215px}
   .product-phone{width:96px}
   .tile-footnote{padding-inline:27px}
   .system-map{width:calc(100% - 44px);gap:65px 24px}
