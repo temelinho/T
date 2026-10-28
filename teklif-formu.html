@@ -240,20 +240,20 @@
             <!-- success -->
             <div class="success">
               <div class="big">✓</div>
-              <h2 tabindex="-1">Teklif özetiniz hazır.</h2>
-              <p class="sub">Henüz gönderilmedi. Özeti e-posta uygulamanızda açıp bize gönderebilirsiniz.</p>
+              <h2 tabindex="-1">Talebiniz iletildi.</h2>
+              <p class="sub">Teşekkürler. En kısa sürede size dönüş yapacağız. Gönderdiğiniz bilgileri aşağıda inceleyebilirsiniz.</p>
               <pre class="quote-summary" id="quote-summary"></pre>
-              <p class="err" id="send-error" role="alert"></p>
-              <div class="quote-actions"><button class="btn btn-primary" id="email-send" type="button" hidden>Teklifi gönder →</button><a class="btn btn-primary" id="mailto-send">E-postada aç ↗</a><button class="btn btn-ghost" type="button" id="edit-quote">Bilgileri düzenle</button></div>
             </div>
 
+            <p class="err" id="send-error" role="alert" tabindex="-1"></p>
+            <p id="send-fallback" hidden><a class="btn btn-ghost" id="mailto-send">E-postada aç ↗</a></p>
             <div class="nav-btns" id="nav">
               <button type="button" class="form-btn back" id="prevBtn" style="visibility:hidden">← Geri</button>
               <button type="submit" class="form-btn next" id="nextBtn">Devam →</button>
             </div>
           </form>
         </div>
-        <p class="trust">Özet bu sayfada hazırlanır. Bilgileriniz yalnızca gönderim adımını tamamladığınızda iletilir.</p>
+        <p class="trust">Bilgileriniz son adımdaki “Talebi gönder” düğmesine bastığınızda iletilir. Ardından gönderilen talebin özeti gösterilir.</p>
       </div>
     </div>
   </section>

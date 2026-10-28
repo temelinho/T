@@ -9,14 +9,15 @@
   const nav = form.querySelector('#nav');
   const result = form.querySelector('.success');
   const progress = document.querySelector('.progress');
-  const sendButton = form.querySelector('#email-send');
-  const editButton = form.querySelector('#edit-quote');
   const mailLink = form.querySelector('#mailto-send');
+  const sendError = form.querySelector('#send-error');
+  const fallback = form.querySelector('#send-fallback');
   const delivery = window.quoteDelivery;
   const {isValidEmail,normalizePhone,formatPhone}=window.contactValidation;
   const phone=form.querySelector('#telefon');
   const contactFields=['ad','email','telefon'];
   let sending = false;
+  let sent = false;
   let step = 1;
 
   function clearErrors() {
@@ -130,7 +131,7 @@
     document.querySelector('#bar').style.width = `${step / steps.length * 100}%`;
     progress.setAttribute('aria-valuenow', String(step));
     prev.style.visibility = step > 1 ? 'visible' : 'hidden';
-    next.textContent = step === steps.length ? 'Özeti hazırla →' : 'Devam →';
+    next.textContent = step === steps.length ? 'Talebi gönder →' : 'Devam →';
     if (focus) steps[step - 1].querySelector('h2').focus({preventScroll: true});
   }
 
@@ -148,68 +149,58 @@
     ].join('\n');
     document.querySelector('#quote-summary').textContent = summary;
     mailLink.href = `mailto:temeltechnology@gmail.com?subject=${encodeURIComponent('Proje teklif talebi — ' + state.ad)}&body=${encodeURIComponent(summary)}`;
-    const updateDelivery = () => {
-      if (sending) return;
-      const available = Boolean(delivery?.available);
-      sendButton.hidden = !available;
-      mailLink.classList.toggle('btn-primary', !available);
-      mailLink.classList.toggle('btn-ghost', available);
-      result.querySelector('.sub').textContent = available
-        ? 'Henüz gönderilmedi. Özeti kontrol edin; Teklifi gönder düğmesiyle talebinizi bize iletin.'
-        : 'Henüz gönderilmedi. Özeti e-posta uygulamanızda açıp bize gönderebilirsiniz.';
-    };
-    updateDelivery();
-    delivery?.ready.then(updateDelivery);
-    steps.forEach(element => element.classList.remove('active'));
-    nav.style.display = 'none';
-    result.style.display = 'block';
-    result.querySelector('h2').focus({preventScroll: true});
   }
 
   form.addEventListener('submit', event => {
     event.preventDefault();
+    if(sending||sent)return;
     readFields();
     if (!valid()) {
       steps[step - 1].querySelector('.err').style.display = 'block';
       return;
     }
-    if (step < steps.length) { step++; render(); } else prepareQuote();
+    if (step < steps.length) { step++; render(); } else sendQuote();
   });
-  prev.addEventListener('click', () => { if (step > 1) { step--; render(); } });
-  editButton.addEventListener('click', () => {
-    result.style.display = 'none';
-    nav.style.display = '';
-    render();
-  });
-  sendButton.addEventListener('click', async () => {
-    if (!delivery?.available || sending) return;
+  prev.addEventListener('click', () => { if (!sending && step > 1) { step--; fallback.hidden=true; render(); } });
+  async function sendQuote() {
+    if(sending||sent)return;
+    prepareQuote();
     sending = true;
-    sendButton.disabled = editButton.disabled = true;
-    sendButton.textContent = 'Gönderiliyor…';
-    const error = form.querySelector('#send-error');
-    error.style.display = 'none';
+    next.disabled = prev.disabled = true;
+    form.setAttribute('aria-busy','true');
+    form.querySelectorAll('input,textarea').forEach(field=>{field.disabled=true;});
+    next.textContent = 'Gönderiliyor…';
+    sendError.style.display = 'none';
+    fallback.hidden=true;
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 15000);
     try {
+      await delivery?.ready;
+      if(!delivery?.available)throw new Error('service_unavailable');
       await delivery.send({...state}, controller.signal);
-      result.querySelector('h2').textContent = 'Talebiniz iletildi.';
-      result.querySelector('.sub').textContent = 'Teşekkürler. Projenizi inceleyip paylaştığınız iletişim bilgileriyle size dönüş yapacağız.';
-      result.querySelector('.quote-actions').hidden = true;
+      sent=true;
+      steps.forEach(element => element.classList.remove('active'));
+      nav.style.display='none';
+      result.style.display='block';
       result.querySelector('h2').focus({preventScroll: true});
     } catch (failure) {
-      if (failure.message === 'rate_limited') error.textContent = 'Kısa sürede çok sayıda deneme yapıldı. Birkaç dakika sonra tekrar deneyebilir veya e-posta üzerinden bize ulaşabilirsiniz.';
-      else if (failure.message === 'invalid_request') error.textContent = 'Bilgilerinizi kontrol edip tekrar deneyin. Bilgileri düzenle düğmesiyle formunuza dönebilirsiniz.';
-      else if (failure.name === 'AbortError' || failure.message === 'result_unknown') error.textContent = delivery.provider === 'resend'
+      if (failure.message === 'rate_limited') sendError.textContent = 'Kısa sürede çok sayıda deneme yapıldı. Birkaç dakika sonra tekrar deneyebilir veya e-posta üzerinden bize ulaşabilirsiniz.';
+      else if (failure.message === 'invalid_request') sendError.textContent = 'İletişim bilgilerinizi kontrol edip tekrar deneyin.';
+      else if (failure.name === 'AbortError' || failure.message === 'result_unknown') sendError.textContent = delivery?.provider === 'resend'
         ? 'Gönderim sonucu doğrulanamadı. Aynı talebi tekrar deneyebilirsiniz; yinelenen gönderim kontrol edilir.'
         : 'Gönderim sonucu doğrulanamadı. Tekrar göndermeden önce e-posta üzerinden bizimle iletişime geçebilirsiniz.';
-      else error.textContent = 'Gönderim tamamlanamadı. Tekrar deneyebilir veya E-postada aç bağlantısını kullanabilirsiniz.';
-      error.style.display = 'block';
-      sendButton.disabled = editButton.disabled = false;
-      sendButton.textContent = 'Tekrar dene →';
+      else sendError.textContent = 'Gönderim tamamlanamadı. Tekrar deneyebilir veya E-postada aç bağlantısını kullanabilirsiniz.';
+      sendError.style.display = 'block';
+      fallback.hidden=false;
+      next.textContent = 'Tekrar dene →';
+      sendError.focus({preventScroll:true});
     } finally {
       clearTimeout(timeout);
       sending = false;
+      form.setAttribute('aria-busy','false');
+      form.querySelectorAll('input,textarea').forEach(field=>{field.disabled=false;});
+      next.disabled=prev.disabled=false;
     }
-  });
+  }
   render(false);
 })();
