@@ -6,8 +6,8 @@ const env={MAIL_ENABLED:'true',RESEND_API_KEY:'test-key-not-a-real-secret',RESEN
 const quote={ad:'Örnek Kişi',email:'visitor@example.net',telefon:'05000000000',sirket:'Örnek Firma',musteri_tipi:'İşletme',hizmetler:['Web sitesi','Dijital reklam (Google / Sosyal medya)'],butce:'Bütçem henüz belli değil',zaman:'Sadece fikir alıyorum',detay:'Yeni bir web sitesi istiyorum.',hedef:'Daha fazla müşteriye ulaşmak',ornek_proje:'Alanya Klima Temizliği',website:''};
 const submissionId='b454497c-6db7-4831-bc71-9567665bfd6d';
 const request=(changes={},headers={})=>new Request('https://example.com/api/quote',{method:'POST',headers:{Origin:'https://example.com','Content-Type':'application/json','x-forwarded-for':'192.0.2.10',...headers},body:JSON.stringify({quote:{...quote,...changes},submissionId})});
-function setup(response=()=>Response.json({id:'resend-test-id'})){
- const calls=[];const handler=createQuoteHandler({fetchImpl:async(url,init)=>{calls.push({url,init,mail:JSON.parse(init.body)});return response();}});
+function setup(response=()=>Response.json({data:[{id:'owner-test-id'},{id:'receipt-test-id'}]})){
+ const calls=[];const handler=createQuoteHandler({fetchImpl:async(url,init)=>{const messages=JSON.parse(init.body);calls.push({url,init,mail:messages[0],receipt:messages[1],messages});return response();}});
  return {calls,handler};
 }
 test('readiness is read-only and hides secrets',async()=>{
@@ -20,10 +20,30 @@ test('readiness is read-only and hides secrets',async()=>{
 test('fixed recipient, reply-to, complete summary and escaped HTML',async()=>{
  const {handler,calls}=setup();const response=await handler(request({detay:'<script>alert(1)</script>\nYeni site',to:'attacker@example.net',from:'attacker@example.net'}),env);
  assert.equal(response.status,200);assert.deepEqual(await response.json(),{ok:true});
- assert.equal(calls[0].url,'https://api.resend.com/emails');assert.deepEqual(calls[0].mail.to,['owner@example.com']);
+ assert.equal(calls[0].url,'https://api.resend.com/emails/batch');assert.deepEqual(calls[0].mail.to,['owner@example.com']);
  assert.equal(calls[0].mail.from,env.RESEND_FROM);assert.equal(calls[0].mail.reply_to,quote.email);
  assert.match(calls[0].mail.text,/Bütçem henüz belli değil/);assert.match(calls[0].mail.text,/Alanya Klima Temizliği/);
  assert.match(calls[0].mail.html,/&lt;script&gt;/);assert.ok(!calls[0].mail.html.includes('<script>'));
+});
+
+test('customer receipt is private, branded and replies to the business',async()=>{
+ const {handler,calls}=setup();const response=await handler(request({ad:'Ada <img src=x>',detay:'PRIVATE PROJECT DETAILS',sirket:'PRIVATE COMPANY',telefon:'PRIVATE PHONE'}),env);
+ assert.equal(response.status,200);const {receipt,messages}=calls[0];
+ assert.equal(messages.length,2);assert.deepEqual(receipt.to,[quote.email]);
+ assert.equal(receipt.from,env.RESEND_FROM);assert.equal(receipt.reply_to,env.QUOTE_TO);
+ assert.equal(receipt.subject,'Talebinizi aldık — Temel Technology');
+ assert.match(receipt.html,/Ada &lt;img src=x&gt;/);assert.ok(!receipt.html.includes('<img src=x>'));
+ assert.match(receipt.text,/en kısa sürede dönüş yapacağız/);assert.match(receipt.html,/B454497C/);
+ assert.match(receipt.html,/https:\/\/temeltechnology.com\/#islerimiz/);
+ for(const value of ['PRIVATE PROJECT DETAILS','PRIVATE COMPANY','PRIVATE PHONE'])assert.ok(!receipt.html.includes(value));
+ assert.ok(!receipt.bcc && !receipt.cc);
+});
+
+test('batch must acknowledge both messages before showing success',async()=>{
+ for(const result of [{id:'single'}, {data:[{id:'only-one'}]}, {data:[{id:'owner'},{}]}, {data:[{id:'owner'},null]}]){
+  const {handler}=setup(()=>Response.json(result));const response=await handler(request(),env);
+  assert.equal(response.status,502);assert.equal((await response.json()).error,'result_unknown');
+ }
 });
 test('same request retries use the same Resend idempotency key',async()=>{
  const {handler,calls}=setup();await handler(request(),env);await handler(request(),env);await handler(request({detay:'Değişen proje talebi.'}),env);

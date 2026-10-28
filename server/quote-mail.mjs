@@ -1,4 +1,5 @@
 import { createHash } from 'node:crypto';
+import { customerReceipt } from './customer-receipt.mjs';
 
 const MAX_BODY = 12_000;
 const EMAIL = /^[^\s<>@,;\r\n]+@[^\s<>@,;\r\n]+\.[^\s<>@,;\r\n]+$/;
@@ -97,19 +98,20 @@ export function createQuoteHandler({fetchImpl=fetch,now=Date.now}={}) {
     const limit=attempts.get(ip)||{count:0,until:time+600_000};
     if(limit.count>=5 || (!attempts.has(ip)&&attempts.size>=10_000))return reply(429,{ok:false,error:'rate_limited'},{'Retry-After':String(Math.max(1,Math.ceil((limit.until-time)/1000)))});
     limit.count++;attempts.set(ip,limit);
-    const mail=emailContent(input.quote,config);
+    // Separate messages keep the owner's notification private from the customer.
+    const mail=[emailContent(input.quote,config),customerReceipt(input.quote,config,input.submissionId)];
     const fingerprint=createHash('sha256').update(JSON.stringify(mail)).digest('hex');
     const controller=new AbortController();
     const timeout=setTimeout(()=>controller.abort(),9_000);
     try {
-      const upstream=await fetchImpl('https://api.resend.com/emails',{
-        method:'POST',headers:{Authorization:`Bearer ${env.RESEND_API_KEY}`,'Content-Type':'application/json','Idempotency-Key':`quote/${input.submissionId}/${fingerprint}`},
+      const upstream=await fetchImpl('https://api.resend.com/emails/batch',{
+        method:'POST',headers:{Authorization:`Bearer ${env.RESEND_API_KEY}`,'Content-Type':'application/json','Idempotency-Key':`quote-receipt/${input.submissionId}/${fingerprint}`},
         body:JSON.stringify(mail),signal:controller.signal
       });
       if(upstream.status===429)return reply(429,{ok:false,error:'rate_limited'},{'Retry-After':'60'});
       if(!upstream.ok)return reply(upstream.status>=500?502:503,{ok:false,error:'send_failed'});
       const result=await upstream.json().catch(()=>null);
-      if(typeof result?.id!=='string'||!result.id)return reply(502,{ok:false,error:'send_failed'});
+      if(!Array.isArray(result?.data)||result.data.length!==mail.length||result.data.some(item=>typeof item?.id!=='string'||!item.id))return reply(502,{ok:false,error:'result_unknown'});
       return reply(200,{ok:true});
     } catch(error) {
       return reply(error.name==='AbortError'?504:502,{ok:false,error:'result_unknown'});

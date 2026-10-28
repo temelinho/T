@@ -4,7 +4,9 @@ Site statik kalır. `api/quote.mjs` Vercel üzerinde çalışır; Resend API ana
 
 ## Mevcut durum
 
-Resend hesabı ve sunucu ayarları henüz bağlanmadığı için Formspree aktiftir. Form sayfası Vercel'de `/api/quote` hazırlık kontrolünü yapar. Sunucu `ready: true` döndürdüğünde form Resend'i kullanır. GitHub Pages sürümü mevcut Formspree bağlantısını kullanmaya devam eder.
+Üretimde Resend gönderici alan adı ve Vercel ortam değişkenleri bağlandı. Form sayfası `/api/quote` hazırlık kontrolünü yapar; sunucu `ready: true` döndürdüğünde Resend'i kullanır. GitHub Pages sürümü mevcut Formspree bağlantısını kullanmaya devam eder.
+
+Resend akışında tek `/emails/batch` isteği iki ayrı mesaj oluşturur: işletmeye ayrıntılı proje talebi, ziyaretçinin doğrulanmış biçimdeki e-posta adresine tasarımlı “Talebinizi aldık” bildirimi. Bu adresin sahipliği form tarafından doğrulanmaz. Müşteri mailinde yalnızca ad, seçili hizmetler ve talep numarası bulunur; proje detayı, bütçe ve telefon kopyalanmaz. Müşteri mailini yanıtlamak `QUOTE_TO` adresine, işletme mailini yanıtlamak ziyaretçiye gider. Başarı için iki mesaj kimliği de gerekir; aynı gönderimi yeniden denemek aynı batch idempotency anahtarını kullanır. Bir teklif iki e-posta kotası tüketir. Formspree geri dönüş yolu bu sunucu şablonunu kullanmaz.
 
 Resend ile gönderim başladıktan sonra başarısız/şüpheli bir sonuçta otomatik olarak Formspree'ye ikinci bir gönderim yapılmaz. Aynı talebin tekrar denenmesi aynı Resend idempotency anahtarını kullanır. Resend bu anahtarları 24 saat saklar. Form sayfasını yenilemek yeni bir talep oluşturur.
 
@@ -48,6 +50,7 @@ Yayına alırken Vercel > Firewall altında `/api/quote` POST istekleri için IP
 ## Resmî kaynaklar
 
 - [Resend gönderim API'si](https://resend.com/docs/api-reference/emails/send-email)
+- [İki ayrı mesajı birlikte gönderme](https://resend.com/docs/api-reference/emails/send-batch-emails)
 - [Alan adı doğrulama](https://resend.com/docs/dashboard/domains/introduction)
 - [resend.dev test kısıtları](https://resend.com/docs/knowledge-base/403-error-resend-dev-domain)
 - [Yinelenen gönderimleri önleme](https://resend.com/docs/dashboard/emails/idempotency-keys)
