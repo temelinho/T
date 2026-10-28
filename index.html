@@ -17,7 +17,6 @@
 <meta property="og:image" content="https://temelinho.github.io/T/kurumsal-teknoloji-hero-bg-v4.webp">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://temelinho.github.io/T/kurumsal-teknoloji-hero-bg-v4.webp">
-<link rel="stylesheet" href="circular-carousel.css">
 <!-- Structured data -->
 <script type="application/ld+json">
 {
@@ -201,12 +200,12 @@
 <link rel="stylesheet" href="hero.css">
 <script src="hero.js" defer></script>
 <link rel="stylesheet" href="theme.css">
+<link rel="stylesheet" href="portfolio.css">
 <link rel="stylesheet" href="micro-slats.css">
 <script src="micro-slats.js" defer></script>
 <script src="navigation.js" defer></script>
-<script src="circular-carousel.js" defer></script>
 <script src="portfolio.js" defer></script>
-<noscript><style>#carousel-view-container,.view-switch{display:none}#portfolio{display:grid!important}</style></noscript>
+<noscript><style>.work-toolbar,.work-footer,.work-select{display:none}.work-track{flex-wrap:wrap;overflow:visible;justify-content:center}.work-card{max-width:100%}</style></noscript>
 </head>
 <body>
 
@@ -356,102 +355,134 @@
   </section>
 
   <!-- PORTFOLIO -->
-  <section id="islerimiz">
+  <section id="islerimiz" class="work-section" aria-labelledby="work-heading">
     <div class="wrap">
-      <div class="sec-head">
-        <div class="eyebrow">İşlerimiz</div>
-        <h2>Hayata geçirdiğimiz projeler</h2>
-        <p>Farklı sektörlerden müşterilerimiz için geliştirdiğimiz çözümlerden bazıları.</p>
+      <div class="work-heading">
+        <div><div class="work-kicker">İşlerimiz <i aria-hidden="true"></i> Seçili projeler</div><h2 id="work-heading">Fikirden ekrana.<br><span>İmzamızı taşıyan işler.</span></h2></div>
+        <p class="work-intro">Her markanın başka bir hikâyesi var. Biz o hikâyeyi, iyi çalışan bir dijital deneyime dönüştürüyoruz.</p>
       </div>
-
-      <div class="portfolio-toolbar" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;margin-bottom:20px">
-        <div class="filters">
-          <button class="active" data-f="all">Tümü</button>
-          <button data-f="web">Web Sitesi</button>
-          <button data-f="kurumsal">Kurumsal / Ajans</button>
+      <div class="work-toolbar">
+        <div class="work-filters" role="group" aria-label="Projeleri filtrele">
+          <button type="button" data-work-filter="all" aria-pressed="true">Tüm projeler</button>
+          <button type="button" data-work-filter="web" aria-pressed="false">Web siteleri</button>
+          <button type="button" data-work-filter="kurumsal" aria-pressed="false">Marka &amp; kurumsal</button>
         </div>
-        <div class="view-switch" style="display:flex;gap:6px;background:var(--soft);padding:4px;border-radius:10px;border:1px solid var(--line)">
-          <button id="view-carousel-btn" class="active-view-btn" title="3D Dönen Çember Görünümü" style="padding:6px 14px;border-radius:8px;border:none;background:#fff;font-weight:600;font-size:13px;color:var(--navy);cursor:pointer;display:inline-flex;align-items:center;gap:6px;box-shadow:0 2px 6px rgba(0,0,0,0.06);transition:.2s">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg> 3D Vitrin
-          </button>
-          <button id="view-grid-btn" title="Klasik Izgara Görünümü" style="padding:6px 14px;border-radius:8px;border:none;background:transparent;font-weight:600;font-size:13px;color:var(--muted);cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:.2s">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg> Izgara
-          </button>
+        <span class="work-count-label">08 proje · Farklı sektörler, aynı özen.</span>
+      </div>
+    </div>
+    <div class="work-track" id="work-track" role="region" aria-label="Proje galerisi. Kaydırarak veya ok tuşlarıyla gezinin.">
+      <article class="work-card work-moss" data-category="kurumsal" aria-labelledby="work-title-moss">
+        <button type="button" class="work-select" aria-pressed="false" aria-label="Eliva Moss projesini öne çıkar"></button>
+        <div class="work-media">
+          <div class="work-browser"><div class="work-chrome" aria-hidden="true"><span class="work-dots"><i></i><i></i><i></i></span><span class="work-domain">elivamoss.com.tr</span><svg class="work-lock" viewBox="0 0 12 12"><rect x="2" y="5" width="8" height="6" rx="1"/><path d="M4 5V3a2 2 0 0 1 4 0v2"/></svg></div><img src="images/projects/moss-compact.webp" srcset="images/projects/moss-compact.webp 720w, images/projects/moss-desktop.webp 1280w" sizes="(max-width: 700px) calc(100vw - 94px), 500px" width="1280" height="860" loading="lazy" decoding="async" fetchpriority="low" draggable="false" alt="Eliva Moss sitesinin gerçek ekran görüntüsü"></div>
         </div>
-      </div>
-
-      <!-- 3D CIRCULAR CAROUSEL (REACT BITS STYLE) -->
-      <div id="carousel-view-container" class="circular-carousel-wrapper">
-        <div id="circular-carousel-mount"></div>
-
-        <div class="carousel-active-info">
-          <div class="carousel-info-card">
-            <span class="carousel-info-tag" id="active-cat">Web Sitesi</span>
-            <h3 class="carousel-info-title" id="active-title">Alanya Ev Temizlik</h3>
-            <p class="carousel-info-desc" id="active-desc">Ev ve ofis temizlik hizmetleri için SEO odaklı, mobil uyumlu tanıtım ve rezervasyon sitesi.</p>
-            <div class="carousel-info-actions">
-              <a id="active-link" class="carousel-visit-btn" href="https://alanyaevtemizlik.com.tr" target="_blank" rel="noopener">
-                Siteyi Ziyaret Et
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-              </a>
-            </div>
-          </div>
-
-          <div class="carousel-controls-bar">
-            <button class="carousel-arrow-btn" id="cc-prev" aria-label="Önceki Proje" title="Önceki Proje">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
-            </button>
-            <div class="carousel-counter">
-              <b id="active-idx">01</b> <span style="opacity:0.5">/</span> <span id="total-count">08</span>
-            </div>
-            <button class="carousel-arrow-btn" id="cc-next" aria-label="Sonraki Proje" title="Sonraki Proje">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
-            </button>
-          </div>
-
-          <div class="carousel-hint">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 9l-3 3 3 3M19 9l3 3-3 3M2 12h20"/></svg>
-            <span>Kaydırarak keşfedin. Bir karta dokunun, öne gelsin.</span>
-          </div>
+        <div class="work-content">
+          <div class="work-meta"><span class="work-category">Marka & ürün vitrini</span><span class="work-number" aria-hidden="true">01 / 08</span></div>
+          <h3 id="work-title-moss">Eliva Moss</h3>
+          <p>Doğal dokuları dijitale taşıyan, botanik sanat ve ürün koleksiyonu.</p>
+          <div class="work-card-bottom"><div class="work-tags"><span>Web tasarım</span><span>Ürün vitrini</span></div><a class="work-link" href="https://elivamoss.com.tr" target="_blank" rel="noopener noreferrer" aria-label="Eliva Moss sitesini ziyaret et (yeni sekme)">Canlı site <span aria-hidden="true">↗</span></a></div>
         </div>
-      </div>
+      </article>
 
-      <!-- KLASİK IZGARA GÖRÜNÜMÜ (SEÇİLDİĞİNDE AÇILIR) -->
-      <div class="grid grid-3" id="portfolio" style="display:none">
-        <article class="pcard" data-cat="web">
-          <button type="button" class="thumb" style="background:linear-gradient(135deg,#123a5e,#1c507d)" aria-pressed="false" aria-label="Alanya Ev Temizlik projesini öne çıkar"><img width="1080" height="800" loading="lazy" src="images/alanyaevtemizlik-cover.webp" alt="Proje için hazırlanmış görsel sunum" decoding="async"></button>
-          <div class="body"><span class="cat">Web Sitesi</span><h3>Alanya Ev Temizlik</h3><p>Ev ve ofis temizlik hizmetleri için SEO odaklı, mobil uyumlu tanıtım ve rezervasyon sitesi.</p><a class="res" href="https://alanyaevtemizlik.com.tr" target="_blank" rel="noopener">Siteyi ziyaret et →</a></div>
-        </article>
-        <article class="pcard" data-cat="web">
-          <button type="button" class="thumb" style="background:linear-gradient(135deg,#1c507d,#2b6699)" aria-pressed="false" aria-label="Alanya Çekici &amp; Çilingir projesini öne çıkar"><img width="1080" height="800" loading="lazy" src="images/alanyacekicicilingir-cover.webp" alt="Proje için hazırlanmış görsel sunum" decoding="async"></button>
-          <div class="body"><span class="cat">Web Sitesi</span><h3>Alanya Çekici & Çilingir</h3><p>7/24 acil çekici ve çilingir hizmetleri için hızlı erişimli yerel hizmet sitesi.</p><a class="res" href="https://alanyacekicicilingir.com.tr" target="_blank" rel="noopener">Siteyi ziyaret et →</a></div>
-        </article>
-        <article class="pcard" data-cat="web">
-          <button type="button" class="thumb" style="background:linear-gradient(135deg,#123a5e,#26608f)" aria-pressed="false" aria-label="Manavgat Ev Temizlik projesini öne çıkar"><img width="1080" height="800" loading="lazy" src="images/manavgatevtemizlik-cover.webp" alt="Proje için hazırlanmış görsel sunum" decoding="async"></button>
-          <div class="body"><span class="cat">Web Sitesi</span><h3>Manavgat Ev Temizlik</h3><p>Yerel SEO ile bölgesel temizlik hizmetlerini öne çıkaran tanıtım sitesi.</p><a class="res" href="https://manavgatevtemizlik.com.tr" target="_blank" rel="noopener">Siteyi ziyaret et →</a></div>
-        </article>
-        <article class="pcard" data-cat="web">
-          <button type="button" class="thumb" style="background:linear-gradient(135deg,#1c507d,#123a5e)" aria-pressed="false" aria-label="Kıbrıs Ev Temizlik projesini öne çıkar"><img width="1080" height="800" loading="lazy" src="images/kibrisevtemizlik-cover.webp" alt="Proje için hazırlanmış görsel sunum" decoding="async"></button>
-          <div class="body"><span class="cat">Web Sitesi</span><h3>Kıbrıs Ev Temizlik</h3><p>Kıbrıs bölgesi için hizmet tanıtımı ve iletişim odaklı kurumsal site.</p><a class="res" href="https://kıbrısevtemizlik.com.tr" target="_blank" rel="noopener">Siteyi ziyaret et →</a></div>
-        </article>
-        <article class="pcard" data-cat="web">
-          <button type="button" class="thumb" style="background:linear-gradient(135deg,#123a5e,#1c507d)" aria-pressed="false" aria-label="Alanya Klima Temizliği projesini öne çıkar"><img width="1080" height="800" loading="lazy" src="images/alanyaklimatemizligi-cover.webp" alt="Proje için hazırlanmış görsel sunum" decoding="async"></button>
-          <div class="body"><span class="cat">Web Sitesi</span><h3>Alanya Klima Temizliği</h3><p>Klima bakım ve temizlik hizmetleri için dönüşüm odaklı yerel web sitesi.</p><a class="res" href="https://alanyaklimatemizligi.com" target="_blank" rel="noopener">Siteyi ziyaret et →</a></div>
-        </article>
-        <article class="pcard" data-cat="kurumsal">
-          <button type="button" class="thumb" style="background:linear-gradient(135deg,#1c507d,#2b6699)" aria-pressed="false" aria-label="Eliva Digital projesini öne çıkar"><img width="1080" height="800" loading="lazy" src="images/elivadigital-cover.webp" alt="Proje için hazırlanmış görsel sunum" decoding="async"></button>
-          <div class="body"><span class="cat">Kurumsal / Ajans</span><h3>Eliva Digital</h3><p>Dijital ajans için kurumsal tanıtım sitesi ve hizmet vitrini.</p><a class="res" href="https://elivadigital.com.tr" target="_blank" rel="noopener">Siteyi ziyaret et →</a></div>
-        </article>
-        <article class="pcard" data-cat="kurumsal">
-          <button type="button" class="thumb" style="background:linear-gradient(135deg,#0a1f18,#14362b)" aria-pressed="false" aria-label="Eliva Moss projesini öne çıkar"><img loading="lazy" src="images/elivamoss-cover.svg" alt="Proje için hazırlanmış görsel sunum" decoding="async"></button>
-          <div class="body"><span class="cat">Biyofilik Tasarım & Kurumsal</span><h3>Eliva Moss</h3><p>Bakım gerektirmeyen stabilize yosun duvar panoları ve dikey bahçe tasarımları için lüks ürün vitrini.</p><a class="res" href="https://elivamoss.com.tr" target="_blank" rel="noopener">Siteyi ziyaret et →</a></div>
-        </article>
-        <article class="pcard" data-cat="kurumsal">
-          <button type="button" class="thumb" style="background:linear-gradient(135deg,#070c18,#0f1b33)" aria-pressed="false" aria-label="Beyonder projesini öne çıkar"><img loading="lazy" src="images/beyonder-cover.svg" alt="Proje için hazırlanmış görsel sunum" decoding="async"></button>
-          <div class="body"><span class="cat">Vitrin Sitesi / Portfolyo</span><h3>Beyonder</h3><p>Yeni nesil etkileşimli deneyimler ve ajans işlerimizi sunduğumuz özel vitrin platformu.</p><a class="res" href="https://beyonder.com.tr" target="_blank" rel="noopener">Siteyi ziyaret et →</a></div>
-        </article>
+      <article class="work-card work-klima" data-category="web" aria-labelledby="work-title-klima">
+        <button type="button" class="work-select" aria-pressed="false" aria-label="Alanya Klima Temizliği projesini öne çıkar"></button>
+        <div class="work-media">
+          <div class="work-browser"><div class="work-chrome" aria-hidden="true"><span class="work-dots"><i></i><i></i><i></i></span><span class="work-domain">alanyaklimatemizligi.com</span><svg class="work-lock" viewBox="0 0 12 12"><rect x="2" y="5" width="8" height="6" rx="1"/><path d="M4 5V3a2 2 0 0 1 4 0v2"/></svg></div><img src="images/projects/klima-compact.webp" srcset="images/projects/klima-compact.webp 720w, images/projects/klima-desktop.webp 1280w" sizes="(max-width: 700px) calc(100vw - 94px), 500px" width="1280" height="860" loading="lazy" decoding="async" fetchpriority="low" draggable="false" alt="Alanya Klima Temizliği sitesinin gerçek ekran görüntüsü"></div>
+        </div>
+        <div class="work-content">
+          <div class="work-meta"><span class="work-category">Yerel hizmet sitesi</span><span class="work-number" aria-hidden="true">02 / 08</span></div>
+          <h3 id="work-title-klima">Alanya Klima Temizliği</h3>
+          <p>Klima ve beyaz eşya hizmetlerini tek bir dijital adreste buluşturan deneyim.</p>
+          <div class="work-card-bottom"><div class="work-tags"><span>Web tasarım</span><span>Yerel SEO</span></div><a class="work-link" href="https://alanyaklimatemizligi.com" target="_blank" rel="noopener noreferrer" aria-label="Alanya Klima Temizliği sitesini ziyaret et (yeni sekme)">Canlı site <span aria-hidden="true">↗</span></a></div>
+        </div>
+      </article>
+
+      <article class="work-card work-eliva" data-category="kurumsal" aria-labelledby="work-title-eliva">
+        <button type="button" class="work-select" aria-pressed="false" aria-label="Eliva Digital projesini öne çıkar"></button>
+        <div class="work-media">
+          <div class="work-browser"><div class="work-chrome" aria-hidden="true"><span class="work-dots"><i></i><i></i><i></i></span><span class="work-domain">elivadigital.com.tr</span><svg class="work-lock" viewBox="0 0 12 12"><rect x="2" y="5" width="8" height="6" rx="1"/><path d="M4 5V3a2 2 0 0 1 4 0v2"/></svg></div><img src="images/projects/eliva-compact.webp" srcset="images/projects/eliva-compact.webp 720w, images/projects/eliva-desktop.webp 1280w" sizes="(max-width: 700px) calc(100vw - 94px), 500px" width="1280" height="860" loading="lazy" decoding="async" fetchpriority="low" draggable="false" alt="Eliva Digital sitesinin gerçek ekran görüntüsü"></div>
+        </div>
+        <div class="work-content">
+          <div class="work-meta"><span class="work-category">Kurumsal web deneyimi</span><span class="work-number" aria-hidden="true">03 / 08</span></div>
+          <h3 id="work-title-eliva">Eliva Digital</h3>
+          <p>Çocuk, sağlık, organik ürünler ve spor. Dört farklı dünyaya açılan bir vitrin.</p>
+          <div class="work-card-bottom"><div class="work-tags"><span>Kurumsal</span><span>Koleksiyonlar</span></div><a class="work-link" href="https://elivadigital.com.tr" target="_blank" rel="noopener noreferrer" aria-label="Eliva Digital sitesini ziyaret et (yeni sekme)">Canlı site <span aria-hidden="true">↗</span></a></div>
+        </div>
+      </article>
+
+      <article class="work-card work-cekici" data-category="web" aria-labelledby="work-title-cekici">
+        <button type="button" class="work-select" aria-pressed="false" aria-label="Alanya Çekici &amp; Çilingir projesini öne çıkar"></button>
+        <div class="work-media">
+          <div class="work-browser"><div class="work-chrome" aria-hidden="true"><span class="work-dots"><i></i><i></i><i></i></span><span class="work-domain">alanyacekicicilingir.com.tr</span><svg class="work-lock" viewBox="0 0 12 12"><rect x="2" y="5" width="8" height="6" rx="1"/><path d="M4 5V3a2 2 0 0 1 4 0v2"/></svg></div><img src="images/projects/cekici-compact.webp" srcset="images/projects/cekici-compact.webp 720w, images/projects/cekici-desktop.webp 1280w" sizes="(max-width: 700px) calc(100vw - 94px), 500px" width="1280" height="860" loading="lazy" decoding="async" fetchpriority="low" draggable="false" alt="Alanya Çekici &amp; Çilingir sitesinin gerçek ekran görüntüsü"></div>
+        </div>
+        <div class="work-content">
+          <div class="work-meta"><span class="work-category">Yerel hizmet sitesi</span><span class="work-number" aria-hidden="true">04 / 08</span></div>
+          <h3 id="work-title-cekici">Alanya Çekici &amp; Çilingir</h3>
+          <p>İhtiyaç anında arama ve konum paylaşımını öne çıkaran, doğrudan iletişim.</p>
+          <div class="work-card-bottom"><div class="work-tags"><span>Web tasarım</span><span>İletişim</span></div><a class="work-link" href="https://alanyacekicicilingir.com.tr" target="_blank" rel="noopener noreferrer" aria-label="Alanya Çekici &amp; Çilingir sitesini ziyaret et (yeni sekme)">Canlı site <span aria-hidden="true">↗</span></a></div>
+        </div>
+      </article>
+
+      <article class="work-card work-alanya" data-category="web" aria-labelledby="work-title-alanya">
+        <button type="button" class="work-select" aria-pressed="false" aria-label="Alanya Ev Temizlik projesini öne çıkar"></button>
+        <div class="work-media">
+          <div class="work-browser"><div class="work-chrome" aria-hidden="true"><span class="work-dots"><i></i><i></i><i></i></span><span class="work-domain">alanyaevtemizlik.com.tr/en</span><svg class="work-lock" viewBox="0 0 12 12"><rect x="2" y="5" width="8" height="6" rx="1"/><path d="M4 5V3a2 2 0 0 1 4 0v2"/></svg></div><img src="images/projects/alanya-compact.webp" srcset="images/projects/alanya-compact.webp 720w, images/projects/alanya-desktop.webp 1280w" sizes="(max-width: 700px) calc(100vw - 94px), 500px" width="1280" height="860" loading="lazy" decoding="async" fetchpriority="low" draggable="false" alt="Alanya Ev Temizlik sitesinin İngilizce sayfasının gerçek ekran görüntüsü"></div>
+        </div>
+        <div class="work-content">
+          <div class="work-meta"><span class="work-category">Çok dilli hizmet sitesi</span><span class="work-number" aria-hidden="true">05 / 08</span></div>
+          <h3 id="work-title-alanya">Alanya Ev Temizlik</h3>
+          <p>Ev ve ofis temizliği hizmetlerini farklı dillerde sunan dijital tanıtım.</p>
+          <div class="work-card-bottom"><div class="work-tags"><span>Web tasarım</span><span>Çok dil</span></div><a class="work-link" href="https://alanyaevtemizlik.com.tr" target="_blank" rel="noopener noreferrer" aria-label="Alanya Ev Temizlik sitesini ziyaret et (yeni sekme)">Canlı site <span aria-hidden="true">↗</span></a></div>
+        </div>
+      </article>
+
+      <article class="work-card work-manavgat" data-category="web" aria-labelledby="work-title-manavgat">
+        <button type="button" class="work-select" aria-pressed="false" aria-label="Manavgat Ev Temizlik projesini öne çıkar"></button>
+        <div class="work-media">
+          <div class="work-browser"><div class="work-chrome" aria-hidden="true"><span class="work-dots"><i></i><i></i><i></i></span><span class="work-domain">manavgatevtemizlik.com.tr</span><svg class="work-lock" viewBox="0 0 12 12"><rect x="2" y="5" width="8" height="6" rx="1"/><path d="M4 5V3a2 2 0 0 1 4 0v2"/></svg></div><img src="images/projects/manavgat-compact.webp" srcset="images/projects/manavgat-compact.webp 720w, images/projects/manavgat-desktop.webp 1280w" sizes="(max-width: 700px) calc(100vw - 94px), 500px" width="1280" height="860" loading="lazy" decoding="async" fetchpriority="low" draggable="false" alt="Manavgat Ev Temizlik sitesinin gerçek ekran görüntüsü"></div>
+        </div>
+        <div class="work-content">
+          <div class="work-meta"><span class="work-category">Yerel hizmet sitesi</span><span class="work-number" aria-hidden="true">06 / 08</span></div>
+          <h3 id="work-title-manavgat">Manavgat Ev Temizlik</h3>
+          <p>Bölgesel hizmetleri ve kolay ulaşılabilir iletişim seçeneklerini bir araya getiren site.</p>
+          <div class="work-card-bottom"><div class="work-tags"><span>Web tasarım</span><span>Yerel SEO</span></div><a class="work-link" href="https://manavgatevtemizlik.com.tr" target="_blank" rel="noopener noreferrer" aria-label="Manavgat Ev Temizlik sitesini ziyaret et (yeni sekme)">Canlı site <span aria-hidden="true">↗</span></a></div>
+        </div>
+      </article>
+
+      <article class="work-card work-kibris" data-category="web" aria-labelledby="work-title-kibris">
+        <button type="button" class="work-select" aria-pressed="false" aria-label="Kıbrıs Ev Temizlik projesini öne çıkar"></button>
+        <div class="work-media">
+          <div class="work-browser"><div class="work-chrome" aria-hidden="true"><span class="work-dots"><i></i><i></i><i></i></span><span class="work-domain">kıbrısevtemizlik.com.tr</span><svg class="work-lock" viewBox="0 0 12 12"><rect x="2" y="5" width="8" height="6" rx="1"/><path d="M4 5V3a2 2 0 0 1 4 0v2"/></svg></div><img src="images/projects/kibris-compact.webp" srcset="images/projects/kibris-compact.webp 720w, images/projects/kibris-desktop.webp 1280w" sizes="(max-width: 700px) calc(100vw - 94px), 500px" width="1280" height="860" loading="lazy" decoding="async" fetchpriority="low" draggable="false" alt="Kıbrıs Ev Temizlik sitesinin gerçek ekran görüntüsü"></div>
+        </div>
+        <div class="work-content">
+          <div class="work-meta"><span class="work-category">Yerel hizmet sitesi</span><span class="work-number" aria-hidden="true">07 / 08</span></div>
+          <h3 id="work-title-kibris">Kıbrıs Ev Temizlik</h3>
+          <p>Kıbrıs’taki temizlik hizmetleri için açık, anlaşılır ve mobil uyumlu bir tanıtım.</p>
+          <div class="work-card-bottom"><div class="work-tags"><span>Web tasarım</span><span>Mobil uyum</span></div><a class="work-link" href="https://kıbrısevtemizlik.com.tr" target="_blank" rel="noopener noreferrer" aria-label="Kıbrıs Ev Temizlik sitesini ziyaret et (yeni sekme)">Canlı site <span aria-hidden="true">↗</span></a></div>
+        </div>
+      </article>
+
+      <article class="work-card work-beyonder" data-category="kurumsal" aria-labelledby="work-title-beyonder">
+        <button type="button" class="work-select" aria-pressed="false" aria-label="Beyonder projesini öne çıkar"></button>
+        <div class="work-media">
+          <span class="beyonder-label">DİJİTAL DENEYİMLER / MARKA SUNUMU</span><span class="beyonder-orbit" aria-hidden="true"></span><span class="beyonder-wordmark" aria-hidden="true">beyonder<span>.</span></span>
+        </div>
+        <div class="work-content">
+          <div class="work-meta"><span class="work-category">Dijital proje vitrini</span><span class="work-number" aria-hidden="true">08 / 08</span></div>
+          <h3 id="work-title-beyonder">Beyonder</h3>
+          <p>Etkileşimli deneyimleri bir araya getiren proje vitrininin marka sunumu.</p>
+          <div class="work-card-bottom"><div class="work-tags"><span>Dijital deneyim</span><span>Vitrin</span></div><span class="work-presentation-note">Proje sunumu</span></div>
+        </div>
+      </article>
+    </div>
+    <div class="wrap">
+      <div class="work-footer">
+        <div class="work-position" aria-label="Görünen proje"><b id="work-current">01</b><i aria-hidden="true"></i><span id="work-total">08</span></div>
+        <p class="work-guidance">Kaydırın. Dokunun. Yakından bakın.</p>
+        <div class="work-arrows"><button type="button" id="work-prev" class="work-arrow" aria-label="Önceki proje" aria-controls="work-track" disabled>←</button><button type="button" id="work-next" class="work-arrow" aria-label="Sonraki proje" aria-controls="work-track">→</button></div>
       </div>
-      <p style="margin-top:22px;font-size:14px;color:var(--muted)">Ve GitHub üzerinde geliştirdiğimiz birçok proje daha. <a href="teklif-formu.html" style="color:var(--accent);font-weight:600">Sizinki de aramıza katılsın →</a></p>
+      <div class="work-invitation"><span>Bir sonraki güzel iş, sizin projeniz olabilir.</span><a href="teklif-formu.html">Birlikte tasarlayalım <span aria-hidden="true">↗</span></a></div>
+      <p id="work-status" class="work-sr-only" role="status" aria-live="polite"></p>
     </div>
   </section>
 

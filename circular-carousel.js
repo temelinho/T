@@ -78,7 +78,6 @@
         selected: null,
         dir: this.options.direction === 'right' ? 1 : -1,
         press: null,
-        tappedIndex: null,
         drag: false,
         hover: false,
         pointer: { inside: false, x: 0, y: 0 },
@@ -510,6 +509,28 @@
       this.wake();
     }
 
+    cardAtPoint(x, y, target) {
+      const card = target.closest('[data-cc-index]');
+      if (card && this.root.contains(card)) return Number(card.dataset.ccIndex);
+
+      // Some browsers hit the zero-size 3D stage instead of its clipped images.
+      // Check the visible strips only on input; keep layout reads out of animation.
+      const order = this.cardRefs.map((card, index) => ({
+        card,
+        index,
+        depth: (this.radius + (window.innerWidth <= 640 ? 55 : 100) * this.emphasis[index])
+          * Math.cos((index * this.step + this.state.angle) * TO_RAD)
+      })).sort((a, b) => b.depth - a.depth);
+      for (const { card, index } of order) {
+        const strips = card.querySelectorAll('.circular-carousel__tile');
+        for (let i = 0; i < strips.length; i++) {
+          const rect = strips[i].getBoundingClientRect();
+          if (x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom) return index;
+        }
+      }
+      return null;
+    }
+
     next() {
       const base = this.state.target ?? Math.round(this.state.angle / this.step) * this.step;
       this.focusIndex(Math.round(-base / this.step) + 1);
@@ -545,14 +566,23 @@
       const root = this.root;
       const state = this.state;
 
+      const activateCard = index => {
+        if (index === null) {
+          this.clearFocus();
+          return;
+        }
+        if (this.options.focusOnClick) this.focusIndex(index);
+        if (typeof this.options.onItemClick === 'function') {
+          this.options.onItemClick(this.items[index], index);
+        }
+      };
+
       const onPointerDown = e => {
         state.suppressClick = false;
-        state.tappedIndex = null;
         if (!this.options.draggable || e.button !== 0) return;
-        const card = e.target.closest('[data-cc-index]');
         state.press = {
           id: e.pointerId,
-          index: card ? Number(card.dataset.ccIndex) : null,
+          index: this.cardAtPoint(e.clientX, e.clientY, e.target),
           x: e.clientX,
           y: e.clientY,
           angle: state.angle,
@@ -613,7 +643,11 @@
         if (!press || press.id !== e.pointerId) return;
         state.press = null;
         if (!press.moved) {
-          state.tappedIndex = e.type === 'pointercancel' ? null : press.index;
+          const isTap = e.type === 'pointerup' && Math.hypot(e.clientX - press.x, e.clientY - press.y) < DRAG_THRESHOLD;
+          // Use the originally pressed card: 3D image strips can change the
+          // target (or lose the compatibility click) between press and release.
+          state.suppressClick = true;
+          if (isTap) activateCard(press.index);
           this.wake();
           return;
         }
@@ -663,19 +697,10 @@
           return;
         }
         const card = e.target.closest('[data-cc-index]');
-        // Retain the pressed surface if a compatibility click lands on a tile seam.
-        const index = card ? Number(card.dataset.ccIndex) : state.tappedIndex;
-        state.tappedIndex = null;
-        if (index === null) {
-          this.clearFocus();
-          return;
-        }
-        if (this.options.focusOnClick) {
-          this.focusIndex(index);
-        }
-        if (typeof this.options.onItemClick === 'function') {
-          this.options.onItemClick(this.items[index], index);
-        }
+        const index = e.detail === 0
+          ? (card ? Number(card.dataset.ccIndex) : null)
+          : this.cardAtPoint(e.clientX, e.clientY, e.target);
+        activateCard(index);
       });
 
       const onResize = () => {

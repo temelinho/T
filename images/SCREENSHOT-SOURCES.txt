@@ -33,3 +33,15 @@ Source image: https://play-lh.googleusercontent.com/0TQ9ZGJ1QCm8OYzAQ9qtimUmybdi
 
 DELIVERY OPTIMIZATION — 2026-10-27
 Real screenshots are delivered as resized WebP derivatives; original captures remain in the repository. No interface content was generated or replaced. Instagram / Maps / mobile web: 600px wide; WhatsApp / Trendyol: 720px; desktop web: 1280px. Large project SVG covers are served as 1080px WebP images; small vector-only covers remain SVG.
+
+PROJECT GALLERY — 2026-10-28
+New files under images/projects/ are real browser captures, taken at 1280x860 and encoded to WebP at 1280px and 720px widths. Page text, photography, layout and attribution are retained. No generated interface images or stock-photo covers are used in this gallery.
+moss-*: https://elivamoss.com.tr/
+klima-*: https://alanyaklimatemizligi.com/
+eliva-*: https://elivadigital.com.tr/
+cekici-*: https://alanyacekicicilingir.com.tr/
+alanya-*: https://alanyaevtemizlik.com.tr/en/ (the working English page; the Turkish root currently has malformed head markup and does not render its styles).
+manavgat-*: https://manavgatevtemizlik.com.tr/
+kibris-*: https://kıbrısevtemizlik.com.tr/
+Beyonder: beyonder.com.tr did not resolve. Its card uses an original, CSS-only brand presentation, explicitly labeled "Marka sunumu" / "Proje sunumu"; it is not represented as a screenshot or a currently available live site.
+Original cover files are retained but are no longer loaded by the redesigned gallery.
