@@ -68,6 +68,10 @@
   .opt .check{margin-left:auto;width:22px;height:22px;border-radius:50%;border:2px solid var(--line);display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px}
   .opt.sel .check{background:var(--accent);border-color:var(--accent)}
   .field{margin-bottom:14px}
+  .field-help{display:block;font-size:12px;color:var(--muted);margin-top:6px}
+  .field-error{font-size:12px;color:#b42335;margin-top:6px}
+  .field-error[hidden]{display:none}
+  input[aria-invalid="true"]{border-color:#b42335}
   .fl{display:block;font-size:13px;color:var(--muted);margin-bottom:6px;font-weight:600}
   input,textarea{width:100%;background:#fff;border:1.5px solid var(--line);border-radius:10px;color:var(--ink);padding:12px 14px;font-size:14px;outline:none;transition:.2s;font-family:inherit}
   input:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(246,130,31,.13)}
@@ -113,6 +117,7 @@
 <script src="micro-slats.js" defer></script>
 <script src="navigation.js" defer></script>
 <script src="mail-delivery.js" defer></script>
+<script src="contact-validation.js" defer></script>
 <script src="teklif-formu.js" defer></script>
 </head>
 <body>
@@ -212,24 +217,24 @@
             <div class="step" data-step="4">
               <div class="kicker">Adım 4 / 5</div>
               <h2 tabindex="-1">Projenizi anlatın</h2>
-              <p class="sub">Kısaca ne yapmak istediğinizi yazın.</p>
+              <p class="sub">İsterseniz kısaca anlatın. Bu adımı boş bırakarak devam edebilirsiniz.</p>
               <div class="field">
-                <label class="fl" for="detay">Proje detayı</label>
-                <textarea id="detay" name="detay" maxlength="1500" required placeholder="Örn: Restoranım için online sipariş alabilen bir site istiyorum..."></textarea>
+                <label class="fl" for="detay">Proje detayı (isteğe bağlı)</label>
+                <textarea id="detay" name="detay" maxlength="1500" placeholder="Örn: Restoranım için online sipariş alabilen bir site istiyorum..."></textarea>
               </div>
-              <div class="err" role="alert">Lütfen birkaç cümle yazın.</div>
+              <div class="err" role="alert">Mesajınız en fazla 1500 karakter olabilir.</div>
             </div>
 
             <!-- 5 -->
             <div class="step" data-step="5">
               <div class="kicker">Adım 5 / 5</div>
               <h2 tabindex="-1">Size nasıl ulaşalım?</h2>
-              <p class="sub">Teklifi bu bilgilerle ileteceğiz.</p>
-              <div class="field"><label class="fl" for="ad">Ad Soyad *</label><input id="ad" name="ad" autocomplete="name" maxlength="100" required type="text" placeholder="Adınız Soyadınız"></div>
-              <div class="field"><label class="fl" for="email">E-posta *</label><input id="email" name="email" autocomplete="email" maxlength="120" required type="email" placeholder="ornek@eposta.com"></div>
-              <div class="field"><label class="fl" for="telefon">Telefon</label><input id="telefon" name="telefon" autocomplete="tel" maxlength="30" type="tel" placeholder="05xx xxx xx xx"></div>
+              <p class="sub">Size ulaşabilmemiz için adınızı, e-posta adresinizi ve telefon numaranızı girin.</p>
+              <div class="field"><label class="fl" for="ad">Ad Soyad *</label><input id="ad" name="ad" autocomplete="name" minlength="2" maxlength="100" required type="text" aria-describedby="ad-error" placeholder="Adınız Soyadınız"><p class="field-error" id="ad-error" hidden></p></div>
+              <div class="field"><label class="fl" for="email">E-posta *</label><input id="email" name="email" autocomplete="email" autocapitalize="none" spellcheck="false" inputmode="email" maxlength="120" required type="email" aria-describedby="email-help email-error" placeholder="ornek@eposta.com"><small class="field-help" id="email-help">Talep onayınızı bu adrese göndereceğiz. Adresinizi kontrol edin.</small><p class="field-error" id="email-error" hidden></p></div>
+              <div class="field"><label class="fl" for="telefon">Telefon *</label><input id="telefon" name="telefon" autocomplete="tel" inputmode="tel" maxlength="30" required type="tel" aria-describedby="telefon-help telefon-error" placeholder="0532-123-45-67"><small class="field-help" id="telefon-help">Türkiye numaranızı yazın. +90 ile başlayan numaraları da kullanabilirsiniz.</small><p class="field-error" id="telefon-error" hidden></p></div>
               <div class="field"><label class="fl" for="sirket">Şirket / Marka (opsiyonel)</label><input id="sirket" name="sirket" autocomplete="organization" maxlength="100" type="text" placeholder="Şirket adı"></div>
-              <div class="err" role="alert">Lütfen ad ve geçerli bir e-posta girin.</div>
+              <div class="err" role="alert">Lütfen işaretli iletişim bilgilerini kontrol edin.</div>
             </div>
 
             <!-- success -->

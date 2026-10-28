@@ -35,6 +35,8 @@ Alan adınız hazır değilse `onboarding@resend.dev` yalnızca test içindir ve
 
 ## İstek korumaları
 
+Ad, biçimi geçerli e-posta ve Türkiye telefon numarası zorunludur; proje detayı isteğe bağlıdır. Telefonlar `0XXX-XXX-XX-XX` biçiminde gösterilir; API `+90`, `0090`, 10 veya 11 haneli girişleri 11 haneli yerel numaraya dönüştürür. Kontroller `contact-validation.js` üzerinden tarayıcı ve sunucuda paylaşılır. Biçim kontrolü, e-posta veya telefonun sahipliğini doğrulamaz.
+
 Sunucu yalnızca izin verilen kökenden JSON POST kabul eder; alanlar ve gövde boyutu doğrulanır. Alıcı/gönderici tarayıcı verisinden alınmaz. Gizli bot alanı ve sunucu örneği başına IP bazlı kısa süreli limit bulunur. Bu bellek içi limit farklı sunucu örnekleri arasında paylaşılmaz ve yeniden başlatmada sıfırlanır.
 
 Yayına alırken Vercel > Firewall altında `/api/quote` POST istekleri için IP başına örneğin 60 saniyede 5 istek sınırı ekleyin. Dağıtık trafik için asıl sınırı platformda uygulayın; seçilen planın kullanım ve fiyat bilgisini kontrol edin. Anahtarı yalnızca gönderim yetkisiyle sınırlandırın.

@@ -1,5 +1,6 @@
 import { createHash } from 'node:crypto';
 import { customerReceipt } from './customer-receipt.mjs';
+import contactValidation from '../contact-validation.js';
 
 const MAX_BODY = 12_000;
 const EMAIL = /^[^\s<>@,;\r\n]+@[^\s<>@,;\r\n]+\.[^\s<>@,;\r\n]+$/;
@@ -32,12 +33,12 @@ function validate(body) {
   if (!input || typeof input !== 'object' || Array.isArray(input) || (input.website && String(input.website).trim())) return null;
   const quote = {
     ad:textField(input.ad,100,2), email:textField(input.email,120,3),
-    telefon:textField(input.telefon,30), sirket:textField(input.sirket,100),
+    telefon:contactValidation.normalizePhone(textField(input.telefon,30,1)), sirket:textField(input.sirket,100),
     musteri_tipi:input.musteri_tipi, hizmetler:input.hizmetler,
-    butce:input.butce, zaman:input.zaman, detay:textField(input.detay,1500,5,true),
+    butce:input.butce, zaman:input.zaman, detay:textField(input.detay,1500,0,true),
     hedef:textField(input.hedef,120), ornek_proje:textField(input.ornek_proje,100)
   };
-  if (Object.values(quote).some(value=>value===null) || !EMAIL.test(quote.email) || !TYPES.has(quote.musteri_tipi) || !BUDGETS.has(quote.butce) || !TIMES.has(quote.zaman)) return null;
+  if (Object.values(quote).some(value=>value===null) || !contactValidation.isValidEmail(quote.email) || !TYPES.has(quote.musteri_tipi) || !BUDGETS.has(quote.butce) || !TIMES.has(quote.zaman)) return null;
   if (!Array.isArray(quote.hizmetler) || !quote.hizmetler.length || quote.hizmetler.length > SERVICES.size || quote.hizmetler.some(value=>!SERVICES.has(value))) return null;
   quote.hizmetler = [...new Set(quote.hizmetler)];
   return {quote,submissionId:body.submissionId};
@@ -49,8 +50,9 @@ function emailContent(quote, config) {
     ['Proje türü',quote.musteri_tipi],['Hizmetler',quote.hizmetler.join(', ')],['Bütçe',quote.butce],
     ['Zamanlama',quote.zaman],['Hedef',quote.hedef],['İlgilendiği proje',quote.ornek_proje]
   ].filter(([,value])=>value);
-  const text = ['Temel Technology — Yeni proje talebi','',...rows.map(([label,value])=>`${label}: ${value}`),'','Proje detayı:',quote.detay].join('\n');
-  const html = `<div style="background:#f5f2fa;padding:24px;font-family:Arial,sans-serif;color:#2c2039"><div style="max-width:620px;margin:auto;background:#fff;border:1px solid #e7dfef;border-radius:18px;padding:28px"><p style="font-size:12px;color:#7444a8;letter-spacing:1px">TEMEL TECHNOLOGY</p><h1 style="font-size:26px;margin:12px 0 24px">Yeni proje talebi</h1><table role="presentation" style="width:100%;border-collapse:collapse">${rows.map(([label,value])=>`<tr><td style="padding:12px 8px 12px 0;border-bottom:1px solid #eee7f4;font-size:13px;vertical-align:top;color:#7b6b88;width:35%">${escape(label)}</td><td style="padding:12px 0;border-bottom:1px solid #eee7f4;font-size:14px;overflow-wrap:anywhere">${escape(value)}</td></tr>`).join('')}</table><h2 style="font-size:16px;margin-top:28px">Proje detayı</h2><p style="font-size:14px;line-height:1.8;overflow-wrap:anywhere">${escape(quote.detay).replace(/\r?\n/g,'<br>')}</p><p style="font-size:12px;color:#7b6b88;margin-top:28px">Bu e-postayı yanıtlayarak talep sahibine ulaşabilirsiniz.</p></div></div>`;
+  const detail=quote.detay||'Proje detayı paylaşılmadı. İletişim bilgileri üzerinden görüşülebilir.';
+  const text = ['Temel Technology — Yeni proje talebi','',...rows.map(([label,value])=>`${label}: ${value}`),'','Proje detayı:',detail].join('\n');
+  const html = `<div style="background:#f5f2fa;padding:24px;font-family:Arial,sans-serif;color:#2c2039"><div style="max-width:620px;margin:auto;background:#fff;border:1px solid #e7dfef;border-radius:18px;padding:28px"><p style="font-size:12px;color:#7444a8;letter-spacing:1px">TEMEL TECHNOLOGY</p><h1 style="font-size:26px;margin:12px 0 24px">Yeni proje talebi</h1><table role="presentation" style="width:100%;border-collapse:collapse">${rows.map(([label,value])=>`<tr><td style="padding:12px 8px 12px 0;border-bottom:1px solid #eee7f4;font-size:13px;vertical-align:top;color:#7b6b88;width:35%">${escape(label)}</td><td style="padding:12px 0;border-bottom:1px solid #eee7f4;font-size:14px;overflow-wrap:anywhere">${escape(value)}</td></tr>`).join('')}</table><h2 style="font-size:16px;margin-top:28px">Proje detayı</h2><p style="font-size:14px;line-height:1.8;overflow-wrap:anywhere">${escape(detail).replace(/\r?\n/g,'<br>')}</p><p style="font-size:12px;color:#7b6b88;margin-top:28px">Bu e-postayı yanıtlayarak talep sahibine ulaşabilirsiniz.</p></div></div>`;
   return {from:config.from,to:[config.to],reply_to:quote.email,subject:`Yeni proje talebi — ${quote.ad}`,text,html};
 }
 

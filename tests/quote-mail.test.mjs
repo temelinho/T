@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { createQuoteHandler } from '../server/quote-mail.mjs';
 
 const env={MAIL_ENABLED:'true',RESEND_API_KEY:'test-key-not-a-real-secret',RESEND_FROM:'Temel Technology <forms@example.com>',QUOTE_TO:'owner@example.com',SITE_ORIGIN:'https://example.com'};
-const quote={ad:'Örnek Kişi',email:'visitor@example.net',telefon:'05000000000',sirket:'Örnek Firma',musteri_tipi:'İşletme',hizmetler:['Web sitesi','Dijital reklam (Google / Sosyal medya)'],butce:'Bütçem henüz belli değil',zaman:'Sadece fikir alıyorum',detay:'Yeni bir web sitesi istiyorum.',hedef:'Daha fazla müşteriye ulaşmak',ornek_proje:'Alanya Klima Temizliği',website:''};
+const quote={ad:'Örnek Kişi',email:'visitor@example.net',telefon:'05321234567',sirket:'Örnek Firma',musteri_tipi:'İşletme',hizmetler:['Web sitesi','Dijital reklam (Google / Sosyal medya)'],butce:'Bütçem henüz belli değil',zaman:'Sadece fikir alıyorum',detay:'Yeni bir web sitesi istiyorum.',hedef:'Daha fazla müşteriye ulaşmak',ornek_proje:'Alanya Klima Temizliği',website:''};
 const submissionId='b454497c-6db7-4831-bc71-9567665bfd6d';
 const request=(changes={},headers={})=>new Request('https://example.com/api/quote',{method:'POST',headers:{Origin:'https://example.com','Content-Type':'application/json','x-forwarded-for':'192.0.2.10',...headers},body:JSON.stringify({quote:{...quote,...changes},submissionId})});
 function setup(response=()=>Response.json({data:[{id:'owner-test-id'},{id:'receipt-test-id'}]})){
@@ -27,7 +27,7 @@ test('fixed recipient, reply-to, complete summary and escaped HTML',async()=>{
 });
 
 test('customer receipt is private, branded and replies to the business',async()=>{
- const {handler,calls}=setup();const response=await handler(request({ad:'Ada <img src=x>',detay:'PRIVATE PROJECT DETAILS',sirket:'PRIVATE COMPANY',telefon:'PRIVATE PHONE'}),env);
+ const {handler,calls}=setup();const response=await handler(request({ad:'Ada <img src=x>',detay:'PRIVATE PROJECT DETAILS',sirket:'PRIVATE COMPANY',telefon:'05329876543'}),env);
  assert.equal(response.status,200);const {receipt,messages}=calls[0];
  assert.equal(messages.length,2);assert.deepEqual(receipt.to,[quote.email]);
  assert.equal(receipt.from,env.RESEND_FROM);assert.equal(receipt.reply_to,env.QUOTE_TO);
@@ -35,8 +35,24 @@ test('customer receipt is private, branded and replies to the business',async()=
  assert.match(receipt.html,/Ada &lt;img src=x&gt;/);assert.ok(!receipt.html.includes('<img src=x>'));
  assert.match(receipt.text,/en kısa sürede dönüş yapacağız/);assert.match(receipt.html,/B454497C/);
  assert.match(receipt.html,/https:\/\/temeltechnology.com\/#islerimiz/);
- for(const value of ['PRIVATE PROJECT DETAILS','PRIVATE COMPANY','PRIVATE PHONE'])assert.ok(!receipt.html.includes(value));
+ for(const value of ['PRIVATE PROJECT DETAILS','PRIVATE COMPANY','05329876543'])assert.ok(!receipt.html.includes(value));
  assert.ok(!receipt.bcc && !receipt.cc);
+});
+
+test('valid contacts can submit with no project message and phone is normalized',async()=>{
+ for(const detail of ['',undefined,' ', 'x']){
+  const {handler,calls}=setup();const response=await handler(request({detay:detail,telefon:'+90 (532) 123 45 67'}),env);
+  assert.equal(response.status,200);assert.match(calls[0].mail.text,/Telefon: 05321234567/);
+  if(!detail?.trim())assert.match(calls[0].mail.text,/Proje detayı paylaşılmadı/);
+ }
+});
+
+test('invalid contact details cannot send either email',async()=>{
+ const {handler,calls}=setup();
+ for(const changes of [{telefon:''},{telefon:undefined},{telefon:'123'},{telefon:'053212345678'},{telefon:'+44 5321234567'},{email:'a..b@gmail.com'},{email:'a@gmail..com'},{email:'a@-gmail.com'}]){
+  assert.equal((await handler(request(changes),env)).status,400);
+ }
+ assert.equal(calls.length,0);
 });
 
 test('batch must acknowledge both messages before showing success',async()=>{

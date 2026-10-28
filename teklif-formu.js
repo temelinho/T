@@ -13,12 +13,53 @@
   const editButton = form.querySelector('#edit-quote');
   const mailLink = form.querySelector('#mailto-send');
   const delivery = window.quoteDelivery;
+  const {isValidEmail,normalizePhone,formatPhone}=window.contactValidation;
+  const phone=form.querySelector('#telefon');
+  const contactFields=['ad','email','telefon'];
   let sending = false;
   let step = 1;
 
   function clearErrors() {
     form.querySelectorAll('.err').forEach(error => { error.style.display = 'none'; });
   }
+
+  function contactError(name) {
+    const value=form.elements[name].value.trim();
+    if(name==='ad')return value.length<2?'Lütfen adınızı ve soyadınızı girin.':'';
+    if(name==='email')return isValidEmail(value)?'':'Geçerli bir e-posta adresi girin. Örnek: adiniz@gmail.com';
+    return normalizePhone(value)?'':'Geçerli bir Türkiye telefon numarası girin. Örnek: 0532-123-45-67';
+  }
+  function showContactError(name,message) {
+    const field=form.elements[name], error=document.getElementById(name+'-error');
+    field.setAttribute('aria-invalid',String(Boolean(message)));
+    error.textContent=message;error.hidden=!message;
+  }
+  contactFields.forEach(name=>{
+    const field=form.elements[name];
+    field.addEventListener('blur',()=>showContactError(name,contactError(name)));
+    field.addEventListener('input',()=>{
+      if(field.getAttribute('aria-invalid')==='true')showContactError(name,contactError(name));
+    });
+  });
+  phone.addEventListener('keydown',event=>{
+    const start=phone.selectionStart,end=phone.selectionEnd;
+    if(start!==end)return;
+    // Delete the neighbouring digit with a separator, so it cannot trap the caret.
+    if(event.key==='Backspace'&&phone.value[start-1]==='-')phone.setSelectionRange(Math.max(0,start-2),start);
+    if(event.key==='Delete'&&phone.value[start]==='-')phone.setSelectionRange(start,start+2);
+  });
+  phone.addEventListener('input',()=>{
+    const raw=phone.value,caret=phone.selectionStart;
+    const digitsBefore=raw.slice(0,caret).replace(/\D/g,'').length;
+    const formatted=formatPhone(raw);
+    const delta=formatted.replace(/\D/g,'').length-raw.replace(/\D/g,'').length;
+    phone.value=formatted;
+    const target=Math.max(0,digitsBefore+delta);
+    let position=0,count=0;
+    while(position<formatted.length&&count<target){if(/\d/.test(formatted[position]))count++;position++;}
+    phone.setSelectionRange(position,position);
+    if(phone.getAttribute('aria-invalid')==='true')showContactError('telefon',contactError('telefon'));
+  });
 
   form.querySelectorAll('.opts').forEach(group => {
     const multi = Boolean(group.dataset.multi);
@@ -72,8 +113,15 @@
     if (step === 1) return Boolean(state.musteri_tipi);
     if (step === 2) return state.hizmetler.length > 0;
     if (step === 3) return Boolean(state.butce && state.zaman);
-    if (step === 4) return state.detay.length >= 5;
-    return state.ad.length >= 2 && /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(state.email);
+    if (step === 4) return state.detay.length <= 1500;
+    let firstInvalid;
+    contactFields.forEach(name=>{
+      const error=contactError(name);showContactError(name,error);
+      if(error&&!firstInvalid)firstInvalid=form.elements[name];
+    });
+    if(firstInvalid){firstInvalid.focus();return false;}
+    state.telefon=formatPhone(normalizePhone(state.telefon));
+    return true;
   }
 
   function render(focus = true) {
@@ -95,7 +143,8 @@
       `Proje türü: ${state.musteri_tipi}`, `Hizmetler: ${state.hizmetler.join(', ')}`,
       ...(state.hedef ? [`Hedef: ${state.hedef}`] : []),
       ...(state.ornek_proje ? [`İlgilendiğim proje: ${state.ornek_proje}`] : []),
-      `Bütçe: ${state.butce}`, `Zamanlama: ${state.zaman}`, '', 'Proje detayı:', state.detay
+      `Bütçe: ${state.butce}`, `Zamanlama: ${state.zaman}`,
+      ...(state.detay ? ['', 'Proje detayı:', state.detay] : [])
     ].join('\n');
     document.querySelector('#quote-summary').textContent = summary;
     mailLink.href = `mailto:temeltechnology@gmail.com?subject=${encodeURIComponent('Proje teklif talebi — ' + state.ad)}&body=${encodeURIComponent(summary)}`;
