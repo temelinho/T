@@ -1,0 +1,488 @@
+/* ==========================================================================
+   Temel Technology - Welcome / Discovery Modal
+   ========================================================================== */
+
+/* Dialog reset & base styling */
+.welcome-dialog {
+  width: min(720px, calc(100vw - 32px));
+  max-height: calc(100dvh - 40px);
+  margin: auto;
+  padding: 0;
+  border: 1px solid rgba(220, 214, 232, 0.85);
+  border-radius: 26px;
+  background: #ffffff;
+  color: #1d1d1f;
+  box-shadow: 0 32px 80px -12px rgba(18, 14, 38, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.8) inset;
+  overscroll-behavior: contain;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  outline: none;
+  opacity: 0;
+  transform: scale(0.92) translateY(14px);
+  transition: opacity 0.32s cubic-bezier(0.16, 1, 0.3, 1), transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Modal Backdrop */
+.welcome-dialog::backdrop {
+  background: rgba(15, 18, 28, 0.72);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  opacity: 0;
+  transition: opacity 0.32s ease;
+}
+
+/* When dialog is open */
+.welcome-dialog[open] {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+.welcome-dialog[open]::backdrop {
+  opacity: 1;
+}
+
+/* Closing animation */
+.welcome-dialog.is-closing {
+  opacity: 0 !important;
+  transform: scale(0.94) translateY(10px) !important;
+}
+
+.welcome-dialog.is-closing::backdrop {
+  opacity: 0 !important;
+}
+
+/* Inner scroll container */
+.welcome-dialog-inner {
+  padding: 30px 32px 28px;
+  overflow-y: auto;
+  max-height: calc(100dvh - 40px);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  scrollbar-width: thin;
+  scrollbar-color: #d6cee3 transparent;
+}
+
+.welcome-dialog-inner::-webkit-scrollbar {
+  width: 6px;
+}
+.welcome-dialog-inner::-webkit-scrollbar-thumb {
+  background-color: #d6cee3;
+  border-radius: 99px;
+}
+
+/* Header & Close */
+.welcome-header {
+  position: relative;
+  padding-right: 44px;
+  margin-bottom: 22px;
+}
+
+.welcome-close-btn {
+  position: absolute;
+  top: -4px;
+  right: -6px;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid #e7e2ee;
+  background: #fbf9fd;
+  color: #6e6479;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.2s, color 0.2s, border-color 0.2s;
+  padding: 0;
+  flex-shrink: 0;
+  z-index: 2;
+}
+
+.welcome-close-btn:hover {
+  background: #f0eaf7;
+  color: #1d1d1f;
+  border-color: #d2c5e5;
+  transform: scale(1.06);
+}
+
+.welcome-close-btn:active {
+  transform: scale(0.96);
+}
+
+.welcome-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 4px 12px;
+  border-radius: 99px;
+  background: #f4eefc;
+  border: 1px solid #e5daf3;
+  color: #7040cc;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  margin-bottom: 12px;
+}
+
+.welcome-badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #7040cc;
+  box-shadow: 0 0 0 3px rgba(112, 64, 204, 0.18);
+  animation: welcome-pulse 2s infinite ease-in-out;
+}
+
+@keyframes welcome-pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.25); opacity: 0.7; }
+}
+
+.welcome-title {
+  font-size: clamp(23px, 3.2vw, 30px);
+  font-weight: 750;
+  letter-spacing: -1.2px;
+  line-height: 1.18;
+  color: #1d1d1f;
+  margin: 0 0 8px;
+}
+
+.welcome-title em {
+  font-style: normal;
+  background: linear-gradient(120deg, #7040cc 0%, #9955d4 50%, #4a54c9 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.welcome-subtitle {
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: #65616b;
+  margin: 0;
+  max-width: 580px;
+}
+
+/* Services Grid ("Şu şu işleri yapıyoruz") */
+.welcome-services-title {
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #8c8299;
+  margin: 0 0 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.welcome-services-title::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #ebe6f1;
+}
+
+.welcome-services-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.welcome-service-card {
+  display: flex;
+  flex-direction: column;
+  padding: 15px 16px;
+  background: #fbf9fd;
+  border: 1px solid #ede8f4;
+  border-radius: 16px;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.22s, border-color 0.22s, box-shadow 0.22s, background-color 0.22s;
+  position: relative;
+}
+
+.welcome-service-card:hover {
+  background: #ffffff;
+  border-color: #cfbfeb;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px -4px rgba(112, 64, 204, 0.12);
+}
+
+.welcome-service-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.welcome-service-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: #f0e9f9;
+  color: #7040cc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform 0.2s, background-color 0.2s, color 0.2s;
+}
+
+.welcome-service-card:hover .welcome-service-icon {
+  transform: scale(1.08);
+  background: #7040cc;
+  color: #ffffff;
+}
+
+.welcome-service-icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.welcome-service-name {
+  font-size: 14.5px;
+  font-weight: 650;
+  letter-spacing: -0.3px;
+  color: #1d1d1f;
+  line-height: 1.25;
+}
+
+.welcome-service-desc {
+  font-size: 12px;
+  line-height: 1.5;
+  color: #6e6777;
+  margin: 0;
+}
+
+.welcome-service-tag {
+  display: inline-block;
+  align-self: flex-start;
+  margin-top: 9px;
+  font-size: 10.5px;
+  font-weight: 600;
+  color: #7443cb;
+  background: #f3ecfb;
+  padding: 2px 7px;
+  border-radius: 6px;
+  letter-spacing: 0.01em;
+}
+
+/* Contact Toolbar ("İletişim butonları") */
+.welcome-actions-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-top: 18px;
+  border-top: 1px solid #ebe6f1;
+}
+
+.welcome-contact-label {
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #8c8299;
+  margin: 0;
+}
+
+.welcome-contact-row {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr;
+  gap: 10px;
+}
+
+.welcome-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 11px 16px;
+  border-radius: 12px;
+  font-size: 13.5px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.2s, background-color 0.2s, box-shadow 0.2s, border-color 0.2s;
+  border: 1.5px solid transparent;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* WhatsApp button */
+.welcome-btn-wa {
+  background: #25d366;
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(37, 211, 102, 0.28);
+}
+
+.welcome-btn-wa:hover {
+  background: #20bd5a;
+  transform: translateY(-1.5px);
+  box-shadow: 0 6px 18px rgba(37, 211, 102, 0.38);
+  color: #ffffff;
+}
+
+.welcome-btn-wa svg {
+  width: 17px;
+  height: 17px;
+  fill: currentColor;
+}
+
+/* Call button */
+.welcome-btn-call {
+  background: #f3eff9;
+  color: #3b2856;
+  border-color: #dfd6eb;
+}
+
+.welcome-btn-call:hover {
+  background: #e9e1f5;
+  border-color: #cbbce1;
+  transform: translateY(-1.5px);
+  color: #271440;
+}
+
+.welcome-btn-call svg {
+  width: 15px;
+  height: 15px;
+  stroke: currentColor;
+}
+
+/* Quote button */
+.welcome-btn-quote {
+  background: #7040cc;
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(112, 64, 204, 0.28);
+}
+
+.welcome-btn-quote:hover {
+  background: #5b2eb1;
+  transform: translateY(-1.5px);
+  box-shadow: 0 6px 18px rgba(112, 64, 204, 0.38);
+  color: #ffffff;
+}
+
+.welcome-btn-quote svg {
+  width: 15px;
+  height: 15px;
+}
+
+/* Bottom continue/close bar ("basın devam edin veya carpıya basıp kapat") */
+.welcome-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.welcome-dismiss-btn {
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 10px 18px;
+  background: #ffffff;
+  border: 1px solid #ded9e7;
+  color: #5d5568;
+  font-size: 13px;
+  font-weight: 550;
+  border-radius: 99px;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.welcome-dismiss-btn:hover {
+  background: #f6f3fa;
+  border-color: #c9bedb;
+  color: #1d1d1f;
+}
+
+.welcome-dismiss-btn span {
+  font-size: 14px;
+  transition: transform 0.2s;
+}
+
+.welcome-dismiss-btn:hover span {
+  transform: translateX(3px);
+}
+
+/* Responsive queries */
+@media (max-width: 680px) {
+  .welcome-dialog {
+    width: calc(100vw - 20px);
+    max-height: calc(100dvh - 24px);
+    border-radius: 22px;
+  }
+
+  .welcome-dialog-inner {
+    padding: 22px 18px 20px;
+  }
+
+  .welcome-header {
+    padding-right: 36px;
+    margin-bottom: 16px;
+  }
+
+  .welcome-close-btn {
+    width: 34px;
+    height: 34px;
+    top: -2px;
+    right: -2px;
+  }
+
+  .welcome-title {
+    font-size: 21px;
+    letter-spacing: -0.8px;
+  }
+
+  .welcome-subtitle {
+    font-size: 13px;
+  }
+
+  .welcome-services-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  .welcome-service-card {
+    padding: 12px 13px;
+    border-radius: 14px;
+  }
+
+  .welcome-service-name {
+    font-size: 13.5px;
+  }
+
+  .welcome-service-desc {
+    font-size: 11.5px;
+  }
+
+  .welcome-contact-row {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .welcome-btn {
+    padding: 10px 14px;
+    font-size: 13px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .welcome-dialog,
+  .welcome-dialog::backdrop,
+  .welcome-service-card,
+  .welcome-service-icon,
+  .welcome-btn,
+  .welcome-dismiss-btn,
+  .welcome-badge-dot {
+    transition: none !important;
+    animation: none !important;
+  }
+}

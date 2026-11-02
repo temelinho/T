@@ -206,6 +206,8 @@
 <script src="navigation.js" defer></script>
 <script src="portfolio.js" defer></script>
 <script src="experience.js" defer></script>
+<link rel="stylesheet" href="welcome-modal.css">
+<script src="welcome-modal.js" defer></script>
 <noscript><style>.work-toolbar,.work-footer,.work-select{display:none}.work-track{flex-wrap:wrap;overflow:visible;justify-content:center}.work-card{max-width:100%}</style></noscript>
 </head>
 <body>
@@ -718,6 +720,133 @@
   <div class="dialog-body"><h2 id="project-title"></h2><p id="project-intro" class="dialog-intro"></p><div class="dialog-image" id="project-image"></div>
     <div class="dialog-facts"><div><h3>İhtiyaç</h3><p id="project-need"></p></div><div><h3>Yaklaşım</h3><p id="project-work"></p></div><div><h3>Ortaya çıkan deneyim</h3><p id="project-delivery"></p></div></div>
     <div class="dialog-actions"><a class="btn btn-primary" id="project-quote" href="teklif-formu.html?services=web">Benzer bir proje konuşalım ↗</a><a class="btn btn-ghost" id="project-live" target="_blank" rel="noopener noreferrer">Canlı siteyi aç ↗</a></div>
+  </div>
+</dialog>
+
+<!-- WELCOME / DISCOVERY POPUP MODAL -->
+<dialog class="welcome-dialog" id="welcome-modal" aria-labelledby="welcome-modal-title" aria-describedby="welcome-modal-desc">
+  <div class="welcome-dialog-inner">
+    <header class="welcome-header">
+      <button type="button" class="welcome-close-btn" aria-label="Pencereyi Kapat" title="Kapat">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+      <div class="welcome-badge">
+        <span class="welcome-badge-dot" aria-hidden="true"></span>
+        <span>TEMEL TECHNOLOGY · DİJİTAL ÇÖZÜMLER</span>
+      </div>
+      <h2 class="welcome-title" id="welcome-modal-title">İşletmenizi Dijitalde <em>Birlikte Büyütelim</em></h2>
+      <p class="welcome-subtitle" id="welcome-modal-desc">Web yazılımdan mobil uygulamaya, Google Ads reklamlarından harita yönetimine kadar işinizi büyütecek tüm dijital hizmetler tek çatı altında.</p>
+    </header>
+
+    <div class="welcome-services-title">Neler Yapıyoruz?</div>
+    <div class="welcome-services-grid">
+      <!-- 1. Web Tasarım & Yazılım -->
+      <a href="web-tasarim.html" class="welcome-service-card" title="Web Tasarım ve Yazılım Çözümleri">
+        <div class="welcome-service-head">
+          <div class="welcome-service-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+              <line x1="8" y1="21" x2="16" y2="21"></line>
+              <line x1="12" y1="17" x2="12" y2="21"></line>
+            </svg>
+          </div>
+          <div class="welcome-service-name">Özel Web &amp; Yazılım</div>
+        </div>
+        <p class="welcome-service-desc">Kurumsal web siteleri, yönetim panelleri ve işletmenize özel yazılımlar.</p>
+        <span class="welcome-service-tag">Hızlı &amp; Modern Tasarım</span>
+      </a>
+
+      <!-- 2. Mobil Uygulama -->
+      <a href="mobil-uygulama.html" class="welcome-service-card" title="Mobil Uygulama Geliştirme">
+        <div class="welcome-service-head">
+          <div class="welcome-service-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="5" y="2" width="14" height="20" rx="3"></rect>
+              <line x1="12" y1="18" x2="12.01" y2="18"></line>
+            </svg>
+          </div>
+          <div class="welcome-service-name">Mobil Uygulama</div>
+        </div>
+        <p class="welcome-service-desc">iOS ve Android için kullanıcı dostu, yüksek performanslı mobil uygulamalar.</p>
+        <span class="welcome-service-tag">iOS &amp; Android</span>
+      </a>
+
+      <!-- 3. Dijital Reklam -->
+      <a href="dijital-reklam.html" class="welcome-service-card" title="Dijital Reklam Yönetimi">
+        <div class="welcome-service-head">
+          <div class="welcome-service-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 20V10"></path>
+              <path d="M18 20V4"></path>
+              <path d="M6 20v-4"></path>
+            </svg>
+          </div>
+          <div class="welcome-service-name">Dijital Reklam &amp; Büyüme</div>
+        </div>
+        <p class="welcome-service-desc">Google Ads ve Meta (Instagram/Facebook) ile satış ve müşteri artıran kampanyalar.</p>
+        <span class="welcome-service-tag">Google Ads &amp; Meta</span>
+      </a>
+
+      <!-- 4. Google Haritalar & Yerel SEO -->
+      <a href="dijital-reklam.html#haritalar" class="welcome-service-card" title="Google Haritalar ve Yerel SEO">
+        <div class="welcome-service-head">
+          <div class="welcome-service-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+          </div>
+          <div class="welcome-service-name">Google Haritalar &amp; Yerel SEO</div>
+        </div>
+        <p class="welcome-service-desc">İşletme profilinizin optimizasyonu ve yerel aramalarda 1. sırada yer alma.</p>
+        <span class="welcome-service-tag">Yerel Müşteri Kazanımı</span>
+      </a>
+    </div>
+
+    <!-- Hızlı İletişim Butonları -->
+    <div class="welcome-actions-section">
+      <div class="welcome-contact-label">Hemen İletişime Geçin</div>
+      <div class="welcome-contact-row">
+        <!-- WhatsApp -->
+        <a href="https://wa.me/905066922004?text=Merhaba,%20hizmetleriniz%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum." target="_blank" rel="noopener noreferrer" class="welcome-btn welcome-btn-wa" aria-label="WhatsApp üzerinden mesaj gönderin">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M20.52 3.48A11.93 11.93 0 0012.06 0C5.45 0 .09 5.36.09 11.97c0 2.11.55 4.17 1.6 6L0 24l6.19-1.62a11.93 11.93 0 005.87 1.51h.01c6.6 0 11.97-5.36 11.97-11.97 0-3.2-1.25-6.21-3.52-8.44zM12.07 21.88h-.01a9.9 9.9 0 01-5.05-1.39l-.36-.21-3.75.98 1-3.66-.23-.38a9.92 9.92 0 01-1.52-5.25c0-5.48 4.46-9.94 9.94-9.94 2.65 0 5.15 1.03 7.02 2.91a9.88 9.88 0 012.91 7.02c0 5.48-4.46 9.92-9.95 9.92zm5.45-7.44c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.95 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.14-.13.3-.35.45-.52.15-.18.2-.3.3-.5.1-.2.05-.38-.02-.53-.08-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.22 3.08c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.2 1.87.12.57-.09 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.07-.13-.27-.2-.57-.35z"></path>
+          </svg>
+          <span>WhatsApp'tan Yazın</span>
+        </a>
+
+        <!-- Telefon / Ara -->
+        <a href="tel:+905066922004" class="welcome-btn welcome-btn-call" aria-label="Telefonla arayın: 0506 692 20 04">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3 19.5 19.5 0 01-6-6 19.8 19.8 0 01-3-8.6A2 2 0 014.1 2h3a2 2 0 012 1.7c.1.9.3 1.8.6 2.6a2 2 0 01-.5 2.1L8 9.9a16 16 0 006 6l1.5-1.2a2 2 0 012.1-.5c.8.3 1.7.5 2.6.6a2 2 0 011.7 2z"></path>
+          </svg>
+          <span>0506 692 20 04</span>
+        </a>
+
+        <!-- Teklif Al -->
+        <a href="teklif-formu.html" class="welcome-btn welcome-btn-quote" aria-label="Teklif Formunu Aç">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <line x1="16" y1="13" x2="8" y2="13"></line>
+            <line x1="16" y1="17" x2="8" y2="17"></line>
+            <polyline points="10 9 9 9 8 9"></polyline>
+          </svg>
+          <span>Teklif Al ↗</span>
+        </a>
+      </div>
+
+      <!-- Devam Et Butonu -->
+      <div class="welcome-footer">
+        <button type="button" class="welcome-dismiss-btn" id="welcome-continue-btn">
+          <span>Siteyi İncelemeye Devam Et</span>
+          <span aria-hidden="true">→</span>
+        </button>
+      </div>
+    </div>
   </div>
 </dialog>
 
