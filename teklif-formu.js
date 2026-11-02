@@ -87,7 +87,9 @@
   const serviceNames = {
     web: 'Web sitesi', mobil: 'Mobil uygulama', yazilim: 'Kurumsal yazılım',
     eticaret: 'E-ticaret', entegrasyon: 'Entegrasyon / API',
-    reklam: 'Dijital reklam (Google / Sosyal medya)'
+    reklam: 'Dijital reklam (Google / Sosyal medya)',
+    isletme: 'İşletme hesabı (Meta & Instagram)',
+    haritalar: 'Google Haritalar'
   };
   const params = new URLSearchParams(location.search);
   const requested = [...new Set((params.get('services') || '').split(',').filter(key => Object.hasOwn(serviceNames, key)).map(key => serviceNames[key]))];
@@ -103,6 +105,14 @@
   if (note && requested.length) {
     note.hidden = false;
     note.textContent = `Başlangıç için önerilen hizmetler: ${requested.join(', ')}. Seçimleri 2. adımda değiştirebilirsiniz.` + (state.ornek_proje ? ` İlham aldığınız proje: ${state.ornek_proje}.` : '');
+  }
+  if (params.get('step') === '2' && requested.length > 0) {
+    if (!state.musteri_tipi) {
+      const defMusteri = form.querySelector('[data-single="musteri_tipi"] .opt[data-value="İşletme"]');
+      defMusteri?.click();
+    }
+    step = 2;
+    render(false);
   }
   form.addEventListener('input', clearErrors);
 

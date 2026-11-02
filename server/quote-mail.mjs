@@ -4,7 +4,7 @@ import contactValidation from '../contact-validation.js';
 
 const MAX_BODY = 12_000;
 const EMAIL = /^[^\s<>@,;\r\n]+@[^\s<>@,;\r\n]+\.[^\s<>@,;\r\n]+$/;
-const SERVICES = new Set(['Web sitesi','Mobil uygulama','Kurumsal yazılım','E-ticaret','Entegrasyon / API','Dijital reklam (Google / Sosyal medya)','Diğer / Emin değilim']);
+const SERVICES = new Set(['Web sitesi','Mobil uygulama','Kurumsal yazılım','E-ticaret','Entegrasyon / API','Dijital reklam (Google / Sosyal medya)','İşletme hesabı (Meta & Instagram)','Google Haritalar','Diğer / Emin değilim']);
 const BUDGETS = new Set(['< 10.000 ₺','10.000 – 30.000 ₺','30.000 – 75.000 ₺','75.000 ₺ +','Bütçem henüz belli değil']);
 const TIMES = new Set(['En kısa sürede','1-3 ay içinde','Sadece fikir alıyorum']);
 const TYPES = new Set(['Bireysel','Kurumsal','İşletme']);

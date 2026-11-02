@@ -23,10 +23,43 @@
 .dialog-note{font-size:12px;color:#796d84;margin:0 0 24px}.dialog-actions{display:flex;flex-wrap:wrap;gap:12px}.dialog-actions [hidden]{display:none}
 html.project-open{overflow:hidden;scrollbar-gutter:stable}
 #hakkimizda{padding:76px 0 12px;background:#fff;scroll-margin-top:80px}
-.about-panel{display:grid;grid-template-columns:.8fr 1.2fr;gap:56px;align-items:center;padding:48px;border:1px solid #e8e2ef;border-radius:32px;background:linear-gradient(125deg,#f8f5fc,#fff 75%)}
-.about-identity{position:relative;min-height:310px;border-radius:24px;padding:30px;background:radial-gradient(ellipse at top right,#6b408a70,transparent 65%),#171024;color:#fff;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden}
-.about-identity::after{content:'';position:absolute;width:240px;height:240px;right:-95px;top:50px;border:1px solid #c6a7ed44;border-radius:50%;box-shadow:0 0 0 35px #b68be809,0 0 0 70px #b68be806;pointer-events:none}
-.about-monogram{font-size:78px;line-height:1;font-weight:550;letter-spacing:-7px;color:#e6d6fd;z-index:1;margin:28px 0}.about-identity>span{font-size:10px;text-transform:uppercase;letter-spacing:.13em;color:#d2bedf}.about-identity strong{font-size:20px;font-weight:500;z-index:1;letter-spacing:-.3px}.about-identity small{font-size:12px;line-height:1.6;color:#c9b9d9;margin-top:6px;z-index:1}
+.about-panel{display:grid;grid-template-columns:.95fr 1.05fr;gap:48px;align-items:center;padding:44px;border:1px solid #e8e2ef;border-radius:32px;background:linear-gradient(125deg,#f8f5fc,#fff 75%)}
+.about-team-cards{display:flex;flex-direction:column;gap:16px;width:100%}
+.about-identity{position:relative;min-height:auto;border-radius:22px;padding:22px 24px;background:radial-gradient(ellipse at top right,#6b408a70,transparent 65%),#171024;color:#fff;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden}
+.about-identity-partner{background:radial-gradient(ellipse at top right,#8f4eb870,transparent 65%),#140e21}
+.about-identity::after{content:'';position:absolute;width:200px;height:200px;right:-80px;top:30px;border:1px solid #c6a7ed33;border-radius:50%;box-shadow:0 0 0 25px #b68be809,0 0 0 50px #b68be805;pointer-events:none}
+.about-identity-head{display:flex;justify-content:space-between;align-items:center;z-index:1}
+.about-identity-head>span{font-size:9.5px;text-transform:uppercase;letter-spacing:.14em;color:#d2bedf;font-weight:600}
+.about-monogram{font-size:32px;line-height:1;font-weight:700;letter-spacing:-2px;color:#e6d6fd;z-index:1;margin:0}
+.about-identity-body{margin-top:12px;display:flex;flex-direction:column;gap:4px;z-index:1}
+.about-identity strong{font-size:19px;font-weight:650;letter-spacing:-.3px;color:#fff}
+.about-identity small{font-size:12px;line-height:1.55;color:#c9b9d9}
+.about-tel{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;color:#a4f4d4;margin-top:8px;text-decoration:none;transition:color .2s;z-index:2;align-self:flex-start}
+.about-tel:hover{color:#ffffff;text-decoration:underline}
+.about-tel svg{flex-shrink:0}
+
+/* QUICK SERVICES BAR (HERO FAST-TRACK) */
+.quick-services-bar{padding:36px 0 40px;background:#fbfbfd;border-bottom:1px solid #e9e6ef;position:relative}
+.qsb-header{text-align:center;max-width:760px;margin:0 auto 26px}
+.qsb-pill{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:1.3px;text-transform:uppercase;color:var(--accent);background:#f2ebfc;padding:5px 14px;border-radius:99px;margin-bottom:10px}
+.qsb-title{font-size:clamp(21px,2.3vw,28px);font-weight:700;color:var(--ink);letter-spacing:-.8px;line-height:1.2;margin:0 0 6px}
+.qsb-subtitle{font-size:14px;color:var(--muted);line-height:1.5;margin:0}
+.qsb-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+.qsb-card{display:flex;flex-direction:column;justify-content:space-between;background:#fff;border:1px solid #e5e0ed;border-radius:20px;padding:22px 18px;text-decoration:none;color:inherit;transition:transform .24s cubic-bezier(.2,.8,.25,1),box-shadow .24s,border-color .24s;position:relative;min-height:180px}
+.qsb-card:hover{transform:translateY(-4px);box-shadow:0 14px 28px #7040cc14;border-color:#bda0e3}
+.qsb-card:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.qsb-icon{width:42px;height:42px;border-radius:13px;background:#f5effc;color:var(--accent);display:flex;align-items:center;justify-content:center;margin-bottom:14px;transition:background-color .2s,color .2s,transform .2s}
+.qsb-card:hover .qsb-icon{background:var(--accent);color:#fff;transform:scale(1.05)}
+.qsb-info{display:flex;flex-direction:column;gap:5px;flex-grow:1}
+.qsb-name{font-size:14.5px;font-weight:700;color:var(--ink);letter-spacing:-.3px;line-height:1.3}
+.qsb-desc{font-size:11.5px;color:var(--muted);line-height:1.45}
+.qsb-cta{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--accent);margin-top:14px}
+.qsb-cta span{transition:transform .2s ease}
+.qsb-card:hover .qsb-cta span{transform:translateX(3px)}
+
+@media(max-width:1100px){
+  .qsb-grid{grid-template-columns:repeat(3,1fr)}
+}
 .about-copy .eyebrow{color:#7546a7}.about-copy h2{font-size:clamp(30px,3vw,43px);line-height:1.12;letter-spacing:-1.5px;margin:14px 0 20px}.about-copy p{font-size:15px;color:#726579;line-height:1.8;margin:0 0 15px}.about-links{display:flex;align-items:center;flex-wrap:wrap;gap:14px;margin-top:22px}.about-links .text-link{min-height:44px;display:inline-flex;align-items:center;font-size:13px}
 #sss{padding:76px 0;background:#fff;scroll-margin-top:80px}.faq-layout{display:grid;grid-template-columns:.8fr 1.2fr;gap:64px;align-items:start}.faq-heading h2{font-size:clamp(31px,3.5vw,45px);letter-spacing:-1.5px;line-height:1.14;margin:12px 0 18px}.faq-heading p{font-size:15px;line-height:1.7;color:#75687e;max-width:320px}.faq-heading .text-link{display:inline-flex;align-items:center;min-height:44px;margin-top:16px;font-size:13px}
 .faq-list details{border-bottom:1px solid #e7e0ed}.faq-list details:first-child{border-top:1px solid #e7e0ed}.faq-list summary{display:flex;align-items:center;justify-content:space-between;gap:22px;list-style:none;padding:22px 0;font-size:15px;font-weight:550;line-height:1.5;color:#302539;cursor:pointer}.faq-list summary::-webkit-details-marker{display:none}.faq-list summary::after{content:'+';font-size:24px;font-weight:300;color:#8350b3;flex-shrink:0}.faq-list details[open] summary::after{content:'−'}.faq-list details p{padding:0 28px 22px 0;margin:0;font-size:14px;line-height:1.8;color:#71637b}
@@ -34,6 +67,6 @@ html.project-open{overflow:hidden;scrollbar-gutter:stable}
 .prefill-note{font-size:13px;line-height:1.7;color:#614383;padding:14px 16px;background:#f5effc;border:1px solid #e3d6f2;border-radius:14px;margin-bottom:22px}.prefill-note[hidden]{display:none}.prefill-note a{color:#623795;text-decoration:underline;text-underline-offset:3px}
 .form-trap{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;pointer-events:none}
 .service-checks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.service-checks .opt{min-width:0;font:inherit;text-align:left}.service-checks .t{font-size:13px}.service-checks .check{flex-shrink:0}.service-checks .emoji{font-size:18px}
-@media(max-width:760px){.intent-picker{padding:22px;border-radius:23px}.intent-options{gap:7px}.intent-options button{font-size:12px;padding:9px 13px}.intent-result{grid-template-columns:1fr;gap:18px}.intent-result .btn{justify-self:start}.intent-result h3{font-size:19px}.intent-result p{font-size:13px}.service-reading{justify-content:flex-start;gap:3px 22px;font-size:12px}.about-panel{grid-template-columns:1fr;gap:28px;padding:25px;border-radius:26px}.about-identity{min-height:240px;padding:25px}.about-monogram{font-size:62px;margin:20px 0}.about-copy h2{font-size:32px}.about-copy p{font-size:14px}.faq-layout{grid-template-columns:1fr;gap:24px}.faq-heading p{max-width:none}#hakkimizda{padding:54px 0 8px}#sss{padding:54px 0}.faq-list summary{font-size:14px}.faq-list details p{font-size:13px}.project-dialog{width:calc(100% - 20px);max-height:calc(100dvh - 20px);border-radius:22px}.dialog-top{padding:12px 18px}.dialog-body{padding:25px 22px}.dialog-facts{grid-template-columns:1fr;gap:20px}.dialog-image{margin-inline:-8px}.dialog-intro{font-size:14px}.dialog-actions{flex-direction:column;align-items:stretch}.dialog-actions .btn{justify-content:center}.service-checks{grid-template-columns:1fr}}
+@media(max-width:760px){.intent-picker{padding:22px;border-radius:23px}.intent-options{gap:7px}.intent-options button{font-size:12px;padding:9px 13px}.intent-result{grid-template-columns:1fr;gap:18px}.intent-result .btn{justify-self:start}.intent-result h3{font-size:19px}.intent-result p{font-size:13px}.service-reading{justify-content:flex-start;gap:3px 22px;font-size:12px}.quick-services-bar{padding:28px 0 32px}.qsb-header{margin-bottom:20px;text-align:left}.qsb-title{font-size:22px;letter-spacing:-.6px}.qsb-subtitle{font-size:13px}.qsb-grid{grid-template-columns:1fr;gap:10px}.qsb-card{flex-direction:row;align-items:center;min-height:auto;gap:14px;padding:15px 16px}.qsb-icon{margin-bottom:0;flex-shrink:0;width:38px;height:38px;border-radius:11px}.qsb-cta{display:none}.about-panel{grid-template-columns:1fr;gap:28px;padding:24px;border-radius:26px}.about-team-cards{gap:14px}.about-identity{padding:22px}.about-monogram{font-size:28px}.about-copy h2{font-size:32px}.about-copy p{font-size:14px}.faq-layout{grid-template-columns:1fr;gap:24px}.faq-heading p{max-width:none}#hakkimizda{padding:54px 0 8px}#sss{padding:54px 0}.faq-list summary{font-size:14px}.faq-list details p{font-size:13px}.project-dialog{width:calc(100% - 20px);max-height:calc(100dvh - 20px);border-radius:22px}.dialog-top{padding:12px 18px}.dialog-body{padding:25px 22px}.dialog-facts{grid-template-columns:1fr;gap:20px}.dialog-image{margin-inline:-8px}.dialog-intro{font-size:14px}.dialog-actions{flex-direction:column;align-items:stretch}.dialog-actions .btn{justify-content:center}.service-checks{grid-template-columns:1fr}}
 @media(prefers-reduced-motion:reduce){.project-dialog[open]{animation:none}.intent-options button{transition:none}}
 @media(max-width:600px){body:has(#quoteForm:focus-within) .quick-contact{visibility:hidden;pointer-events:none}}
