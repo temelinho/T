@@ -72,6 +72,11 @@
   border-radius: 99px;
 }
 
+/* Grab handle (mobile only) */
+.welcome-handle {
+  display: none;
+}
+
 /* Header & Close */
 .welcome-header {
   position: relative;
@@ -420,21 +425,37 @@
   transform: translateX(3px);
 }
 
-/* Responsive queries */
+/* Responsive queries - Mobile-First Specialized Layout */
 @media (max-width: 680px) {
   .welcome-dialog {
-    width: calc(100vw - 20px);
-    max-height: calc(100dvh - 24px);
-    border-radius: 22px;
+    width: calc(100vw - 16px);
+    max-height: calc(100dvh - 20px);
+    margin: auto auto 10px auto;
+    border-radius: 24px;
+    box-shadow: 0 20px 60px rgba(18, 14, 38, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.6) inset;
+    transform: scale(0.96) translateY(20px);
+  }
+
+  .welcome-dialog[open] {
+    transform: scale(1) translateY(0);
+  }
+
+  .welcome-handle {
+    display: block;
+    width: 36px;
+    height: 4px;
+    background: #ded7e8;
+    border-radius: 99px;
+    margin: 0 auto 12px;
   }
 
   .welcome-dialog-inner {
-    padding: 22px 18px 20px;
+    padding: 16px 16px max(18px, env(safe-area-inset-bottom));
   }
 
   .welcome-header {
     padding-right: 36px;
-    margin-bottom: 16px;
+    margin-bottom: 12px;
   }
 
   .welcome-close-btn {
@@ -442,44 +463,134 @@
     height: 34px;
     top: -2px;
     right: -2px;
+    background: #f4eefb;
+  }
+
+  .welcome-badge {
+    padding: 3px 10px;
+    font-size: 10.5px;
+    margin-bottom: 7px;
   }
 
   .welcome-title {
     font-size: 21px;
-    letter-spacing: -0.8px;
+    letter-spacing: -0.7px;
+    line-height: 1.2;
+    margin: 0 0 5px;
   }
 
   .welcome-subtitle {
-    font-size: 13px;
+    font-size: 12.5px;
+    line-height: 1.45;
+    margin: 0 0 2px;
+    color: #6a6473;
   }
 
+  .welcome-services-title {
+    font-size: 10.5px;
+    letter-spacing: 0.08em;
+    margin: 0 0 9px;
+  }
+
+  /* 2x2 compact micro-grid on mobile: fits all 4 services at a glance without scrolling */
   .welcome-services-grid {
-    grid-template-columns: 1fr;
-    gap: 8px;
-    margin-bottom: 16px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 7px;
+    margin-bottom: 14px;
   }
 
   .welcome-service-card {
-    padding: 12px 13px;
-    border-radius: 14px;
+    padding: 10px 10px;
+    border-radius: 13px;
+    background: #fbf9fd;
+  }
+
+  .welcome-service-head {
+    gap: 7px;
+    margin-bottom: 4px;
+  }
+
+  .welcome-service-icon {
+    width: 26px;
+    height: 26px;
+    border-radius: 7px;
+  }
+
+  .welcome-service-icon svg {
+    width: 14px;
+    height: 14px;
   }
 
   .welcome-service-name {
-    font-size: 13.5px;
+    font-size: 12px;
+    letter-spacing: -0.2px;
+    font-weight: 650;
+    line-height: 1.2;
   }
 
   .welcome-service-desc {
-    font-size: 11.5px;
+    display: none; /* Mobile view prioritizes compactness so contact buttons stay visible on one screen */
   }
 
+  .welcome-service-tag {
+    font-size: 9.5px;
+    padding: 2px 6px;
+    margin-top: 4px;
+    border-radius: 5px;
+  }
+
+  /* Contact section prioritized for mobile touch zone */
+  .welcome-actions-section {
+    padding-top: 13px;
+    gap: 9px;
+  }
+
+  .welcome-contact-label {
+    font-size: 10.5px;
+    letter-spacing: 0.07em;
+  }
+
+  /* WhatsApp button takes full width with prominent call-to-action */
   .welcome-contact-row {
-    grid-template-columns: 1fr;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "wa wa"
+      "call quote";
     gap: 8px;
   }
 
-  .welcome-btn {
+  .welcome-btn-wa {
+    grid-area: wa;
+    padding: 12px 16px;
+    font-size: 14px;
+    font-weight: 650;
+    border-radius: 14px;
+    box-shadow: 0 4px 16px rgba(37, 211, 102, 0.35);
+  }
+
+  .welcome-btn-call {
+    grid-area: call;
+    padding: 10px 12px;
+    font-size: 12.5px;
+    border-radius: 12px;
+  }
+
+  .welcome-btn-quote {
+    grid-area: quote;
+    padding: 10px 12px;
+    font-size: 12.5px;
+    border-radius: 12px;
+  }
+
+  .welcome-footer {
+    margin-top: 4px;
+  }
+
+  .welcome-dismiss-btn {
     padding: 10px 14px;
-    font-size: 13px;
+    font-size: 12.5px;
+    background: #faf8fc;
   }
 }
 
