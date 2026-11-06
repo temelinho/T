@@ -30,7 +30,7 @@
         const signature=JSON.stringify(quote);
         if(signature!==lastQuote){lastQuote=signature;submissionId=crypto.randomUUID();}
         body={quote,submissionId};
-      }else body={...quote,hizmetler:quote.hizmetler.join(', '),_subject:'Yeni teklif talebi — '+quote.ad};
+      }else body={...quote,hizmetler:quote.hizmetler.join(', '),_subject:'Yeni proje talebi — '+quote.ad};
       const response=await fetch(endpoint,{method:'POST',headers:{Accept:'application/json','Content-Type':'application/json'},credentials:'omit',body:JSON.stringify(body),signal});
       if(provider==='resend'){
         const result=await response.json().catch(()=>null);

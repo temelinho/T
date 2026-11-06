@@ -147,7 +147,7 @@
 
   function prepareQuote() {
     const summary = [
-      'Merhaba, projem için teklif almak istiyorum.', '',
+      'Merhaba, projem hakkında ön görüşme yapmak istiyorum.', '',
       `Ad Soyad: ${state.ad}`, `E-posta: ${state.email}`,
       ...(state.telefon ? [`Telefon: ${state.telefon}`] : []),
       ...(state.sirket ? [`Şirket / Marka: ${state.sirket}`] : []),
@@ -158,7 +158,7 @@
       ...(state.detay ? ['', 'Proje detayı:', state.detay] : [])
     ].join('\n');
     document.querySelector('#quote-summary').textContent = summary;
-    mailLink.href = `mailto:temeltechnology@gmail.com?subject=${encodeURIComponent('Proje teklif talebi — ' + state.ad)}&body=${encodeURIComponent(summary)}`;
+    mailLink.href = `mailto:temeltechnology@gmail.com?subject=${encodeURIComponent('Proje talebi — ' + state.ad)}&body=${encodeURIComponent(summary)}`;
   }
 
   form.addEventListener('submit', event => {

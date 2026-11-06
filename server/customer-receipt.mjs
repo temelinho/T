@@ -4,7 +4,8 @@ export function customerReceipt(quote, config, submissionId) {
   const name = escape(quote.ad);
   const reference = submissionId.slice(0,8).toUpperCase();
   const services = quote.hizmetler.map(escape).join(' · ');
-  const text = `Temel Technology\n\nMerhaba ${quote.ad},\n\nTalebinizi aldık. Projenize gösterdiğiniz özen için teşekkür ederiz. İhtiyacınızı inceleyip paylaştığınız iletişim bilgileri üzerinden size en kısa sürede dönüş yapacağız.\n\nİlgilendiğiniz hizmetler: ${quote.hizmetler.join(', ')}\nTalep numarası: ${reference}\n\nEklemek istediğiniz bir detay varsa bu e-postayı yanıtlayabilirsiniz.\n\nWeb: https://temeltechnology.com/\nE-posta: ${config.to}\nTelefon: 0506 692 20 04\n\nBu otomatik bilgilendirme, temeltechnology.com üzerinden gönderilen teklif talebiniz için hazırlanmıştır. Fiyat veya teslim tarihi onayı değildir.`;
+  const notice = 'Bu otomatik e-posta yalnızca proje talebinizin ulaştığını bildirir. Projenin kabul edildiği veya çalışmaya başlandığı anlamına gelmez. Kapsam, ücret ve takvim karşılıklı görüşmeyle netleştirilir. Fiyat veya teslim tarihi onayı değildir.';
+  const text = `Temel Technology\n\nMerhaba ${quote.ad},\n\nTalebinizi aldık. Projenize gösterdiğiniz özen için teşekkür ederiz. İhtiyacınızı inceleyip paylaştığınız iletişim bilgileri üzerinden size en kısa sürede dönüş yapacağız.\n\nİlgilendiğiniz hizmetler: ${quote.hizmetler.join(', ')}\nTalep numarası: ${reference}\n\nEklemek istediğiniz bir detay varsa bu e-postayı yanıtlayabilirsiniz.\n\nWeb: https://temeltechnology.com/\nE-posta: ${config.to}\nTelefon: 0506 692 20 04\n\n${notice}`;
   const html = `<!doctype html>
 <html lang="tr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light"><title>Talebinizi aldık — Temel Technology</title>
 <style>body{margin:0;padding:0}table{border-collapse:collapse}a{color:#7142d6} @media(max-width:480px){.outer{padding:16px 8px!important}.content{padding:32px 24px!important}.brand{padding:28px 24px!important}.title{font-size:34px!important;line-height:1.12!important}.footer{padding:24px!important}}</style></head>
@@ -26,13 +27,13 @@ export function customerReceipt(quote, config, submissionId) {
 <p style="margin:18px 0 0;padding-top:14px;border-top:1px solid #e6deef;font-size:11px;color:#80708f">Talep numarası <strong style="color:#5f4777;letter-spacing:1px">${reference}</strong></p>
 </td></tr></table>
 <h2 style="margin:30px 0 12px;font-size:16px;letter-spacing:-.3px;color:#211a32">Sıradaki adım, birlikte netleştirmek.</h2>
-<p style="margin:0 0 26px;font-size:14px;line-height:1.85;color:#655a73">Hedefinizi ve kapsamı konuşalım; projenize uygun çözümü, süreyi ve teklifi birlikte belirleyelim. Eklemek istediğiniz bir detay varsa bu e-postayı yanıtlamanız yeterli.</p>
-<table role="presentation"><tr><td bgcolor="#7444cc" style="border-radius:10px;background:#7444cc"><a href="https://temeltechnology.com/#islerimiz" style="display:inline-block;padding:15px 22px;border:1px solid #7444cc;border-radius:10px;color:#ffffff;text-decoration:none;font-size:13px;font-weight:600">İşlerimize göz atın &nbsp; ↗</a></td></tr></table>
+<p style="margin:0 0 26px;font-size:14px;line-height:1.85;color:#655a73">İhtiyacınızı ve olası çalışma kapsamını birlikte değerlendirelim. Eklemek istediğiniz bir detay varsa bu e-postayı yanıtlamanız yeterli.</p>
+<table role="presentation"><tr><td bgcolor="#7444cc" style="border-radius:10px;background:#7444cc"><a href="https://temeltechnology.com/#islerimiz" style="display:inline-block;padding:15px 22px;border:1px solid #7444cc;border-radius:10px;color:#ffffff;text-decoration:none;font-size:13px;font-weight:600">Çalışmaları keşfedin &nbsp; ↗</a></td></tr></table>
 </td></tr>
 <tr><td class="footer" style="padding:26px 40px 30px;border-top:1px solid #eee8f4;background:#fcfbfe;border-radius:0 0 24px 24px">
 <p style="margin:0 0 10px;font-size:13px;font-weight:650;color:#3c2b50">Fikrinizin bir sonraki adımında görüşmek üzere.</p>
 <p style="margin:0 0 18px;font-size:12px;line-height:2;color:#7b6d88"><a href="mailto:${escape(config.to)}" style="color:#7142b6;text-decoration:none">${escape(config.to)}</a><br><a href="tel:+905066922004" style="color:#7142b6;text-decoration:none">0506 692 20 04</a> &nbsp;·&nbsp; <a href="https://temeltechnology.com/" style="color:#7142b6;text-decoration:none">temeltechnology.com</a></p>
-<p style="margin:0;font-size:10px;line-height:1.8;color:#92859e">Bu otomatik bilgilendirme, web sitemizden gönderilen teklif talebiniz için hazırlanmıştır. Fiyat veya teslim tarihi onayı değildir.</p>
+<p style="margin:0;font-size:10px;line-height:1.8;color:#92859e">${escape(notice)}</p>
 </td></tr></table></td></tr></table></body></html>`;
   return {from:config.from,to:[quote.email],reply_to:config.to,subject:'Talebinizi aldık — Temel Technology',text,html};
 }
