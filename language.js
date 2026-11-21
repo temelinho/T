@@ -9,9 +9,8 @@
   const excluded = 'script, style, textarea, input, [data-no-translate]';
   const storageKey = 'tt_language';
   const requested = new URLSearchParams(location.search).get('lang');
-  let saved;
-  try { saved = localStorage.getItem(storageKey); } catch (_) { /* Storage may be unavailable. */ }
-  let language = ['tr', 'en'].includes(requested) ? requested : saved === 'en' ? 'en' : 'tr';
+  // The URL determines the language; stored preferences never hide a locale from crawlers.
+  let language = ['tr', 'en'].includes(requested) ? requested : location.pathname.startsWith('/en/') ? 'en' : 'tr';
   if (['tr', 'en'].includes(requested)) {
     try { localStorage.setItem(storageKey, language); } catch (_) { /* Optional preference. */ }
   }
@@ -25,6 +24,16 @@
   function t(text) {
     return language === 'en' ? lookup(translations, text) ?? text : text;
   }
+
+  function localisedUrl(value, target = language) {
+    const url = new URL(value, location.href);
+    const base = url.pathname.replace(/^\/en(?=\/)/, '').replace(/\/index\.html$/, '/');
+    url.pathname = (target === 'en' ? '/en' : '') + base;
+    url.searchParams.delete('lang');
+    return url;
+  }
+
+  if (['tr', 'en'].includes(requested)) history.replaceState(null, '', localisedUrl(location.href));
 
   // Remember each original separately so repeated English phrases restore correctly.
   function translated(owner, key, value) {
@@ -61,13 +70,21 @@
       const locale = language === 'en' ? 'en_US' : 'tr_TR';
       if (node.content !== locale) node.content = locale;
     }
+    if (node.matches('meta[property="og:locale:alternate"]')) {
+      const locale = language === 'en' ? 'tr_TR' : 'en_US';
+      if (node.content !== locale) node.content = locale;
+    }
     if (node.matches('a[href]')) {
       const href = node.getAttribute('href');
-      if (href && !href.startsWith('#')) {
+      if (node.dataset.language) {
+        const url = localisedUrl(location.href, node.dataset.language);
+        const value = url.pathname + url.search + url.hash;
+        if (href !== value) node.setAttribute('href', value);
+      } else if (href && !href.startsWith('#')) {
         const url = new URL(href, location.href);
         if (url.origin === location.origin && /(?:\/|\.html)$/.test(url.pathname)) {
-          url.searchParams.set('lang', language);
-          const value = url.pathname + url.search + url.hash;
+          const localised = localisedUrl(url);
+          const value = localised.pathname + localised.search + localised.hash;
           if (href !== value) node.setAttribute('href', value);
         } else if (url.hostname === 'wa.me' && url.searchParams.has('text')) {
           const text = translated(node, 'whatsapp-message', url.searchParams.get('text'));
@@ -84,21 +101,46 @@
     visit(document.head);
     visit(document.body);
     document.querySelectorAll('[data-language]').forEach(button => {
-      button.setAttribute('aria-pressed', String(button.dataset.language === language));
+      button.setAttribute('aria-current', String(button.dataset.language === language));
+    });
+    const canonical = localisedUrl(location.href);
+    canonical.search = ''; canonical.hash = '';
+    const publicUrl = 'https://temeltechnology.com' + canonical.pathname;
+    document.querySelector('link[rel="canonical"]').href = publicUrl;
+    const ogUrl = document.querySelector('meta[property="og:url"]');
+    if (ogUrl) ogUrl.content = publicUrl;
+    document.querySelectorAll('script[type="application/ld+json"]').forEach(script => {
+      function localise(value, key) {
+        if (Array.isArray(value)) return value.map(item => localise(item));
+        if (value && typeof value === 'object') return Object.fromEntries(Object.entries(value).map(([k,v]) => [k,localise(v,k)]));
+        if (typeof value !== 'string') return value;
+        if (key === 'inLanguage') return language;
+        if (['url','@id'].includes(key) && value.startsWith('https://temeltechnology.com/')) {
+          return localisedUrl(value).href;
+        }
+        return lookup(language === 'en' ? translations : reverse, value) ?? value;
+      }
+      script.textContent = JSON.stringify(localise(JSON.parse(script.textContent)));
     });
   }
 
   window.siteI18n = {t, get language() { return language; }};
   document.querySelectorAll('[data-language]').forEach(button => {
-    button.addEventListener('click', () => {
+    button.addEventListener('click', event => {
+      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      event.preventDefault();
       language = button.dataset.language;
       try { localStorage.setItem(storageKey, language); } catch (_) { /* Keep working without storage. */ }
-      const url = new URL(location.href);
-      url.searchParams.set('lang', language);
-      history.replaceState(null, '', url);
+      const url = localisedUrl(location.href);
+      if (url.href !== location.href) history.pushState(null, '', url);
       apply();
       document.dispatchEvent(new Event('languagechange'));
     });
+  });
+  window.addEventListener('popstate', () => {
+    language = location.pathname.startsWith('/en/') ? 'en' : 'tr';
+    apply();
+    document.dispatchEvent(new Event('languagechange'));
   });
   apply();
   // Translate new dialog content, validation errors and rotating hero captions too.

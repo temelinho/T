@@ -24,6 +24,10 @@
 }
 
 /* Modal Backdrop */
+.welcome-dialog:not([open]) {
+  display: none;
+}
+
 .welcome-dialog::backdrop {
   background: rgba(15, 18, 28, 0.72);
   backdrop-filter: blur(10px);

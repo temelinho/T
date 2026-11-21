@@ -7,6 +7,7 @@ const files = new Set(entryFiles);
 files.add('contact-validation.js');
 files.add('translations.js');
 files.add('language.js');
+files.add('ozel-yazilim.html');
 for (const file of entryFiles.filter(name=>/\.(html|css|js)$/.test(name))) {
   const source = fs.readFileSync(path.join(root,file),'utf8');
   for (const match of source.matchAll(/images\/[a-zA-Z0-9_./-]+/g)) {
@@ -25,4 +26,6 @@ for(const relative of files){
   if(!source.startsWith(root+path.sep)||!destination.startsWith(output+path.sep))throw new Error('Invalid asset path');
   fs.mkdirSync(path.dirname(destination),{recursive:true});fs.copyFileSync(source,destination);
 }
-console.log(`Static site built: ${files.size} files. Server code and secrets are excluded.`);
+const pages = [...files].filter(file => file.endsWith('.html'));
+require('./localize-static.cjs').generateEnglish(root, output, pages);
+console.log(`Static site built: ${files.size} files plus ${pages.length} English pages. Server code and secrets are excluded.`);

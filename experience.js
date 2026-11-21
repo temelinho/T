@@ -52,7 +52,7 @@
     const source = card.querySelector('.work-browser img');
     if (source) {
       const img = document.createElement('img');
-      img.src = `images/projects/${id}-desktop.webp`;
+      img.src = `/images/projects/${id}-desktop.webp`;
       img.alt = source.alt;
       img.width = 1280; img.height = 860; img.decoding = 'async';
       media.className = 'dialog-image'; media.replaceChildren(img);

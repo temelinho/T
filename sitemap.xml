@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://temeltechnology.com/</loc></url>
+  <url><loc>https://temeltechnology.com/en/</loc></url>
   <url><loc>https://temeltechnology.com/web-tasarim.html</loc></url>
+  <url><loc>https://temeltechnology.com/en/web-tasarim.html</loc></url>
   <url><loc>https://temeltechnology.com/mobil-uygulama.html</loc></url>
+  <url><loc>https://temeltechnology.com/en/mobil-uygulama.html</loc></url>
   <url><loc>https://temeltechnology.com/dijital-reklam.html</loc></url>
+  <url><loc>https://temeltechnology.com/en/dijital-reklam.html</loc></url>
+  <url><loc>https://temeltechnology.com/ozel-yazilim.html</loc></url>
+  <url><loc>https://temeltechnology.com/en/ozel-yazilim.html</loc></url>
   <url><loc>https://temeltechnology.com/teklif-formu.html</loc></url>
+  <url><loc>https://temeltechnology.com/en/teklif-formu.html</loc></url>
 </urlset>
