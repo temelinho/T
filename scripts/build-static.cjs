@@ -5,6 +5,8 @@ const output = path.join(root,'public');
 const entryFiles = ['index.html','teklif-formu.html','web-tasarim.html','mobil-uygulama.html','dijital-reklam.html','hero.css','hero.js','theme.css','portfolio.css','portfolio.js','micro-slats.css','micro-slats.js','navigation.js','experience.css','experience.js','welcome-modal.css','welcome-modal.js','service-pages.css','mail-delivery.js','teklif-formu.js','sitemap.xml','robots.txt','kurumsal-teknoloji-hero-bg-v4.webp'];
 const files = new Set(entryFiles);
 files.add('contact-validation.js');
+files.add('translations.js');
+files.add('language.js');
 for (const file of entryFiles.filter(name=>/\.(html|css|js)$/.test(name))) {
   const source = fs.readFileSync(path.join(root,file),'utf8');
   for (const match of source.matchAll(/images\/[a-zA-Z0-9_./-]+/g)) {

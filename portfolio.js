@@ -15,6 +15,16 @@
   let scrollFrame = 0;
   let drag = null;
   let suppressClick = false;
+  let statusSource = null;
+  status.setAttribute('data-no-translate', '');
+  const announce = () => {
+    if (!statusSource) return;
+    const t = window.siteI18n.t;
+    status.textContent = statusSource.card
+      ? statusSource.card + ' ' + t('seçildi.')
+      : t(statusSource.filter) + ': ' + visible.length + ' ' + t('proje.');
+  };
+  document.addEventListener('languagechange', announce);
 
   const nearest = () => {
     const start = track.scrollLeft + visible[0].offsetLeft;
@@ -51,7 +61,8 @@
     });
     if (card) {
       goTo(visible.indexOf(card));
-      status.textContent = card.querySelector('h3').textContent + ' seçildi.';
+      statusSource = {card: card.querySelector('h3').textContent};
+      announce();
     }
   };
   cards.forEach(card => card.querySelector('.work-select').addEventListener('click', () => select(card)));
@@ -65,7 +76,8 @@
     visible = cards.filter(card => !card.hidden);
     track.scrollTo({left: 0, behavior: 'instant'});
     updateNavigation();
-    status.textContent = button.textContent + ': ' + visible.length + ' proje.';
+    statusSource = {filter: button.dataset.workFilter === 'all' ? 'Tüm projeler' : button.dataset.workFilter === 'web' ? 'Web siteleri' : 'Marka & kurumsal'};
+    announce();
   }));
   track.addEventListener('scroll', () => {
     if (!scrollFrame) scrollFrame = requestAnimationFrame(updateNavigation);

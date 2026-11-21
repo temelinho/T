@@ -2,6 +2,7 @@
   'use strict';
   const form = document.querySelector('#quoteForm');
   if (!form) return;
+  const t = text => window.siteI18n.t(text);
   const state = {musteri_tipi: '', hizmetler: [], butce: '', zaman: ''};
   const steps = [...form.querySelectorAll('.step')];
   const prev = form.querySelector('#prevBtn');
@@ -102,10 +103,13 @@
     option?.click();
   });
   const note = document.getElementById('prefill-note');
-  if (note && requested.length) {
+  function updatePrefill() {
+    if (!note || !requested.length) return;
     note.hidden = false;
-    note.textContent = `Başlangıç için önerilen hizmetler: ${requested.join(', ')}. Seçimleri 2. adımda değiştirebilirsiniz.` + (state.ornek_proje ? ` İlham aldığınız proje: ${state.ornek_proje}.` : '');
+    note.setAttribute('data-no-translate', '');
+    note.textContent = `${t('Başlangıç için önerilen hizmetler:')} ${requested.map(t).join(', ')}. ${t('Seçimleri 2. adımda değiştirebilirsiniz.')}` + (state.ornek_proje ? ` ${t('İlham aldığınız proje:')} ${state.ornek_proje}.` : '');
   }
+  updatePrefill();
   if (params.get('step') === '2' && requested.length > 0) {
     if (!state.musteri_tipi) {
       const defMusteri = form.querySelector('[data-single="musteri_tipi"] .opt[data-value="İşletme"]');
@@ -147,18 +151,20 @@
 
   function prepareQuote() {
     const summary = [
-      'Merhaba, projem hakkında ön görüşme yapmak istiyorum.', '',
-      `Ad Soyad: ${state.ad}`, `E-posta: ${state.email}`,
-      ...(state.telefon ? [`Telefon: ${state.telefon}`] : []),
-      ...(state.sirket ? [`Şirket / Marka: ${state.sirket}`] : []),
-      `Proje türü: ${state.musteri_tipi}`, `Hizmetler: ${state.hizmetler.join(', ')}`,
-      ...(state.hedef ? [`Hedef: ${state.hedef}`] : []),
-      ...(state.ornek_proje ? [`İlgilendiğim proje: ${state.ornek_proje}`] : []),
-      `Bütçe: ${state.butce}`, `Zamanlama: ${state.zaman}`,
-      ...(state.detay ? ['', 'Proje detayı:', state.detay] : [])
+      t('Merhaba, projem hakkında ön görüşme yapmak istiyorum.'), '',
+      `${t('Ad Soyad:')} ${state.ad}`, `${t('E-posta:')} ${state.email}`,
+      ...(state.telefon ? [`${t('Telefon:')} ${state.telefon}`] : []),
+      ...(state.sirket ? [`${t('Şirket / Marka:')} ${state.sirket}`] : []),
+      `${t('Proje türü:')} ${t(state.musteri_tipi)}`, `${t('Hizmetler:')} ${state.hizmetler.map(t).join(', ')}`,
+      ...(state.hedef ? [`${t('Hedef:')} ${t(state.hedef)}`] : []),
+      ...(state.ornek_proje ? [`${t('İlgilendiğim proje:')} ${state.ornek_proje}`] : []),
+      `${t('Bütçe:')} ${t(state.butce)}`, `${t('Zamanlama:')} ${t(state.zaman)}`,
+      ...(state.detay ? ['', t('Proje detayı:'), state.detay] : [])
     ].join('\n');
-    document.querySelector('#quote-summary').textContent = summary;
-    mailLink.href = `mailto:temeltechnology@gmail.com?subject=${encodeURIComponent('Proje talebi — ' + state.ad)}&body=${encodeURIComponent(summary)}`;
+    const preview = document.querySelector('#quote-summary');
+    preview.setAttribute('data-no-translate', '');
+    preview.textContent = summary;
+    mailLink.href = `mailto:temeltechnology@gmail.com?subject=${encodeURIComponent(t('Proje talebi —') + ' ' + state.ad)}&body=${encodeURIComponent(summary)}`;
   }
 
   form.addEventListener('submit', event => {
@@ -212,5 +218,9 @@
       next.disabled=prev.disabled=false;
     }
   }
+  document.addEventListener('languagechange', () => {
+    updatePrefill();
+    if (document.querySelector('#quote-summary').textContent) prepareQuote();
+  });
   render(false);
 })();

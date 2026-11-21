@@ -332,3 +332,9 @@ footer{padding-bottom:calc(98px + env(safe-area-inset-bottom,0px))}
 /* Clear scope information and compact, non-numeric hero highlights. */
 .hero .project-highlights .n{font-size:clamp(14px,2vw,21px);letter-spacing:-.4px;line-height:1.3}
 .request-note{margin:0 0 24px;padding:16px 18px;border:1px solid #e5dcef;border-radius:14px;background:#f8f5fc;color:#655771;font-size:13px;line-height:1.7}
+.language-switch{display:inline-flex;align-items:center;gap:2px;padding:3px;border:1px solid #b6aec4;border-radius:9px;flex-shrink:0}
+.language-switch button{display:inline-flex;align-items:center;justify-content:center;min-width:36px;min-height:36px;padding:4px 7px;border:0;border-radius:6px;background:transparent;color:var(--ink);font:600 14px/1 system-ui,sans-serif;cursor:pointer}
+.language-switch button[aria-pressed="true"]{background:var(--accent);color:#fff}
+.language-switch button:hover{box-shadow:inset 0 0 0 1px var(--accent)}
+.language-switch button:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+@media(max-width:380px){.nav-cta{gap:5px}.language-switch button{min-width:32px;padding-inline:5px}}
