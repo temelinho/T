@@ -3,6 +3,8 @@ const path = require('node:path');
 const root = path.resolve(__dirname,'..');
 const output = path.join(root,'public');
 const entryFiles = ['index.html','teklif-formu.html','web-tasarim.html','mobil-uygulama.html','dijital-reklam.html','hero.css','hero.js','theme.css','portfolio.css','portfolio.js','micro-slats.css','micro-slats.js','navigation.js','experience.css','experience.js','welcome-modal.css','welcome-modal.js','service-pages.css','mail-delivery.js','teklif-formu.js','sitemap.xml','robots.txt','kurumsal-teknoloji-hero-bg-v4.webp'];
+entryFiles.push(...fs.readdirSync(root).filter(file => file.endsWith('.html') && !entryFiles.includes(file)));
+entryFiles.push('content-pages.css','order-demo.js','measurement-config.js','measurement.js');
 const files = new Set(entryFiles);
 files.add('contact-validation.js');
 files.add('translations.js');

@@ -194,6 +194,7 @@
       await delivery?.ready;
       if(!delivery?.available)throw new Error('service_unavailable');
       await delivery.send({...state}, controller.signal);
+      window.temelMeasurement?.track('generate_lead');
       sent=true;
       steps.forEach(element => element.classList.remove('active'));
       nav.style.display='none';

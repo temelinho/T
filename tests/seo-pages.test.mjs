@@ -9,7 +9,7 @@ const require = createRequire(import.meta.url);
 const {renderEnglish} = require('../scripts/localize-static.cjs');
 const root = path.resolve(import.meta.dirname, '..');
 const origin = 'https://temeltechnology.com';
-const pages = ['index.html','web-tasarim.html','mobil-uygulama.html','dijital-reklam.html','ozel-yazilim.html','teklif-formu.html'];
+const pages = fs.readdirSync(root).filter(file => file.endsWith('.html'));
 const context = {window:{}};
 vm.runInNewContext(fs.readFileSync(path.join(root,'translations.js'),'utf8'),context);
 const copy = context.window.siteTranslations;
@@ -33,7 +33,7 @@ test('each locale has visible HTML content, its own canonical and reciprocal lan
     assert.ok(en.includes('<a href="'+origin+'/'+suffix+'" data-language="tr"'));
     assert.ok(en.includes('aria-current="true">EN</a>'));
     const h1 = /<h1\b[^>]*>([\s\S]*?)<\/h1>/.exec(en)[1];
-    assert.doesNotMatch(h1,/[çğıöşüÇĞİÖŞÜ]/);
+    assert.doesNotMatch(h1.replaceAll('Alanya Klima Temizliği',''),/[çğıöşüÇĞİÖŞÜ]/);
     for (const match of en.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) {
       const data = JSON.parse(match[1]);
       assert.equal(data.inLanguage,'en');

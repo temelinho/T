@@ -64,6 +64,13 @@
     const site = card.querySelector('.work-link');
     live.hidden = !site;
     if (site) live.href = site.href; else live.removeAttribute('href');
+    const caseLink = document.getElementById('project-case-study');
+    if (caseLink) {
+      const pages = {moss:'proje-eliva-moss.html',klima:'proje-alanya-klima.html'};
+      caseLink.hidden = !pages[id];
+      if (pages[id]) caseLink.href = pages[id];
+      else caseLink.removeAttribute('href');
+    }
     document.getElementById('project-quote').href = `teklif-formu.html?${new URLSearchParams({services:'web',project:card.querySelector('h3').textContent})}`;
     dialog.showModal();
     document.documentElement.classList.add('project-open');
