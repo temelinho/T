@@ -1,30 +1,28 @@
 # Selected GitHub portfolio work
 
-Reviewed on 23 November 2026. The account repository listing returned 30 public repositories. Three projects were selected to complement the site's existing website portfolio with mobile development, audio processing and image analysis. These are presented as team member Muhammet Temel's personal development or research projects, rather than customer deployments.
+Updated 24 November 2026 at the site owner's request. Projects are described as team/research work, with original repository namespaces preserved.
 
-## Kelimelik
+## TUA Hackathon — Solar Observer
 
-- Repository: https://github.com/temelinho/IngilizceCalismaRehberi-A1--B1
-- Evidence: `README.md`, `pubspec.yaml`, `lib/ui/home_page.dart`, `lib/ui/`, `lib/services/`.
-- Verified in documentation/source: Flutter/Android app, A1–B1 practice, quiz setup, mistake notebook, listening/TTS, local progress and optional AI writing evaluation.
-- No app-store release or download count is claimed. The app was not built or run in this portfolio review.
+- Repository: https://github.com/tahakrcc/tua-astro-hackathon
+- Evidence: `to do.md`, `frontend/package.json`, `frontend/src/App.jsx`, `frontend/src/api/solarApi.js`, `backend/BACKEND_INTEGRATION.md`.
+- Source confirms space-weather dashboard components, X-ray flux, solar wind, magnetic field and Kp-index calls, React/Three.js views and a Spring Boot API layer. PostgreSQL is documented in the project plan.
+- Presented as a hackathon prototype. Future proposals in the integration guide are not claimed as delivered features. No forecast accuracy, prize or agency endorsement is claimed.
 
 ## Cooking Sound Analysis
 
 - Repository: https://github.com/temelinho/ocak-projesi
-- Evidence: `README.md`, `arayüz/backend/server.py`, `arayüz/react-frontend/package.json`, project directory listing.
-- Verified in documentation/source: Python audio processing, WAV conversion, TensorFlow classification service, FastAPI and React frontend.
-- Published as a research prototype. No measured accuracy, production deployment or safety certification is claimed. The model was not run in this portfolio review.
+- Evidence: `README.md`, `arayüz/backend/server.py`, `arayüz/react-frontend/package.json`.
+- Source confirms Python audio processing, WAV conversion, TensorFlow classification, FastAPI and React.
+- Presented as a research prototype; no production deployment, measured accuracy or safety certification is claimed.
 
-## Radyolog AI
+## Lunar Landing Site Navigator
 
-- Repository: https://github.com/temelinho/Radyolog-AI (default branch: `master`).
-- Evidence: `README.md`, `requirements.txt`, `radyoloji_app.py`.
-- Verified in documentation/source: Python/Streamlit interface, segmentation workflows, geometric analysis, Plotly and LLM API integration.
-- Published as an academic prototype, not clinically validated. No medical accuracy, regulatory approval or patient outcome is claimed. No patient data or medical images are copied onto the company site.
+- Repository: https://github.com/nasa-space-58/Nasa-Space-Apps-Challenge
+- Evidence: `README.md`, `docs/technologies.md`, `frontend/package.json`, `backend/app/analysis_api.py`.
+- Source confirms site/date comparison, terrain horizon, Sun/Earth visibility intervals, LOLA/Horizons data preparation, React/Three.js UI, FastAPI jobs and RabbitMQ ingestion.
+- Presented as a NASA Space Apps Challenge team research project. No flight readiness, safe-landing certification, prize or NASA endorsement is claimed.
 
-## Selection notes
+## Publication
 
-Existing Eliva Moss and other website portfolio entries remain in place. Empty repositories and basic course exercises were not selected. The Gemma competition README describes its agent configuration as a baseline scaffold, so it is not presented as a completed product. Other repositories, including dental/real-estate websites, were considered at directory/documentation level; commercial deployment and client attribution were not established in this review.
-
-The new portfolio page and homepage cards link directly to the public repositories. No mock screenshot is presented as a real application screenshot. Both Turkish and English versions are included in the static build and sitemap.
+The two requested replacements are reflected in homepage cards, the detailed project page, metadata, English translations and the related service link. The acoustic project and existing website case studies remain. Source applications were inspected, not installed or run in this edit. No mock screenshot is presented as a real application screenshot.
