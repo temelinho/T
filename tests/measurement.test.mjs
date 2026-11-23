@@ -39,3 +39,12 @@ test('consented measurement sends clean page URLs and allowlisted events without
   assert.equal(events[2][2].contact_method,'whatsapp');
   assert.equal(events[0][2].page_referrer,'https://www.google.com/');
 });
+test('initial language rendering does not count the same page twice',()=>{
+  const {context,calls,listeners}=setup('G-TEST123','granted');
+  listeners.languagechange();
+  assert.equal(calls.filter(call=>call[0]==='event'&&call[1]==='page_view').length,1);
+  context.document.querySelector=()=>({href:'https://temeltechnology.com/en/teklif-formu.html'});
+  context.document.documentElement.lang='en';
+  listeners.languagechange();
+  assert.equal(calls.filter(call=>call[0]==='event'&&call[1]==='page_view').length,2);
+});

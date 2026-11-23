@@ -15,3 +15,5 @@ Connection and verification:
 The panel demo is a browser-only illustration with fictional records. Demo actions are not measured as sales enquiries. No demo data is sent to a server or retained after navigation/reload.
 
 Search Console continues to provide search impressions/clicks independently. Its data cannot be treated as a count of submitted project enquiries.
+
+Live verification on 23 November 2026: the deployed Google tag loaded after consent on Turkish and English pages; GA4 Realtime received one test user and page views for both languages. `generate_lead` is registered as a key event, with no invented monetary value. No live test enquiry was submitted; the first real successful, consented form submission remains the end-to-end lead verification point. The weekly SEO review now includes GA4 traffic and lead comparisons.

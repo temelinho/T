@@ -7,6 +7,7 @@
   let referrer = '';
   try { referrer = document.referrer ? new URL(document.referrer).origin + '/' : ''; } catch (_) { /* Invalid referrer. */ }
   let enabled = false, loaded = false;
+  let lastPage = '';
   try { enabled = configured && localStorage.getItem(key) === 'granted'; } catch (_) { /* Optional storage. */ }
   function start() {
     if (!enabled || loaded || !configured) return;
@@ -26,6 +27,11 @@
     const allowed = ['page_view','generate_lead','contact_click'];
     if (!allowed.includes(name)) return;
     const page = document.querySelector('link[rel="canonical"]')?.href || location.origin + location.pathname;
+    // Initial language rendering can announce the same page after tag startup.
+    if (name === 'page_view') {
+      if (page === lastPage) return;
+      lastPage = page;
+    }
     const details = {page_location:page,page_referrer:referrer,language:document.documentElement.lang};
     if (['phone','whatsapp','email'].includes(extra.contact_method)) details.contact_method = extra.contact_method;
     window.gtag('event',name,details);
