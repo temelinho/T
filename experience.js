@@ -31,8 +31,6 @@
     eliva: {need:'Farklı ürün dünyalarını tek bir kurumsal kimlik altında tanıtmak.', work:'Çocuk, sağlık, organik ürünler ve spor koleksiyonlarını ayıran web arayüzü ve içerik düzeni.', delivery:'Dört farklı koleksiyona giriş sunan kurumsal web vitrini.'},
     cekici: {need:'Çekici ve çilingir ihtiyacında hizmete ve iletişim bilgilerine kolay erişim sağlamak.', work:'Hizmetleri, arama ve konum paylaşımı seçeneklerini öne çıkaran web tasarımı.', delivery:'Telefon üzerinden doğrudan iletişime odaklanan hizmet sitesi.'},
     alanya: {need:'Temizlik hizmetlerini farklı dillerde incelemek isteyen ziyaretçilere sunmak.', work:'Ev ve ofis temizliği içerikleri, mobil uyumlu sayfalar ve çok dilli web deneyimi.', delivery:'Hizmet tanıtımı ve iletişim akışı. Görselde sitenin İngilizce sayfası yer alıyor.'},
-    manavgat: {need:'Bölgesel temizlik hizmetlerini tanıtmak ve iletişimi kolaylaştırmak.', work:'Yerel hizmet içeriklerini düzenleyen web tasarımı ve görünürlüğe odaklanan sayfa yapısı.', delivery:'Hizmet bilgilerini ve iletişim seçeneklerini bir araya getiren web sitesi.'},
-    kibris: {need:'Temizlik hizmetlerini mobil ve masaüstünde anlaşılır biçimde sunmak.', work:'Hizmetlere ve iletişime erişimi kolaylaştıran, farklı ekranlara uyarlanan web tasarımı.', delivery:'Temizlik hizmetlerini tanıtan mobil uyumlu web deneyimi.'},
     beyonder: {need:'Dijital bir marka için görsel kimliği ve deneyim yönünü sunmak.', work:'Koyu zemin, mor tonlar ve sade tipografiyle hazırlanan marka sunumu.', delivery:'Bu kart bir marka sunumudur; canlı bir web sitesinin ekran görüntüsü değildir.'}
   };
   const dialog = document.getElementById('project-dialog');

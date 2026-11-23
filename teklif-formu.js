@@ -102,7 +102,7 @@
   const params = new URLSearchParams(location.search);
   const requested = [...new Set((params.get('services') || '').split(',').filter(key => Object.hasOwn(serviceNames, key)).map(key => serviceNames[key]))];
   const allowedGoals = ['Daha fazla müşteriye ulaşmak', 'İnternetten satış yapmak', 'İş süreçlerimi otomatikleştirmek', 'Mobil uygulama geliştirmek'];
-  const allowedProjects = ['Eliva Moss', 'Alanya Klima Temizliği', 'Eliva Digital', 'Alanya Çekici & Çilingir', 'Alanya Ev Temizlik', 'Manavgat Ev Temizlik', 'Kıbrıs Ev Temizlik', 'Beyonder'];
+  const allowedProjects = ['Eliva Moss', 'Alanya Klima Temizliği', 'Eliva Digital', 'Alanya Çekici & Çilingir', 'Alanya Ev Temizlik', 'Beyonder'];
   if (allowedGoals.includes(params.get('goal'))) state.hedef = params.get('goal');
   if (allowedProjects.includes(params.get('project'))) state.ornek_proje = params.get('project');
   requested.forEach(name => {
