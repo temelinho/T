@@ -20,6 +20,10 @@
   let sending = false;
   let sent = false;
   let step = 1;
+  let interacted = false;
+  const measureProgress = () => { if (!sent) window.temelMeasurement?.quoteProgress?.(step,interacted); };
+  function beginForm() { interacted = true; measureProgress(); }
+  document.addEventListener('measurementready',measureProgress);
 
   function clearErrors() {
     form.querySelectorAll('.err').forEach(error => { error.style.display = 'none'; });
@@ -67,7 +71,7 @@
     const multi = Boolean(group.dataset.multi);
     const key = group.dataset.multi || group.dataset.single;
     group.querySelectorAll('.opt').forEach(option => {
-      option.addEventListener('click', () => {
+      option.addEventListener('click', event => {
         if (!multi) group.querySelectorAll('.opt').forEach(other => {
           other.classList.remove('sel');
           other.setAttribute('aria-pressed', 'false');
@@ -75,11 +79,14 @@
         const selected = multi ? option.classList.toggle('sel') : (option.classList.add('sel'), true);
         option.setAttribute('aria-pressed', String(selected));
         state[key] = multi ? [...group.querySelectorAll('.sel')].map(item => item.dataset.value) : option.dataset.value;
+        // Programmatic service prefills do not count as starting the form.
+        if (event.isTrusted) beginForm();
         clearErrors();
       });
       option.addEventListener('keydown', event => {
         if (event.key !== 'Enter' && event.key !== ' ') return;
         event.preventDefault();
+        if (event.isTrusted) beginForm();
         option.click();
       });
     });
@@ -119,6 +126,7 @@
     render(false);
   }
   form.addEventListener('input', clearErrors);
+  form.addEventListener('input',beginForm);
 
   function readFields() {
     form.querySelectorAll('input,textarea').forEach(field => { state[field.name] = field.value.trim(); });
@@ -147,6 +155,7 @@
     prev.style.visibility = step > 1 ? 'visible' : 'hidden';
     next.textContent = step === steps.length ? 'Talebi gönder →' : 'Devam →';
     if (focus) steps[step - 1].querySelector('h2').focus({preventScroll: true});
+    measureProgress();
   }
 
   function prepareQuote() {
@@ -170,16 +179,20 @@
   form.addEventListener('submit', event => {
     event.preventDefault();
     if(sending||sent)return;
+    beginForm();
     readFields();
     if (!valid()) {
+      window.temelMeasurement?.track('form_error',{form_step:step,error_type:'validation'});
       steps[step - 1].querySelector('.err').style.display = 'block';
       return;
     }
+    window.temelMeasurement?.track('form_step_complete',{form_step:step});
     if (step < steps.length) { step++; render(); } else sendQuote();
   });
   prev.addEventListener('click', () => { if (!sending && step > 1) { step--; fallback.hidden=true; render(); } });
   async function sendQuote() {
     if(sending||sent)return;
+    window.temelMeasurement?.track('form_submit_attempt',{form_step:5});
     prepareQuote();
     sending = true;
     next.disabled = prev.disabled = true;
@@ -194,13 +207,18 @@
       await delivery?.ready;
       if(!delivery?.available)throw new Error('service_unavailable');
       await delivery.send({...state}, controller.signal);
-      window.temelMeasurement?.track('generate_lead');
+      window.temelMeasurement?.track('generate_lead',{form_step:5});
       sent=true;
       steps.forEach(element => element.classList.remove('active'));
       nav.style.display='none';
       result.style.display='block';
       result.querySelector('h2').focus({preventScroll: true});
     } catch (failure) {
+      const errorType = failure.message === 'rate_limited' ? 'rate_limited'
+        : failure.message === 'invalid_request' ? 'invalid_request'
+        : failure.message === 'service_unavailable' ? 'unavailable'
+        : failure.name === 'AbortError' || failure.message === 'result_unknown' ? 'unknown_result' : 'delivery_failed';
+      window.temelMeasurement?.track('form_error',{form_step:5,error_type:errorType});
       if (failure.message === 'rate_limited') sendError.textContent = 'Kısa sürede çok sayıda deneme yapıldı. Birkaç dakika sonra tekrar deneyebilir veya e-posta üzerinden bize ulaşabilirsiniz.';
       else if (failure.message === 'invalid_request') sendError.textContent = 'İletişim bilgilerinizi kontrol edip tekrar deneyin.';
       else if (failure.name === 'AbortError' || failure.message === 'result_unknown') sendError.textContent = delivery?.provider === 'resend'

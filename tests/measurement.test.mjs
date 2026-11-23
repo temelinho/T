@@ -9,10 +9,10 @@ function setup(id,consent) {
     window:{temelMeasurementConfig:{measurementId:id},gtag:(...args)=>calls.push(args)},
     localStorage:{getItem:()=>consent},
     location:{origin:'https://temeltechnology.com',pathname:'/teklif-formu.html',href:'https://temeltechnology.com/teklif-formu.html?email=private@example.com'},
-    URL,
+    URL,Event,
     document:{referrer:'https://www.google.com/search?q=private@example.com',documentElement:{lang:'tr'},head:{append:script=>scripts.push(script)},
       querySelector:selector=>selector.includes('canonical')?{href:'https://temeltechnology.com/teklif-formu.html'}:null,
-      getElementById:()=>null,addEventListener:(name,callback)=>{listeners[name]=callback;},createElement:()=>({})}
+      getElementById:()=>null,addEventListener:(name,callback)=>{listeners[name]=callback;},dispatchEvent:event=>listeners[event.type]?.(event),createElement:()=>({})}
   };
   vm.runInNewContext(source,context);
   return {context,scripts,calls,listeners};
@@ -47,4 +47,33 @@ test('initial language rendering does not count the same page twice',()=>{
   context.document.documentElement.lang='en';
   listeners.languagechange();
   assert.equal(calls.filter(call=>call[0]==='event'&&call[1]==='page_view').length,2);
+});
+test('form funnel counts a start and each viewed step once, with allowlisted parameters only',()=>{
+  const {context,calls}=setup('G-TEST123','granted');
+  const measurement=context.window.temelMeasurement;
+  measurement.quoteProgress(1);
+  measurement.quoteProgress(1,true);
+  measurement.quoteProgress(2,true);
+  measurement.quoteProgress(1,true);
+  measurement.quoteProgress(2,true);
+  measurement.quoteProgress(0,true);
+  measurement.quoteProgress('private@example.com',true);
+  measurement.track('form_error',{form_step:5,error_type:'delivery_failed',email:'private@example.com'});
+  measurement.track('form_error',{form_step:99,error_type:'private@example.com'});
+  const events=calls.filter(call=>call[0]==='event');
+  assert.equal(events.filter(call=>call[1]==='form_start').length,1);
+  assert.deepEqual(events.filter(call=>call[1]==='form_step_view').map(call=>call[2].form_step),[1,2]);
+  assert.equal(events.find(call=>call[1]==='form_start')[2].form_name,'project_enquiry');
+  const errors=events.filter(call=>call[1]==='form_error');
+  assert.equal(errors[0][2].error_type,'delivery_failed');
+  assert.equal(errors[1][2].error_type,undefined);
+  assert.equal(errors[1][2].form_step,undefined);
+  assert.ok(!JSON.stringify(calls).includes('private@example.com'));
+});
+test('form interactions without consent never send funnel events',()=>{
+  const {context,calls,scripts}=setup('G-TEST123','denied');
+  context.window.temelMeasurement.quoteProgress(1,true);
+  context.window.temelMeasurement.track('form_submit_attempt',{form_step:5});
+  assert.equal(calls.length,0);
+  assert.equal(scripts.length,0);
 });

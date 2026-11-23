@@ -8,6 +8,8 @@
   try { referrer = document.referrer ? new URL(document.referrer).origin + '/' : ''; } catch (_) { /* Invalid referrer. */ }
   let enabled = false, loaded = false;
   let lastPage = '';
+  let formStarted = false;
+  const viewedSteps = new Set();
   try { enabled = configured && localStorage.getItem(key) === 'granted'; } catch (_) { /* Optional storage. */ }
   function start() {
     if (!enabled || loaded || !configured) return;
@@ -21,11 +23,12 @@
     script.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(id);
     document.head.append(script);
     track('page_view');
+    document.dispatchEvent(new Event('measurementready'));
   }
   function track(name, extra = {}) {
-    if (!enabled || !configured || !loaded) return;
-    const allowed = ['page_view','generate_lead','contact_click'];
-    if (!allowed.includes(name)) return;
+    if (!enabled || !configured || !loaded) return false;
+    const allowed = ['page_view','generate_lead','contact_click','form_start','form_step_view','form_step_complete','form_submit_attempt','form_error'];
+    if (!allowed.includes(name)) return false;
     const page = document.querySelector('link[rel="canonical"]')?.href || location.origin + location.pathname;
     // Initial language rendering can announce the same page after tag startup.
     if (name === 'page_view') {
@@ -34,9 +37,20 @@
     }
     const details = {page_location:page,page_referrer:referrer,language:document.documentElement.lang};
     if (['phone','whatsapp','email'].includes(extra.contact_method)) details.contact_method = extra.contact_method;
+    if (name.startsWith('form_') || name === 'generate_lead') {
+      details.form_name = 'project_enquiry';
+      if (Number.isInteger(extra.form_step) && extra.form_step >= 1 && extra.form_step <= 5) details.form_step = extra.form_step;
+      if (name === 'form_error' && ['validation','rate_limited','invalid_request','unavailable','unknown_result','delivery_failed'].includes(extra.error_type)) details.error_type = extra.error_type;
+    }
     window.gtag('event',name,details);
+    return true;
   }
-  window.temelMeasurement = {track};
+  function quoteProgress(step, interacted = false) {
+    if (!Number.isInteger(step) || step < 1 || step > 5) return;
+    if (interacted && !formStarted && track('form_start',{form_step:step})) formStarted = true;
+    if (!viewedSteps.has(step) && track('form_step_view',{form_step:step})) viewedSteps.add(step);
+  }
+  window.temelMeasurement = {track,quoteProgress};
   document.addEventListener('click',event => {
     const a = event.target.closest('a[href]'); if (!a) return;
     const url = new URL(a.href,location.href);
@@ -60,6 +74,7 @@
       try {localStorage.setItem(key,'granted');} catch (_) { /* Session-only preference. */ }
       if (loaded) window.gtag('consent','update',{analytics_storage:'granted'});
       start(); render();
+      document.dispatchEvent(new Event('measurementready'));
     });
     document.getElementById('measurement-deny').addEventListener('click',()=>{
       enabled = false;
