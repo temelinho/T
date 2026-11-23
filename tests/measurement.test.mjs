@@ -10,7 +10,7 @@ function setup(id,consent) {
     localStorage:{getItem:()=>consent},
     location:{origin:'https://temeltechnology.com',pathname:'/teklif-formu.html',href:'https://temeltechnology.com/teklif-formu.html?email=private@example.com'},
     URL,
-    document:{documentElement:{lang:'tr'},head:{append:script=>scripts.push(script)},
+    document:{referrer:'https://www.google.com/search?q=private@example.com',documentElement:{lang:'tr'},head:{append:script=>scripts.push(script)},
       querySelector:selector=>selector.includes('canonical')?{href:'https://temeltechnology.com/teklif-formu.html'}:null,
       getElementById:()=>null,addEventListener:(name,callback)=>{listeners[name]=callback;},createElement:()=>({})}
   };
@@ -37,4 +37,5 @@ test('consented measurement sends clean page URLs and allowlisted events without
   assert.ok(!JSON.stringify(calls).includes('Private'));
   assert.ok(!JSON.stringify(calls).includes('?email='));
   assert.equal(events[2][2].contact_method,'whatsapp');
+  assert.equal(events[0][2].page_referrer,'https://www.google.com/');
 });

@@ -3,6 +3,9 @@
   const id = window.temelMeasurementConfig?.measurementId || '';
   const configured = /^G-[A-Z0-9]+$/.test(id);
   const key = 'tt_measurement_consent';
+  // Keep the referring site for acquisition reporting without private URL data.
+  let referrer = '';
+  try { referrer = document.referrer ? new URL(document.referrer).origin + '/' : ''; } catch (_) { /* Invalid referrer. */ }
   let enabled = false, loaded = false;
   try { enabled = configured && localStorage.getItem(key) === 'granted'; } catch (_) { /* Optional storage. */ }
   function start() {
@@ -12,7 +15,7 @@
     window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
     window.gtag('js',new Date());
     // Never collect form values, search terms, query strings or contact details.
-    window.gtag('config',id,{send_page_view:false,page_location:document.querySelector('link[rel="canonical"]').href,page_referrer:'',allow_google_signals:false,allow_ad_personalization_signals:false});
+    window.gtag('config',id,{send_page_view:false,page_location:document.querySelector('link[rel="canonical"]').href,page_referrer:referrer,allow_google_signals:false,allow_ad_personalization_signals:false});
     const script = document.createElement('script'); script.async = true;
     script.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(id);
     document.head.append(script);
@@ -23,7 +26,7 @@
     const allowed = ['page_view','generate_lead','contact_click'];
     if (!allowed.includes(name)) return;
     const page = document.querySelector('link[rel="canonical"]')?.href || location.origin + location.pathname;
-    const details = {page_location:page,page_referrer:'',language:document.documentElement.lang};
+    const details = {page_location:page,page_referrer:referrer,language:document.documentElement.lang};
     if (['phone','whatsapp','email'].includes(extra.contact_method)) details.contact_method = extra.contact_method;
     window.gtag('event',name,details);
   }
@@ -47,12 +50,14 @@
     document.querySelector('[data-measurement-open]').addEventListener('click',()=>{render();dialog.showModal();});
     document.getElementById('measurement-allow').addEventListener('click',()=>{
       enabled = configured;
+      window['ga-disable-' + id] = false;
       try {localStorage.setItem(key,'granted');} catch (_) { /* Session-only preference. */ }
       if (loaded) window.gtag('consent','update',{analytics_storage:'granted'});
       start(); render();
     });
     document.getElementById('measurement-deny').addEventListener('click',()=>{
       enabled = false;
+      window['ga-disable-' + id] = true;
       try {localStorage.setItem(key,'denied');} catch (_) { /* Keep disabled. */ }
       if (loaded) window.gtag('consent','update',{analytics_storage:'denied'});
       // Clear first-party GA cookies when withdrawing consent.
