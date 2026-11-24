@@ -26,6 +26,7 @@
   }));
 
   const projects = {
+    ladyluks: {need:'Masaj ve spa hizmetlerini, paketleri ve randevu seçeneklerini tek bir adreste sunmak.', work:'Spa atmosferini yansıtan web tasarımı, hizmet paketlerinin düzenlenmesi ve kolay erişilen iletişim seçenekleri.', delivery:'Hizmet ve paketleri inceleme, telefonla arama ve WhatsApp üzerinden randevu iletişimi.'},
     moss: {need:'Botanik sanat ve ürün koleksiyonlarını markanın doğal kimliğiyle birlikte sunmak.', work:'Ürünleri ve doğal dokuları öne çıkaran web tasarımı; koleksiyonlar arasında anlaşılır bir gezinme düzeni.', delivery:'Marka ve ürün vitrini olarak kullanılan web deneyimi.'},
     klima: {need:'Klima ve beyaz eşya hizmetlerini tanıtmak, hizmet arayan ziyaretçiyi iletişime yönlendirmek.', work:'Mobil ve masaüstü web tasarımı, hizmet içeriklerinin düzenlenmesi ve yerel görünürlüğe odaklanan sayfa yapısı.', delivery:'Hizmetleri inceleme, telefonla arama ve WhatsApp üzerinden iletişim seçenekleri.'},
     eliva: {need:'Farklı ürün dünyalarını tek bir kurumsal kimlik altında tanıtmak.', work:'Çocuk, sağlık, organik ürünler ve spor koleksiyonlarını ayıran web arayüzü ve içerik düzeni.', delivery:'Dört farklı koleksiyona giriş sunan kurumsal web vitrini.'},
