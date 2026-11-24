@@ -45,3 +45,7 @@ manavgat-*: https://manavgatevtemizlik.com.tr/
 kibris-*: https://kıbrısevtemizlik.com.tr/
 Beyonder: beyonder.com.tr did not resolve. Its card uses an original, CSS-only brand presentation, explicitly labeled "Marka sunumu" / "Proje sunumu"; it is not represented as a screenshot or a currently available live site.
 Original cover files are retained but are no longer loaded by the redesigned gallery.
+
+PROJECT GALLERY ADDITION - 2026-11-24
+ladyluks-*: https://ladyluks.com.tr/
+Real browser capture using the 1280x860 viewport, encoded to 1280x860 desktop and 720x484 compact WebP derivatives. Page text, photography and layout retained. Original capture: projects/ladyluks-capture.jpg.

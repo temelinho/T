@@ -201,6 +201,12 @@ window.siteTranslations = {
   "Eliva Moss sitesini ziyaret et (yeni sekme)": "Visit the Eliva Moss website (new tab)",
   "Canlı site": "Live website",
   "Projeyi incele": "View project",
+  "Lady Luks Spa projesini öne çıkar": "Highlight the Lady Luks Spa project",
+  "Lady Luks Spa sitesinin gerçek ekran görüntüsü": "Actual screenshot of the Lady Luks Spa website",
+  "Spa & bakım sitesi": "Spa & wellness website",
+  "Aydın’da masaj ve spa hizmetlerini, paketleri ve randevu iletişimini buluşturan zarif bir deneyim.": "An elegant experience bringing together massage and spa services, packages and appointment enquiries in Aydın.",
+  "Randevu iletişimi": "Appointment enquiries",
+  "Lady Luks Spa sitesini ziyaret et (yeni sekme)": "Visit the Lady Luks Spa website (new tab)",
   "Alanya Klima Temizliği projesini öne çıkar": "Highlight the Alanya Klima Temizliği project",
   "Alanya Klima Temizliği sitesinin gerçek ekran görüntüsü": "Actual screenshot of the Alanya Klima Temizliği website",
   "Yerel hizmet sitesi": "Local service website",
@@ -980,7 +986,7 @@ window.siteTranslations = {
   "Veri analizi ve görselleştirme": "Data analysis and visualisation",
   "Diğer yazılım projelerimizi inceleyin": "Explore our other software projects",
   "Malatya ve Antalya’dan Türkiye genelindeki işletmelerle uzaktan proje yürütebiliriz. Hizmet kapsamını bir şehirle sınırlamıyoruz.": "We can collaborate remotely from Malatya and Antalya with businesses across Turkey. Our service scope is not limited to one city.",
-  "06 proje · Farklı sektörler, aynı özen.": "06 projects · Different sectors, the same attention to detail.",
+  "07 proje · Farklı sektörler, aynı özen.": "07 projects · Different sectors, the same attention to detail.",
   "Ev ve ofis temizliği hizmetleri için çok dilli web deneyimi.": "A multilingual web experience for home and office cleaning services.",
   "Alanya Ev Temizlik projesinin gerçek ekranı": "Actual screen of the Alanya Ev Temizlik project"
 };
